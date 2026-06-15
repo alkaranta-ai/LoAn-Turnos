@@ -339,7 +339,7 @@ document.getElementById("confirmBtn")?.addEventListener("click", ()=>{
   // Mensaje de WhatsApp
   const d = new Date(selectedDate+"T00:00:00");
   const dateLabel = d.toLocaleDateString("es-AR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
-  const msg = `Hola LoAn! 🌿 Quiero confirmar mi turno:\n\n` +
+  const msg = `Hola LoAn! 🌸 Quiero confirmar mi turno:\n\n` +
               `*Servicio:* ${svc.name}\n` +
               `*Fecha:* ${dateLabel}\n` +
               `*Horario:* ${selectedSlot}\n` +
