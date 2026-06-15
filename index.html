@@ -6,7 +6,7 @@
 <title>LoAn Estética | Turnos online — Campana</title>
 <meta name="description" content="Reservá tu turno online en LoAn Estética, Campana. Tratamientos faciales, corporales y masajes.">
 <meta name="theme-color" content="#C07090">
-<link rel="manifest" href="manifiesto.json">
+<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -260,6 +260,25 @@ nav.bottom .nav-icon{ font-size:1.25rem; }
   margin-top:10px; text-decoration:none;
 }
 
+/* ===== Install banner ===== */
+#installBanner{
+  display:none; position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+  background: var(--tierra-dark); color:#fff; padding:14px 20px;
+  border-radius:999px; box-shadow: var(--shadow);
+  z-index:99; align-items:center; gap:12px; white-space:nowrap;
+  font-size:0.88rem; font-weight:600;
+}
+#installBanner.show{ display:flex; }
+#installBanner button{
+  background:#fff; color:var(--tierra-dark); border:none;
+  border-radius:999px; padding:7px 16px; font-weight:700;
+  font-size:0.82rem; cursor:pointer;
+}
+#installBanner .close-btn{
+  background:transparent; color:#fff; padding:0;
+  font-size:1.1rem; font-weight:400; opacity:0.7;
+}
+
 @media (min-width:680px){
   .about-grid{ grid-template-columns: 1fr 1fr; }
 }
@@ -429,6 +448,40 @@ nav.bottom .nav-icon{ font-size:1.25rem; }
   <a href="#ubicacion" class="nav-link"><span class="nav-icon">📍</span>Ubicación</a>
 </nav>
 
+<div id="installBanner">
+  🌸 Instalá la app de LoAn
+  <button id="installBtn">Instalar</button>
+  <button class="close-btn" id="closeBanner">✕</button>
+</div>
+
 <script src="app.js"></script>
+<script>
+  let deferredPrompt;
+  const banner = document.getElementById("installBanner");
+  const installBtn = document.getElementById("installBtn");
+  const closeBtn = document.getElementById("closeBanner");
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    banner.classList.add("show");
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if(!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    banner.classList.remove("show");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    banner.classList.remove("show");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    banner.classList.remove("show");
+  });
+</script>
 </body>
 </html>
