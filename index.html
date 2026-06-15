@@ -19,10 +19,17 @@
         .card:hover { transform: translateY(-10px); }
         .card h3 { color: var(--dark); margin-top: 0; }
         
-        .btn-main { background: var(--primary); color: #000; padding: 18px 40px; border-radius: 50px; font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s; font-size: 1.1rem; }
-        .btn-main:hover { background: #1cb58e; box-shadow: 0 5px 15px rgba(34,211,165,0.4); }
+        /* Botón con pulso */
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .btn-main { 
+            background: var(--primary); color: #000; padding: 18px 40px; border-radius: 50px; 
+            font-weight: 700; text-decoration: none; display: inline-block; 
+            transition: all 0.3s; font-size: 1.1rem; animation: pulse 2s infinite;
+        }
+        .btn-main:hover { background: #1cb58e; box-shadow: 0 10px 20px rgba(34,211,165,0.4); }
 
         .cta-section { background: white; padding: 60px; border-radius: 20px; text-align: center; margin-top: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .status-badge { background: #dcfce7; color: #166534; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -49,10 +56,11 @@
     </div>
 
     <div class="cta-section">
+        <div class="status-badge">🟢 Asesor disponible para consultas hoy</div>
         <h2>¿Listo para tomar el control?</h2>
-        <p>Hablemos sobre tu futuro financiero hoy mismo.</p>
+        <p>Agenda una sesión estratégica de 15 minutos sin costo. <br><strong>El momento de organizar tus finanzas es ahora.</strong></p>
         <br>
-        <a href="https://wa.me/+5491140756430" class="btn-main">Iniciar Consultoría por WhatsApp</a>
+        <a href="https://wa.me/+5491140756430?text=Hola!%20Vi%20tu%20p%C3%A1gina%20y%20me%20gustar%C3%ADa%20consultarte%20sobre%20asesor%C3%ADa%20financiera." class="btn-main">Hablar por WhatsApp (Respuesta rápida)</a>
     </div>
 </div>
 
