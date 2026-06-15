@@ -3,33 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Asesoría Financiera</title>
+    <title>Alkaranta | Asesoría Financiera Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; margin: 0; color: #333; }
-        header { background: #1a2236; color: white; padding: 40px; text-align: center; }
-        .container { max-width: 800px; margin: auto; padding: 20px; }
-        .pasos { display: flex; gap: 20px; flex-wrap: wrap; margin: 30px 0; }
-        .paso { flex: 1; min-width: 200px; background: #f4f4f9; padding: 20px; border-radius: 8px; border-left: 5px solid #22D3A5; }
-        .btn { display: inline-block; background: #22D3A5; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        :root { --primary: #22D3A5; --dark: #1a2236; --bg: #f8fafc; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: #334155; line-height: 1.8; }
+        
+        header { background: var(--dark); color: white; padding: 80px 20px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        
+        .container { max-width: 900px; margin: -50px auto 50px; padding: 0 20px; }
+        
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-10px); }
+        .card h3 { color: var(--dark); margin-top: 0; }
+        
+        .btn-main { background: var(--primary); color: #000; padding: 18px 40px; border-radius: 50px; font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s; font-size: 1.1rem; }
+        .btn-main:hover { background: #1cb58e; box-shadow: 0 5px 15px rgba(34,211,165,0.4); }
+
+        .cta-section { background: white; padding: 60px; border-radius: 20px; text-align: center; margin-top: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Alkaranta / Marca Personal</h1>
-    <p>Asesoría financiera inteligente para tus objetivos.</p>
+    <h1>Tu libertad empieza con un plan.</h1>
+    <p>Asesoría financiera estratégica para transformar tus ahorros en resultados.</p>
 </header>
 
 <div class="container">
-    <h2>¿Cómo trabajamos?</h2>
-    <div class="pasos">
-        <div class="paso"><strong>1. Diagnóstico</strong><br>Analizamos tu situación actual y tus metas.</div>
-        <div class="paso"><strong>2. Estrategia</strong><br>Diseñamos un plan de inversión a tu medida.</div>
-        <div class="paso"><strong>3. Ejecución</strong><br>Te acompaño en el seguimiento de tus resultados.</div>
+    <div class="card-grid">
+        <div class="card">
+            <h3>1. Diagnóstico</h3>
+            <p>Auditoría profunda de tu estado actual y redefinición de objetivos financieros.</p>
+        </div>
+        <div class="card">
+            <h3>2. Estrategia</h3>
+            <p>Hoja de ruta personalizada para maximizar tu capital y reducir riesgos innecesarios.</p>
+        </div>
+        <div class="card">
+            <h3>3. Ejecución</h3>
+            <p>Acompañamiento cercano para asegurar que tu plan se cumpla al pie de la letra.</p>
+        </div>
     </div>
-    
-    <div style="text-align: center; margin-top: 40px;">
-        <a href="https://wa.me/+5491140756430" class="btn">Solicitar Asesoría por WhatsApp</a>
+
+    <div class="cta-section">
+        <h2>¿Listo para tomar el control?</h2>
+        <p>Hablemos sobre tu futuro financiero hoy mismo.</p>
+        <br>
+        <a href="https://wa.me/+5491140756430" class="btn-main">Iniciar Consultoría por WhatsApp</a>
     </div>
 </div>
 
