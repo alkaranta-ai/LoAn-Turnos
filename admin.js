@@ -12,7 +12,7 @@ const DEFAULT_SERVICES = [
 ];
 
 const DEFAULT_CONFIG = {
-  whatsapp: "5491136047671",
+  whatsapp: "5493489000000",
   workDays: [1,2,3,4,5,6],
   startHour: 9,
   endHour: 18,
