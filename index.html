@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LoAn Estética | Turnos online — Campana</title>
 <meta name="description" content="Reservá tu turno online en LoAn Estética, Campana. Tratamientos faciales, corporales y masajes.">
-<meta name="theme-color" content="#7C7259">
+<meta name="theme-color" content="#C07090">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,19 +13,19 @@
 <meta name="apple-mobile-web-app-title" content="LoAn">
 <style>
 :root{
-  --crema:#F6F1E7;
-  --arena:#E9DFCB;
-  --sage:#8A9B7E;
-  --sage-dark:#5F7355;
-  --tierra:#7C7259;
-  --tierra-dark:#544C3A;
-  --texto:#3A352B;
-  --texto-claro:#7A7468;
-  --blanco:#FFFEFC;
-  --error:#B2543C;
-  --ok:#5F7355;
+  --crema:#FDF0F5;
+  --arena:#F5D0DE;
+  --sage:#D48FAA;
+  --sage-dark:#B0527A;
+  --tierra:#C07090;
+  --tierra-dark:#7A4A5A;
+  --texto:#4A2A3A;
+  --texto-claro:#A07080;
+  --blanco:#FFFAFC;
+  --error:#C0405A;
+  --ok:#B0527A;
   --radius:18px;
-  --shadow: 0 8px 24px rgba(84,76,58,0.10);
+  --shadow: 0 8px 24px rgba(180,80,120,0.10);
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -47,7 +47,7 @@ header.top{
   position:sticky; top:0; z-index:50;
   background: rgba(246,241,231,0.92);
   backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(124,114,89,0.12);
+  border-bottom:1px solid rgba(192,112,144,0.12);
   padding: 14px 20px;
   display:flex; align-items:center; justify-content:space-between;
 }
@@ -77,7 +77,7 @@ header.top{
   position:absolute; inset:0;
   background:
     radial-gradient(ellipse at 20% 30%, rgba(138,155,126,0.18), transparent 55%),
-    radial-gradient(ellipse at 85% 70%, rgba(124,114,89,0.14), transparent 50%);
+    radial-gradient(ellipse at 85% 70%, rgba(192,112,144,0.14), transparent 50%);
   z-index:0;
 }
 .hero-content{position:relative; z-index:1; max-width:560px; margin:0 auto;}
@@ -112,7 +112,7 @@ header.top{
 }
 .btn:active{ transform: scale(0.97); }
 .btn-primary{ background: var(--sage-dark); color:#fff; box-shadow: var(--shadow); }
-.btn-ghost{ background: var(--blanco); color: var(--tierra-dark); border:1px solid rgba(124,114,89,0.2); }
+.btn-ghost{ background: var(--blanco); color: var(--tierra-dark); border:1px solid rgba(192,112,144,0.2); }
 
 /* ===== Sections ===== */
 section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
@@ -131,7 +131,7 @@ section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
 .service-card{
   background: var(--blanco); border-radius: var(--radius);
   padding: 18px; box-shadow: var(--shadow);
-  border:1px solid rgba(124,114,89,0.08);
+  border:1px solid rgba(192,112,144,0.08);
   display:flex; flex-direction:column; gap:6px;
   cursor:pointer; transition: transform .15s ease, border-color .15s ease;
   text-align:left;
@@ -146,13 +146,13 @@ section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
 /* ===== Booking ===== */
 .booking-card{
   background: var(--blanco); border-radius: var(--radius); padding: 22px;
-  box-shadow: var(--shadow); border:1px solid rgba(124,114,89,0.08);
+  box-shadow: var(--shadow); border:1px solid rgba(192,112,144,0.08);
 }
 .field{ margin-bottom:18px; }
 .field label{ display:block; font-size:0.85rem; font-weight:600; color:var(--tierra-dark); margin-bottom:8px; }
 .field input, .field select, .field textarea{
   width:100%; padding: 12px 14px; border-radius:12px;
-  border:1px solid rgba(124,114,89,0.22); background: var(--crema);
+  border:1px solid rgba(192,112,144,0.22); background: var(--crema);
   font-family: var(--font-body); font-size:0.95rem; color:var(--texto);
 }
 .field input:focus, .field select:focus, .field textarea:focus{
@@ -164,7 +164,7 @@ section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
 .cal-header h3{ font-family: var(--font-display); font-size:1.2rem; color:var(--tierra-dark); text-transform:capitalize; }
 .cal-nav{ display:flex; gap:6px; }
 .cal-nav button{
-  width:36px; height:36px; border-radius:50%; border:1px solid rgba(124,114,89,0.2);
+  width:36px; height:36px; border-radius:50%; border:1px solid rgba(192,112,144,0.2);
   background:var(--blanco); font-size:1.1rem; cursor:pointer; color:var(--tierra-dark);
 }
 .cal-grid{ display:grid; grid-template-columns: repeat(7,1fr); gap:4px; text-align:center; }
@@ -183,7 +183,7 @@ section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
 /* Slots */
 .slots{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
 .slot{
-  padding:9px 14px; border-radius:10px; border:1px solid rgba(124,114,89,0.22);
+  padding:9px 14px; border-radius:10px; border:1px solid rgba(192,112,144,0.22);
   background: var(--crema); font-size:0.88rem; cursor:pointer; font-weight:600; color:var(--texto);
 }
 .slot.taken{ opacity:0.35; text-decoration:line-through; cursor:not-allowed; }
@@ -202,7 +202,7 @@ section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
 .about-grid{ display:grid; grid-template-columns: 1fr; gap:18px; }
 .about-card{
   background: var(--blanco); border-radius: var(--radius); padding:20px;
-  box-shadow: var(--shadow); border:1px solid rgba(124,114,89,0.08);
+  box-shadow: var(--shadow); border:1px solid rgba(192,112,144,0.08);
   display:flex; gap:14px; align-items:flex-start;
 }
 .about-card .icon{
@@ -215,7 +215,7 @@ section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
 /* ===== Map / Location ===== */
 .map-card{
   background: var(--blanco); border-radius: var(--radius); overflow:hidden;
-  box-shadow: var(--shadow); border:1px solid rgba(124,114,89,0.08);
+  box-shadow: var(--shadow); border:1px solid rgba(192,112,144,0.08);
 }
 .map-card iframe{ width:100%; height:240px; border:0; display:block; }
 .map-info{ padding:18px; }
@@ -233,7 +233,7 @@ nav.bottom{
   position:fixed; bottom:0; left:0; right:0; z-index:60;
   background: rgba(255,254,252,0.97);
   backdrop-filter: blur(10px);
-  border-top:1px solid rgba(124,114,89,0.12);
+  border-top:1px solid rgba(192,112,144,0.12);
   display:flex; justify-content:space-around;
   padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
 }
