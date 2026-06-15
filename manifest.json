@@ -2,7 +2,7 @@
   "name": "LoAn Estética",
   "short_name": "LoAn",
   "description": "Reservá tu turno online en LoAn Estética, Campana.",
-  "start_url": "./index.html"
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FDF0F5",
@@ -20,6 +20,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
