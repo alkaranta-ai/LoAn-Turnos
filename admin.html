@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin · LoAn Estética</title>
+<meta name="theme-color" content="#7C7259">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --crema:#F6F1E7;
+  --arena:#E9DFCB;
+  --sage:#8A9B7E;
+  --sage-dark:#5F7355;
+  --tierra:#7C7259;
+  --tierra-dark:#544C3A;
+  --texto:#3A352B;
+  --texto-claro:#7A7468;
+  --blanco:#FFFEFC;
+  --error:#B2543C;
+  --ok:#5F7355;
+  --radius:16px;
+  --shadow: 0 8px 24px rgba(84,76,58,0.10);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family: var(--font-body); background: var(--crema); color: var(--texto);
+  padding-bottom: 40px; line-height:1.5;
+}
+header.top{
+  position:sticky; top:0; z-index:50;
+  background: rgba(246,241,231,0.95); backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(124,114,89,0.12);
+  padding: 14px 20px; display:flex; align-items:center; justify-content:space-between;
+}
+header.top .brand{ font-family:var(--font-display); font-size:1.4rem; font-weight:600; color:var(--tierra-dark); }
+header.top .brand span{ color: var(--sage-dark); }
+header.top a.back{ font-size:0.85rem; color: var(--texto-claro); text-decoration:none; font-weight:600; }
+
+main{ max-width: 720px; margin:0 auto; padding: 20px; }
+
+/* Login */
+#loginScreen{
+  display:flex; align-items:center; justify-content:center; min-height:80vh; padding:20px;
+}
+.login-card{
+  background:var(--blanco); border-radius:var(--radius); padding:32px 26px;
+  box-shadow:var(--shadow); width:100%; max-width:360px; text-align:center;
+}
+.login-card h1{ font-family:var(--font-display); font-size:1.6rem; color:var(--tierra-dark); margin-bottom:6px; }
+.login-card p{ color:var(--texto-claro); font-size:0.88rem; margin-bottom:20px; }
+
+/* Tabs */
+.tabs{ display:flex; gap:6px; overflow-x:auto; margin-bottom:20px; padding-bottom:4px; }
+.tab{
+  flex-shrink:0; padding:10px 18px; border-radius:999px; border:1px solid rgba(124,114,89,0.2);
+  background:var(--blanco); color:var(--tierra-dark); font-weight:600; font-size:0.85rem;
+  cursor:pointer; white-space:nowrap;
+}
+.tab.active{ background:var(--sage-dark); color:#fff; border-color:var(--sage-dark); }
+
+.panel{ display:none; }
+.panel.active{ display:block; }
+
+/* Cards */
+.card{
+  background:var(--blanco); border-radius:var(--radius); padding:18px;
+  box-shadow:var(--shadow); border:1px solid rgba(124,114,89,0.08); margin-bottom:14px;
+}
+.card h3{ font-family:var(--font-display); color:var(--tierra-dark); font-size:1.1rem; margin-bottom:10px; }
+
+.field{ margin-bottom:14px; }
+.field label{ display:block; font-size:0.82rem; font-weight:600; color:var(--tierra-dark); margin-bottom:6px; }
+.field input, .field select, .field textarea{
+  width:100%; padding:11px 13px; border-radius:10px; border:1px solid rgba(124,114,89,0.22);
+  background:var(--crema); font-family:var(--font-body); font-size:0.92rem; color:var(--texto);
+}
+.field input:focus, .field select:focus, .field textarea:focus{ outline:2px solid var(--sage); outline-offset:1px; }
+.field-row{ display:flex; gap:10px; }
+.field-row .field{ flex:1; }
+
+.btn{
+  display:inline-flex; align-items:center; gap:6px; justify-content:center;
+  padding:12px 20px; border-radius:999px; font-weight:600; font-size:0.88rem;
+  border:none; cursor:pointer; text-decoration:none; transition: transform .15s;
+}
+.btn:active{ transform:scale(0.97); }
+.btn-primary{ background:var(--sage-dark); color:#fff; }
+.btn-danger{ background: var(--error); color:#fff; }
+.btn-ghost{ background:var(--arena); color:var(--tierra-dark); }
+.btn-block{ width:100%; }
+.btn-sm{ padding:7px 14px; font-size:0.78rem; }
+
+/* List items */
+.list-item{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:12px 0; border-bottom:1px solid rgba(124,114,89,0.1);
+}
+.list-item:last-child{ border-bottom:none; }
+.list-item .info{ flex:1; min-width:0; }
+.list-item .info .title{ font-weight:600; color:var(--tierra-dark); font-size:0.95rem; }
+.list-item .info .meta{ font-size:0.8rem; color:var(--texto-claro); margin-top:2px; }
+.list-item .actions{ display:flex; gap:6px; flex-shrink:0; }
+.icon-btn{
+  width:34px; height:34px; border-radius:50%; border:1px solid rgba(124,114,89,0.2);
+  background:var(--crema); cursor:pointer; font-size:0.95rem; display:flex; align-items:center; justify-content:center;
+}
+
+.badge{
+  display:inline-block; padding:3px 10px; border-radius:999px; font-size:0.72rem; font-weight:700;
+}
+.badge.pendiente{ background:#F6E5CE; color:#8A5A24; }
+.badge.confirmado{ background:#DDE9D5; color:var(--sage-dark); }
+.badge.cancelado{ background:#F3DAD3; color:var(--error); }
+
+.empty-state{ text-align:center; padding:30px 10px; color:var(--texto-claro); font-size:0.9rem; }
+
+.section-title{ font-family:var(--font-display); font-size:1.3rem; color:var(--tierra-dark); margin: 18px 0 10px; }
+
+#toast{
+  position:fixed; bottom:24px; left:50%; transform: translateX(-50%) translateY(20px);
+  background: var(--tierra-dark); color:#fff; padding:12px 22px; border-radius:999px;
+  font-size:0.86rem; font-weight:600; opacity:0; pointer-events:none;
+  transition: opacity .25s, transform .25s; z-index:100; max-width:90%; text-align:center;
+}
+#toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+
+.chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{
+  padding:8px 14px; border-radius:999px; border:1px solid rgba(124,114,89,0.22);
+  background:var(--crema); font-size:0.82rem; font-weight:600; cursor:pointer; color:var(--texto);
+}
+.chip.active{ background:var(--sage-dark); color:#fff; border-color:var(--sage-dark); }
+
+.filter-row{ display:flex; gap:8px; overflow-x:auto; margin-bottom:14px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">Admin · <span>LoAn</span></div>
+  <a class="back" href="index.html">← Sitio</a>
+</header>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <h1>Acceso administrador</h1>
+    <p>Ingresá la contraseña para gestionar turnos, servicios y horarios.</p>
+    <div class="field">
+      <input type="password" id="pwInput" placeholder="Contraseña" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary btn-block" id="loginBtn">Ingresar</button>
+    <p style="margin-top:14px; font-size:0.75rem; color:var(--texto-claro);">Contraseña por defecto: <strong>loan2026</strong></p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<main id="adminMain" style="display:none;">
+
+  <div class="tabs">
+    <div class="tab active" data-tab="turnos">📅 Turnos</div>
+    <div class="tab" data-tab="servicios">🌿 Servicios</div>
+    <div class="tab" data-tab="horarios">⏰ Horarios</div>
+    <div class="tab" data-tab="config">⚙️ Config</div>
+  </div>
+
+  <!-- TURNOS -->
+  <div class="panel active" id="panel-turnos">
+    <div class="filter-row" id="bookingFilters"></div>
+    <div class="card" id="bookingsCard">
+      <h3>Próximos turnos</h3>
+      <div id="bookingsList"></div>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <div class="panel" id="panel-servicios">
+    <div class="card">
+      <h3 id="svcFormTitle">Nuevo servicio</h3>
+      <input type="hidden" id="svcEditId">
+      <div class="field">
+        <label>Nombre</label>
+        <input type="text" id="svcName" placeholder="Ej: Masaje relajante">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Ícono (emoji)</label>
+          <input type="text" id="svcIcon" placeholder="🌿" maxlength="4">
+        </div>
+        <div class="field">
+          <label>Duración (min)</label>
+          <input type="number" id="svcDuration" placeholder="60" min="5" step="5">
+        </div>
+      </div>
+      <div class="field">
+        <label>Precio ($)</label>
+        <input type="number" id="svcPrice" placeholder="15000" min="0" step="500">
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-primary" id="svcSaveBtn">Guardar servicio</button>
+        <button class="btn btn-ghost" id="svcCancelBtn" style="display:none;">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Servicios actuales</h3>
+      <div id="servicesList"></div>
+    </div>
+  </div>
+
+  <!-- HORARIOS -->
+  <div class="panel" id="panel-horarios">
+    <div class="card">
+      <h3>Horario de atención</h3>
+      <div class="field-row">
+        <div class="field">
+          <label>Desde</label>
+          <input type="number" id="cfgStartHour" min="0" max="23">
+        </div>
+        <div class="field">
+          <label>Hasta</label>
+          <input type="number" id="cfgEndHour" min="0" max="23">
+        </div>
+        <div class="field">
+          <label>Intervalo (min)</label>
+          <input type="number" id="cfgSlotMinutes" min="5" step="5">
+        </div>
+      </div>
+      <div class="field">
+        <label>Días de atención</label>
+        <div class="chips" id="workDaysChips"></div>
+      </div>
+      <button class="btn btn-primary" id="saveHoursBtn">Guardar horario</button>
+    </div>
+
+    <div class="card">
+      <h3>Bloquear fecha completa</h3>
+      <p style="font-size:0.85rem; color:var(--texto-claro); margin-bottom:10px;">Útil para feriados, vacaciones o días que no atendés.</p>
+      <div class="field-row">
+        <div class="field" style="flex:2;">
+          <label>Fecha</label>
+          <input type="date" id="blockDateInput">
+        </div>
+      </div>
+      <button class="btn btn-danger" id="blockDateBtn">Bloquear fecha</button>
+      <div id="blockedDatesList" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <!-- CONFIG -->
+  <div class="panel" id="panel-config">
+    <div class="card">
+      <h3>WhatsApp del negocio</h3>
+      <p style="font-size:0.85rem; color:var(--texto-claro); margin-bottom:10px;">
+        Número con código de país, sin "+" ni espacios. Ej: 5493489123456
+      </p>
+      <div class="field">
+        <label>Número de WhatsApp</label>
+        <input type="text" id="cfgWhatsapp" placeholder="5493489123456">
+      </div>
+      <button class="btn btn-primary" id="saveWhatsappBtn">Guardar número</button>
+    </div>
+
+    <div class="card">
+      <h3>Cambiar contraseña</h3>
+      <div class="field">
+        <label>Nueva contraseña</label>
+        <input type="password" id="newPassword" placeholder="Mínimo 4 caracteres">
+      </div>
+      <button class="btn btn-primary" id="savePasswordBtn">Cambiar contraseña</button>
+    </div>
+
+    <div class="card">
+      <h3>Datos</h3>
+      <p style="font-size:0.85rem; color:var(--texto-claro); margin-bottom:10px;">
+        Todos los datos se guardan en este dispositivo/navegador (localStorage). Exportá un respaldo si necesitás moverlos.
+      </p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-ghost" id="exportBtn">Exportar respaldo (.json)</button>
+        <button class="btn btn-ghost" id="importBtn">Importar respaldo</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;">
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Cerrar sesión</h3>
+      <button class="btn btn-danger" id="logoutBtn">Salir del panel</button>
+    </div>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>
