@@ -16,7 +16,6 @@ const DEFAULT_CONFIG = {
   blockedDates: [],
   blockedSlots: {}
 };
-};
 
 function loadServices(){
   const raw = localStorage.getItem("loan_services");
