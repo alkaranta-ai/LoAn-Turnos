@@ -17,12 +17,13 @@ const DEFAULT_SERVICES = [
 
 const DEFAULT_CONFIG = {
   whatsapp: "541136047671",
-  workDays: [1,2,3,4,5,6],
-  startHour: 9,
-  endHour: 18,
+  workDays: [1,2,3,4,5], // lunes a viernes
+  startHour: 8,
+  endHour: 20,
   slotMinutes: 30,
   blockedDates: [],
   blockedSlots: {}
+};
 };
 
 function loadServices(){
