@@ -1,3 +1,5 @@
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwi0uw13O2zDuairDSUXeuUoRamlUHEUMavGuNh9kugWk_dn9GElsPHQQHjURZkCVIy/exec";
+
 const DEFAULT_SERVICES = [
   { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 35000 },
   { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 60, price: 45000 },
@@ -22,6 +24,24 @@ function loadServices(){
   return raw ? JSON.parse(raw) : DEFAULT_SERVICES;
 }
 function saveServices(list){ localStorage.setItem("loan_services", JSON.stringify(list)); }
+
+// Trae los servicios desde el Google Sheet y actualiza la app cuando llegan
+async function fetchServicesFromSheet(){
+  try{
+    const res = await fetch(SHEET_API_URL, { cache: "no-store" });
+    if(!res.ok) throw new Error("Respuesta no OK: " + res.status);
+    const remote = await res.json();
+    if(Array.isArray(remote) && remote.length > 0){
+      services = remote;
+      saveServices(remote); // guarda copia local como respaldo offline
+      renderServices();
+      renderSlots();
+      updateSummary();
+    }
+  }catch(err){
+    console.warn("No se pudieron cargar los servicios desde Google Sheets, se usa la copia local.", err);
+  }
+}
 
 function loadConfig(){
   const raw = localStorage.getItem("loan_config");
@@ -375,6 +395,7 @@ renderCalendar();
 renderSlots();
 updateSummary();
 updateActiveNav();
+fetchServicesFromSheet(); // trae precios/servicios actualizados desde Google Sheets
 
 /* ===================== PWA install ===================== */
 if("serviceWorker" in navigator){
