@@ -7,22 +7,22 @@
    ============================================================ */
 
 const DEFAULT_SERVICES = [
-  { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 15000 },
-  { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 50, price: 18000 },
-  { id: "s3", icon: "✨", name: "Hidratación corporal", duration: 45, price: 14000 },
-  { id: "s4", icon: "🌸", name: "Depilación facial", duration: 20, price: 6000 },
-  { id: "s5", icon: "💧", name: "Drenaje linfático", duration: 60, price: 17000 },
-  { id: "s6", icon: "🪷", name: "Masaje relajante", duration: 60, price: 18000 }
+  { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 35000 },
+  { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 60, price: 45000 },
+  { id: "s3", icon: "✨", name: "Exfoliación corporal", duration: 60, price: 35000 },
+  { id: "s4", icon: "💜", name: "Depilación láser", duration: 30, price: 16000, priceLabel: "Desde $16.000 / $38.000" },
+  { id: "s5", icon: "💧", name: "Drenaje linfático", duration: 60, price: 45000 },
+  { id: "s6", icon: "🪷", name: "Masaje relajante", duration: 60, price: 45000 }
 ];
 
 const DEFAULT_CONFIG = {
-  whatsapp: "5493489000000", // <-- CAMBIAR por el número real con código país, sin + ni espacios
-  workDays: [1,2,3,4,5,6], // 0=domingo ... 6=sabado
+  whatsapp: "541136047671",
+  workDays: [1,2,3,4,5,6],
   startHour: 9,
   endHour: 18,
   slotMinutes: 30,
-  blockedDates: [],   // ["2026-06-20"]
-  blockedSlots: {}    // {"2026-06-20": ["10:00","10:30"]}
+  blockedDates: [],
+  blockedSlots: {}
 };
 
 function loadServices(){
@@ -53,9 +53,9 @@ let services = loadServices();
 let config = loadConfig();
 let bookings = loadBookings();
 
-let viewDate = new Date(); // mes mostrado en el calendario
-let selectedDate = null;   // "YYYY-MM-DD"
-let selectedSlot = null;   // "HH:MM"
+let viewDate = new Date();
+let selectedDate = null;
+let selectedSlot = null;
 let selectedService = services[0] ? services[0].id : null;
 
 const MONTH_NAMES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
@@ -65,7 +65,11 @@ const DOW_NAMES = ["D","L","M","M","J","V","S"];
 function pad(n){ return n.toString().padStart(2,"0"); }
 function fmtDate(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 function todayStr(){ return fmtDate(new Date()); }
-function money(n){ return "$" + n.toLocaleString("es-AR"); }
+function money(s){
+  if(s.priceLabel) return s.priceLabel;
+  return "$" + s.price.toLocaleString("es-AR");
+}
+function moneyNum(n){ return "$" + n.toLocaleString("es-AR"); }
 
 function showToast(msg){
   const t = document.getElementById("toast");
@@ -89,7 +93,7 @@ function renderServices(){
     card.innerHTML = `
       <div class="icon">${s.icon||"🌿"}</div>
       <h3>${s.name}</h3>
-      <div class="meta"><span>${s.duration} min</span><span class="price">${money(s.price)}</span></div>
+      <div class="meta"><span>${s.duration} min</span><span class="price">${money(s)}</span></div>
     `;
     card.addEventListener("click", ()=>{
       selectedService = s.id;
@@ -102,7 +106,7 @@ function renderServices(){
 
     const opt = document.createElement("option");
     opt.value = s.id;
-    opt.textContent = `${s.name} — ${s.duration}min — ${money(s.price)}`;
+    opt.textContent = `${s.name} — ${s.duration}min — ${money(s)}`;
     select.appendChild(opt);
   });
 
@@ -217,10 +221,8 @@ function isSlotTaken(dateStr, slot){
   const slotStart = h*60+m;
   const slotEnd = slotStart + duration;
 
-  // bloqueado manualmente desde admin
   if(config.blockedSlots[dateStr] && config.blockedSlots[dateStr].includes(slot)) return true;
 
-  // ocupado por otro turno (chequea superposición)
   return bookings.some(b=>{
     if(b.date !== dateStr) return false;
     const bSvc = services.find(s=>s.id===b.serviceId);
@@ -252,7 +254,7 @@ function renderSlots(){
   slots.forEach(slot=>{
     const [h,m] = slot.split(":").map(Number);
     const slotMin = h*60+m;
-    if(isToday && slotMin <= nowMin) return; // no mostrar horarios pasados hoy
+    if(isToday && slotMin <= nowMin) return;
 
     const taken = isSlotTaken(selectedDate, slot);
     if(!taken) anyAvailable = true;
@@ -295,7 +297,7 @@ function updateSummary(){
   document.getElementById("sumDate").textContent = dateLabel.charAt(0).toUpperCase()+dateLabel.slice(1);
   document.getElementById("sumTime").textContent = selectedSlot;
   document.getElementById("sumDuration").textContent = svc.duration + " min";
-  document.getElementById("sumPrice").textContent = money(svc.price);
+  document.getElementById("sumPrice").textContent = money(svc);
 }
 
 /* ===================== Confirmar turno ===================== */
@@ -311,7 +313,6 @@ document.getElementById("confirmBtn")?.addEventListener("click", ()=>{
   if(!name){ showToast("Ingresá tu nombre"); document.getElementById("clientName").focus(); return; }
   if(!phone){ showToast("Ingresá tu WhatsApp"); document.getElementById("clientPhone").focus(); return; }
 
-  // doble check de disponibilidad (por si cambió)
   if(isSlotTaken(selectedDate, selectedSlot)){
     showToast("Ese horario ya no está disponible. Elegí otro.");
     renderSlots();
@@ -336,7 +337,6 @@ document.getElementById("confirmBtn")?.addEventListener("click", ()=>{
   bookings.push(booking);
   saveBookings(bookings);
 
-  // Mensaje de WhatsApp
   const d = new Date(selectedDate+"T00:00:00");
   const dateLabel = d.toLocaleDateString("es-AR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
   const msg = `Hola LoAn! 🌸 Quiero confirmar mi turno:\n\n` +
@@ -344,7 +344,7 @@ document.getElementById("confirmBtn")?.addEventListener("click", ()=>{
               `*Fecha:* ${dateLabel}\n` +
               `*Horario:* ${selectedSlot}\n` +
               `*Duración:* ${svc.duration} min\n` +
-              `*Precio:* ${money(svc.price)}\n\n` +
+              `*Precio:* ${money(svc)}\n\n` +
               `*Nombre:* ${name}\n` +
               (note ? `*Comentario:* ${note}\n\n` : "\n") +
               `¡Gracias!`;
@@ -354,7 +354,6 @@ document.getElementById("confirmBtn")?.addEventListener("click", ()=>{
 
   showToast("¡Turno guardado! Abrimos WhatsApp para confirmar 🌿");
 
-  // reset
   selectedSlot = null;
   document.getElementById("clientNote").value = "";
   renderSlots();
