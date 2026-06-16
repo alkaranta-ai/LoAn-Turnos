@@ -3,16 +3,16 @@
    ============================================================ */
 
 const DEFAULT_SERVICES = [
-  { id: "s1", icon: "🧖‍♀️", name: "Depilacion Laser" },
-  { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 50, price: 18000 },
-  { id: "s3", icon: "✨", name: "Hidratación corporal", duration: 45, price: 14000 },
-  { id: "s4", icon: "🌸", name: "Depilación facial", duration: 20, price: 6000 },
-  { id: "s5", icon: "💧", name: "Drenaje linfático", duration: 60, price: 17000 },
-  { id: "s6", icon: "🪷", name: "Masaje relajante", duration: 60, price: 18000 }
+  { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 35000 },
+  { id: "s2", icon: "💆‍♀️", name: "Masaje descont.", duration: 60, price: 45000 },
+  { id: "s3", icon: "✨", name: "Exfoliación corporal", duration: 60, price: 35000 },
+  { id: "s4", icon: "🌸", name: "Depilación láser ", duration: 30, price: 16000/38000 },
+  { id: "s5", icon: "💧", name: "Drenaje linfático ", duration: 60, price: 45000 },
+  { id: "s6", icon: "🪷", name: "Masaje relajante ", duration: 60, price: 45000 }
 ];
 
 const DEFAULT_CONFIG = {
-  whatsapp: "5493489000000",
+  whatsapp: "5491136047671",
   workDays: [1,2,3,4,5,6],
   startHour: 9,
   endHour: 18,
@@ -46,13 +46,13 @@ function loadPassword(){
 }
 function savePassword(pw){ localStorage.setItem("loan_admin_pw", pw); }
 
-if(!localStorage.getItem("loan_services")) saveServices(DEFAULT_SERVICES);
-if(!localStorage.getItem("loan_config")) saveConfig(DEFAULT_CONFIG);
-if(!localStorage.getItem("loan_bookings")) saveBookings([]);
+//if(!localStorage.getItem("loan_services")) saveServices(DEFAULT_SERVICES);
+//if(!localStorage.getItem("loan_config")) saveConfig(DEFAULT_CONFIG);
+//if(!localStorage.getItem("loan_bookings")) saveBookings([]);
 
-let services = loadServices();
-let config = loadConfig();
-let bookings = loadBookings();
+let services = DEFAULT_SERVICES;
+let config = DEFAULT_CONFIG;
+let bookings = [];
 let currentFilter = "todos";
 
 const DOW_LABELS = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
