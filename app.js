@@ -1,11 +1,3 @@
-/* ============================================================
-   LoAn Estética — Lógica de la app de turnos
-   Datos guardados en localStorage:
-   - loan_services   -> array de servicios
-   - loan_bookings   -> array de turnos
-   - loan_config     -> configuración (whatsapp, horarios, dias laborales)
-   ============================================================ */
-
 const DEFAULT_SERVICES = [
   { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 35000 },
   { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 60, price: 45000 },
