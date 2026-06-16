@@ -10,25 +10,26 @@ const ASSETS = [
   "./icons/icon-512.png"
 ];
 
-self.addEventListener("install", (event)=>{
+// 1. Instalación: Guarda los archivos en caché
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache=> cache.addAll(ASSETS)).catch(()=>{})
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).catch(() => {})
   );
 });
 
-self.addEventListener("activate", (event)=>{
+// 2. Activación: Borra versiones viejas y toma el control
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys=>
-      Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
     )
+    .then(() => clients.claim())
   );
 });
 
-self.addEventListener("fetch", (event)=>{
+// 3. Fetch: Sirve los archivos desde la caché
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(cached=> cached || fetch(event.request).catch(()=> cached))
+    caches.match(event.request).then((cached) => cached || fetch(event.request).catch(() => cached))
   );
-});
-self.addEventListener('activate', (event) => {
-  event.waitUntil(clients.claim());
 });
