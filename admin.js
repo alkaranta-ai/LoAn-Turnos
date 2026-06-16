@@ -3,7 +3,7 @@
    ============================================================ */
 
 const DEFAULT_SERVICES = [
-  { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 15000 },
+  { id: "s1", icon: "🧖‍♀️", name: "Depilacion Laser" },
   { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 50, price: 18000 },
   { id: "s3", icon: "✨", name: "Hidratación corporal", duration: 45, price: 14000 },
   { id: "s4", icon: "🌸", name: "Depilación facial", duration: 20, price: 6000 },
