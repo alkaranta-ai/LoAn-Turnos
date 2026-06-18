@@ -15,10 +15,16 @@ function renderServices() {
   grid.innerHTML = "";
 
   SERVICES.forEach(s => {
+    // Si el precio no es un número (ej: "Consultar"), lo muestra tal cual. 
+    // Si es un número, le pone el signo $ y los puntitos de los miles.
+    const precioMostrar = isNaN(s.price) || s.price === "" || s.price === 0
+      ? "Consultar" 
+      : `$${Number(s.price).toLocaleString()}`;
+
     const card = document.createElement("div");
     card.className = "service-card";
     card.style.backgroundImage = `url('${s.image}')`;
-    card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">$${s.price.toLocaleString()}</span></div>`;
+    card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">${precioMostrar}</span></div>`;
     
     card.onclick = () => {
       selectedServiceId = s.id;
