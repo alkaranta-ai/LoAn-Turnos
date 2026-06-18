@@ -46,7 +46,7 @@ function renderServices() {
   if (!grid) return;
   grid.innerHTML = "";
 
-  SERVICES.forEach(s => {
+  SERVICES.forEach((s, index) => {
     // Si s.price no es un número (es decir, es la palabra "Consultar"), lo muestra directo.
     // Si es un número (ej: "35000"), le pone el signo $ y el formato de miles.
     const precioMostrar = isNaN(s.price) || s.price === "" || s.price === 0 || s.price.toString().toLowerCase() === "consultar"
@@ -56,6 +56,9 @@ function renderServices() {
     const card = document.createElement("div");
     card.className = "service-card";
     card.style.backgroundImage = `url('${s.image}')`;
+    card.style.position = 'sticky';
+    card.style.top = `${16 + index * 14}px`;
+    card.style.zIndex = index + 1;
     card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">${precioMostrar}</span></div>`;
     
     card.onclick = () => {
