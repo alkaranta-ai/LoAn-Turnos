@@ -1,9 +1,9 @@
 const SERVICES = [
   { id: "s1", name: "Limpieza facial profunda", duration: 60, price: 35000, image: "limpieza.png" },
   { id: "s2", name: "Masaje descontracturante", duration: 60, price: 45000, image: "masaje_des.png" },
-  { id: "s3", name: "Exfoliación corporal", duration: 60, price: 35000, image: "exfoliación.png" },
+  { id: "s3", name: "Exfoliación corporal", duration: 60, price: 35000, image: "body_exf.png" },
   { id: "s4", name: "Depilación láser", duration: 30, price: 16000, image: "depilacion.png" },
-  { id: "s5", name: "Drenaje linfático", duration: 60, price: 45000, image: "drenar.png" },
+  { id: "s5", name: "Drenaje linfático", duration: 60, price: 45000, image: "dren_linf.png" },
   { id: "s6", name: "Masaje relajante", duration: 60, price: 45000, image: "masaje_rel.png" }
 ];
 
@@ -17,8 +17,7 @@ function renderServices() {
   SERVICES.forEach(s => {
     const card = document.createElement("div");
     card.className = "service-card";
-    // Usamos encodeURI para que los caracteres como la ó sean leídos correctamente
-    card.style.backgroundImage = `url('${encodeURI(s.image)}')`;
+    card.style.backgroundImage = `url('${s.image}')`;
     card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">$${s.price.toLocaleString()}</span></div>`;
     
     card.onclick = () => {
