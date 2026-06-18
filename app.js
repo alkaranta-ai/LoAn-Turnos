@@ -1,11 +1,11 @@
 // --- CONFIGURACIÓN DE SERVICIOS ---
 const SERVICES = [
-  { id: "s1", name: "Limpieza facial profunda", duration: 60, price: 35000, image: "Limpieza Facial Profunda.png" },
-  { id: "s2", name: "Masaje descontracturante", duration: 60, price: 45000, image: "Masaje descontracturante.png" },
-  { id: "s3", name: "Exfoliación corporal", duration: 60, price: 35000, image: "Exfoliación Corporal.png" },
-  { id: "s4", name: "Depilación láser", duration: 30, price: 16000, image: "Depilación láser.png" },
-  { id: "s5", name: "Drenaje linfático", duration: 60, price: 45000, image: "Drenaje Linfático.png" },
-  { id: "s6", name: "Masaje relajante", duration: 60, price: 45000, image: "Masaje Relajante.png" }
+  { id: "s1", name: "Limpieza facial profunda", duration: 60, price: 35000, image: "limpieza.png" },
+  { id: "s2", name: "Masaje descontracturante", duration: 60, price: 45000, image: "masaje_des.png" },
+  { id: "s3", name: "Exfoliación corporal", duration: 60, price: 35000, image: "exfoliacion.png" },
+  { id: "s4", name: "Depilación láser", duration: 30, price: 16000, image: "depilacion.png" },
+  { id: "s5", name: "Drenaje linfático", duration: 60, price: 45000, image: "drenaje.png" },
+  { id: "s6", name: "Masaje relajante", duration: 60, price: 45000, image: "masaje_rel.png" }
 ];
 
 let selectedService = "s1";
