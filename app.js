@@ -17,7 +17,8 @@ function renderServices() {
   SERVICES.forEach(s => {
     const card = document.createElement("div");
     card.className = "service-card";
-    card.style.backgroundImage = `url('${s.image}')`;
+    // Usamos encodeURI para que los caracteres como la ó sean leídos correctamente
+    card.style.backgroundImage = `url('${encodeURI(s.image)}')`;
     card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">$${s.price.toLocaleString()}</span></div>`;
     
     card.onclick = () => {
