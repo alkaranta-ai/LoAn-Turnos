@@ -22,12 +22,8 @@
   html{scroll-behavior:smooth;}
   body{ font-family: var(--font-body); background: var(--crema); color: var(--texto); padding-bottom: 78px; }
   
-  /* Estilo corregido para las tarjetas con imágenes */
-.services-grid { display: flex; flex-direction: column; gap: 0; }
+  .services-grid { display: flex; flex-direction: column; gap: 0; }
   .service-card {
-    position: sticky;
-top: 16px;
-    position: relative;
     background-size: cover;
     background-position: center;
     border-radius: var(--radius);
@@ -41,6 +37,7 @@ top: 16px;
     color: #fff;
     cursor: pointer;
     transition: transform .15s ease;
+    margin-bottom: 12px;
   }
   .service-card::after {
     content: "";
@@ -55,7 +52,6 @@ top: 16px;
   .service-card .icon { display: none; }
   .service-card.selected { outline: 4px solid var(--sage-dark); }
 
-  /* Resto del diseño (Header, secciones, etc) */
   header.top{ position:sticky; top:0; z-index:50; background: rgba(246,241,231,0.92); backdrop-filter: blur(10px); border-bottom:1px solid rgba(192,112,144,0.12); padding: 14px 20px; display:flex; align-items:center; justify-content:space-between; }
   .brand{display:flex; align-items:center; gap:10px;}
   .brand .mark{ width:38px; height:38px; border-radius:50%; background: linear-gradient(135deg, var(--sage), var(--tierra)); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--font-display); font-weight:600; font-size:1.3rem; }
@@ -102,7 +98,6 @@ top: 16px;
   </div>
   
   <div class="booking-card" style="max-width: 450px; margin: 0 auto; padding: 30px 20px;">
-    <!-- Contenedor de estrellas interactivas -->
     <div id="starRating" style="font-size: 2.5rem; margin-bottom: 15px; cursor: pointer; display: inline-block; user-select: none;">
       <span data-value="1" style="color: #D48FAA; transition: color 0.2s;">★</span>
       <span data-value="2" style="color: #D48FAA; transition: color 0.2s;">★</span>
@@ -121,7 +116,7 @@ top: 16px;
 </section>
 
 <script src="app.js"></script>
-  <div id="serviceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center;">
+<div id="serviceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center;">
   <div style="background:white; padding:25px; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
     <h3 id="modalTitle" style="color:#7A4A5A; margin-bottom:15px;">Consultar servicio</h3>
     <button onclick="contactarWhatsApp('precio')" style="width:100%; margin-bottom:10px; padding:12px; background:#B0527A; color:white; border:none; border-radius:10px; cursor:pointer;">Preguntar precio</button>
