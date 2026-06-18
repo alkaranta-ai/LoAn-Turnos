@@ -39,4 +39,38 @@ function contactarWhatsApp(tipo) {
   document.getElementById('serviceModal').style.display = 'none';
 }
 
+// Inicializa las tarjetas de servicios al cargar la página
 renderServices();
+
+
+// =============================================
+// LÓGICA DE CALIFICACIONES INTERACTIVAS 
+// =============================================
+let ratingSeleccionado = 5; // Inicia con las 5 estrellas seleccionadas por defecto
+
+const estrellas = document.querySelectorAll('#starRating span');
+estrellas.forEach(estrella => {
+  estrella.addEventListener('click', () => {
+    ratingSeleccionado = parseInt(estrella.getAttribute('data-value'));
+    actualizarEstraws();
+  });
+});
+
+function actualizarEstraws() {
+  estrellas.forEach(estrella => {
+    const valor = parseInt(estrella.getAttribute('data-value'));
+    if (valor <= ratingSeleccionado) {
+      estrella.style.color = '#FFD700'; // Dorado brillante para las activas
+    } else {
+      estrella.style.color = '#E0E0E0'; // Gris claro para las apagadas
+    }
+  });
+}
+
+function enviarCalificacion() {
+  let mensaje = `¡Hola! Quiero dejar una reseña de ${ratingSeleccionado} estrellas sobre mi servicio: `;
+  window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
+}
+
+// Ejecuta la función por primera vez para pintar las estrellas de dorado al entrar
+actualizarEstraws();
