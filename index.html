@@ -100,16 +100,21 @@
   </div>
   
   <div class="booking-card" style="max-width: 450px; margin: 0 auto; padding: 30px 20px;">
-    <div style="font-size: 2rem; color: #D48FAA; margin-bottom: 15px;">⭐⭐⭐⭐⭐</div>
-    <h3 style="font-family: var(--font-display); color: var(--tierra-dark); margin-bottom: 10px; font-size: 1.4rem;">Dejanos tu reseña</h3>
-    <p style="font-size: 0.9rem; color: var(--texto-claro); margin-bottom: 25px;">Calificá el servicio o compartí tu experiencia con nosotros.</p>
+    <!-- Contenedor de estrellas interactivas -->
+    <div id="starRating" style="font-size: 2.5rem; margin-bottom: 15px; cursor: pointer; display: inline-block; user-select: none;">
+      <span data-value="1" style="color: #D48FAA; transition: color 0.2s;">★</span>
+      <span data-value="2" style="color: #D48FAA; transition: color 0.2s;">★</span>
+      <span data-value="3" style="color: #D48FAA; transition: color 0.2s;">★</span>
+      <span data-value="4" style="color: #D48FAA; transition: color 0.2s;">★</span>
+      <span data-value="5" style="color: #D48FAA; transition: color 0.2s;">★</span>
+    </div>
     
-    <a href="https://wa.me/541136047671?text=Hola!%20Quiero%20dejar%20un%20comentario%20sobre%20mi%20servicio:%20" 
-       target="_blank" 
-       class="btn btn-primary" 
-       style="width: 100%; justify-content: center; text-decoration: none; box-sizing: border-box;">
+    <h3 style="font-family: var(--font-display); color: var(--tierra-dark); margin-bottom: 10px; font-size: 1.4rem;">Dejanos tu reseña</h3>
+    <p style="font-size: 0.9rem; color: var(--texto-claro); margin-bottom: 25px;">Seleccioná las estrellas y compartí tu experiencia con nosotros.</p>
+    
+    <button onclick="enviarCalificacion()" class="btn btn-primary" style="width: 100%; justify-content: center; border: none; font-size: 1rem; cursor: pointer;">
        Calificar o dejar comentario
-    </a>
+    </button>
   </div>
 </section>
 
