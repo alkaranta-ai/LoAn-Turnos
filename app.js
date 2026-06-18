@@ -1,49 +1,55 @@
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwi0uw13O2zDuairDSUXeuUoRamlUHEUMavGuNh9kugWk_dn9GElsPHQQHjURZkCVIy/exec";
-
-const DEFAULT_SERVICES = [
-  { id: "s1", icon: "✩", name: "Limpieza facial profunda", duration: 60, price: 35000, image: "Limpieza Facial Profunda.png" },
-  { id: "s2", icon: "✩", name: "Masaje descontracturante", duration: 60, price: 45000, image: "Masaje descontracturante.png" },
-  { id: "s3", icon: "✩", name: "Exfoliación corporal", duration: 60, price: 35000, image: "Exfoliación Corporal.png" },
-  { id: "s4", icon: "✩", name: "Depilación láser", duration: 30, price: 16000, priceLabel: "Desde $16.000 / $38.000", image: "Depilación láser.png" },
-  { id: "s5", icon: "✩", name: "Drenaje linfático", duration: 60, price: 45000, image: "Drenaje Linfático.png" },
-  { id: "s6", icon: "✩", name: "Masaje relajante", duration: 60, price: 45000, image: "Masaje Relajante.png" }
+// --- CONFIGURACIÓN ---
+const SERVICES = [
+  { id: "s1", name: "Limpieza facial profunda", duration: 60, price: 35000, image: "Limpieza Facial Profunda.png" },
+  { id: "s2", name: "Masaje descontracturante", duration: 60, price: 45000, image: "Masaje descontracturante.png" },
+  { id: "s3", name: "Exfoliación corporal", duration: 60, price: 35000, image: "Exfoliación Corporal.png" },
+  { id: "s4", name: "Depilación láser", duration: 30, price: 16000, image: "Depilación láser.png" },
+  { id: "s5", name: "Drenaje linfático", duration: 60, price: 45000, image: "Drenaje Linfático.png" },
+  { id: "s6", name: "Masaje relajante", duration: 60, price: 45000, image: "Masaje Relajante.png" }
 ];
 
-const DEFAULT_CONFIG = { whatsapp: "541136047671", workDays: [1,2,3,4,5], startHour: 8, endHour: 20, slotMinutes: 30, blockedDates: [], blockedSlots: {} };
+let selectedService = "s1";
+let selectedDate = new Date().toISOString().split('T')[0];
+let selectedSlot = "10:00";
 
-let services = JSON.parse(localStorage.getItem("loan_services")) || DEFAULT_SERVICES;
-let config = JSON.parse(localStorage.getItem("loan_config")) || DEFAULT_CONFIG;
-let bookings = JSON.parse(localStorage.getItem("loan_bookings")) || [];
+// --- FUNCIONES ---
 
-let selectedService = services[0].id;
-
-function money(s) { return s.priceLabel ? s.priceLabel : "$" + s.price.toLocaleString("es-AR"); }
+function money(price) { return "$" + price.toLocaleString("es-AR"); }
 
 function renderServices() {
   const grid = document.getElementById("servicesGrid");
   const select = document.getElementById("svcSelect");
   if (!grid || !select) return;
+  
   grid.innerHTML = "";
   select.innerHTML = "";
-  services.forEach(s => {
+
+  SERVICES.forEach(s => {
+    // Tarjeta
     const card = document.createElement("div");
     card.className = "service-card" + (s.id === selectedService ? " selected" : "");
     if (s.image) card.style.backgroundImage = `url('${s.image}')`;
-    card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">${money(s)}</span></div>`;
-    card.addEventListener("click", () => { 
-        selectedService = s.id; 
-        renderServices(); 
-        document.getElementById("turnos").scrollIntoView({ behavior: "smooth" }); 
-    });
+    card.innerHTML = `<h3>${s.name}</h3><div class="meta"><span>${s.duration} min</span><span class="price">${money(s.price)}</span></div>`;
+    card.onclick = () => { selectedService = s.id; renderServices(); };
     grid.appendChild(card);
-    
+
+    // Opcion de select
     const opt = document.createElement("option");
-    opt.value = s.id; 
-    opt.textContent = `${s.name} — ${s.duration}min — ${money(s)}`;
+    opt.value = s.id;
+    opt.textContent = s.name;
     select.appendChild(opt);
   });
-  if (select) select.value = selectedService;
+  select.value = selectedService;
 }
 
+// Inicializar
 renderServices();
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// Botón WhatsApp
+document.getElementById("confirmBtn").onclick = () => {
+  const name = document.getElementById("clientName").value;
+  const service = SERVICES.find(s => s.id === selectedService).name;
+  const msg = `Hola, quiero reservar: ${service}. Nombre: ${name}. Fecha: ${selectedDate}, Hora: ${selectedSlot}`;
+  window.open(`https://wa.me/541136047671?text=${encodeURIComponent(msg)}`);
+};
