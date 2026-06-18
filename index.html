@@ -23,8 +23,10 @@
   body{ font-family: var(--font-body); background: var(--crema); color: var(--texto); padding-bottom: 78px; }
   
   /* Estilo corregido para las tarjetas con imágenes */
-  .services-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:14px; }
+.services-grid { display: flex; flex-direction: column; gap: 0; }
   .service-card {
+    position: sticky;
+top: 16px;
     position: relative;
     background-size: cover;
     background-position: center;
