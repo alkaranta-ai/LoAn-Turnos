@@ -68,7 +68,11 @@ function actualizarEstraws() {
 }
 
 function enviarCalificacion() {
-  let mensaje = `¡Hola! Quiero dejar una reseña de ${ratingSeleccionado} estrellas sobre mi servicio: `;
+  // Convertimos el número seleccionado en un texto con emojis de estrellas
+  // Ejemplo: si ratingSeleccionado es 4, "⭐".repeat(4) generará "⭐⭐⭐⭐"
+  let estrellasEmoji = "⭐".repeat(ratingSeleccionado);
+  
+  let mensaje = `¡Hola! Quiero dejar una reseña de ${estrellasEmoji} sobre mi servicio: `;
   window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
 }
 
