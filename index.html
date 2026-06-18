@@ -104,5 +104,13 @@
 </section>
 
 <script src="app.js"></script>
+  <div id="serviceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center;">
+  <div style="background:white; padding:25px; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+    <h3 id="modalTitle" style="color:#7A4A5A; margin-bottom:15px;">Consultar servicio</h3>
+    <button onclick="contactarWhatsApp('precio')" style="width:100%; margin-bottom:10px; padding:12px; background:#B0527A; color:white; border:none; border-radius:10px; cursor:pointer;">Preguntar precio</button>
+    <button onclick="contactarWhatsApp('disponibilidad')" style="width:100%; margin-bottom:10px; padding:12px; background:#B0527A; color:white; border:none; border-radius:10px; cursor:pointer;">Consultar día y horario</button>
+    <button onclick="document.getElementById('serviceModal').style.display='none'" style="width:100%; padding:12px; background:#f0f0f0; border:none; border-radius:10px; cursor:pointer;">Cancelar</button>
+  </div>
+</div>
 </body>
 </html>
