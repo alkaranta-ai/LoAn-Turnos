@@ -1,12 +1,12 @@
 const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwi0uw13O2zDuairDSUXeuUoRamlUHEUMavGuNh9kugWk_dn9GElsPHQQHjURZkCVIy/exec";
 
 const DEFAULT_SERVICES = [
-  { id: "s1", icon: "🧖‍♀️", name: "Limpieza facial profunda", duration: 60, price: 35000 },
-  { id: "s2", icon: "💆‍♀️", name: "Masaje descontracturante", duration: 60, price: 45000 },
-  { id: "s3", icon: "✨", name: "Exfoliación corporal", duration: 60, price: 35000 },
-  { id: "s4", icon: "💜", name: "Depilación láser", duration: 30, price: 16000, priceLabel: "Desde $16.000 / $38.000" },
-  { id: "s5", icon: "💧", name: "Drenaje linfático", duration: 60, price: 45000 },
-  { id: "s6", icon: "🪷", name: "Masaje relajante", duration: 60, price: 45000 }
+  { id: "s1", icon: "✩", name: "Limpieza facial profunda", duration: 60, price: 35000 },
+  { id: "s2", icon: "✩", name: "Masaje descontracturante", duration: 60, price: 45000 },
+  { id: "s3", icon: "✩", name: "Exfoliación corporal", duration: 60, price: 35000 },
+  { id: "s4", icon: "✩", name: "Depilación láser", duration: 30, price: 16000, priceLabel: "Desde $16.000 / $38.000" },
+  { id: "s5", icon: "✩", name: "Drenaje linfático", duration: 60, price: 45000 },
+  { id: "s6", icon: "✩", name: "Masaje relajante", duration: 60, price: 45000 }
 ];
 
 const DEFAULT_CONFIG = {
