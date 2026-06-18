@@ -1,13 +1,45 @@
-const SERVICES = [
-  { id: "s1", name: "Limpieza facial profunda", duration: 60, price: 35000, image: "limpieza.png" },
-  { id: "s2", name: "Masaje descontracturante", duration: 60, price: 45000, image: "masaje_des.png" },
-  { id: "s3", name: "Exfoliación corporal", duration: 60, price: 35000, image: "body_exf.png" },
-  { id: "s4", name: "Depilación láser", duration: 30, price: 16000, image: "depilacion.png" },
-  { id: "s5", name: "Drenaje linfático", duration: 60, price: 45000, image: "dren_linf.png" },
-  { id: "s6", name: "Masaje relajante", duration: 60, price: 45000, image: "masaje_rel.png" }
-];
+// ====== CONFIGURACIÓN DE TU GOOGLE SHEET ======
+const SHEET_ID = "1-uDI-x7p-y6xjF4zjQB7-HSR2KW48XK0jlGMktxa4bQ";
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
 
+let SERVICES = [];
 let selectedServiceId = "s1";
+
+// Función para transformar el CSV de Google Sheet en una lista que entienda JS
+function csvToArray(text) {
+  const lines = text.split("\n");
+  const result = [];
+  const headers = lines[0].split(",").map(h => h.trim().replace(/\r/g, ""));
+
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i]) continue;
+    const obj = {};
+    const currentline = lines[i].split(",").map(c => c.trim().replace(/\r/g, ""));
+
+    headers.forEach((header, index) => {
+      let value = currentline[index];
+      // Convertir SOLO la duración a número. El precio queda libre para aceptar texto como "Consultar"
+      if (header === "duration") {
+        value = Number(value);
+      }
+      obj[header] = value;
+    });
+    result.push(obj);
+  }
+  return result;
+}
+
+// Descargar los datos desde Google Sheets de forma automática
+async function cargarServiciosDesdeGoogle() {
+  try {
+    const response = await fetch(SHEET_URL);
+    const data = await response.text();
+    SERVICES = csvToArray(data);
+    renderServices(); // Dibuja las tarjetas cuando termina de descargar los datos de Google
+  } catch (error) {
+    console.error("Error al cargar los precios desde Google Sheet:", error);
+  }
+}
 
 function renderServices() {
   const grid = document.getElementById("servicesGrid");
@@ -15,9 +47,9 @@ function renderServices() {
   grid.innerHTML = "";
 
   SERVICES.forEach(s => {
-    // Si el precio no es un número (ej: "Consultar"), lo muestra tal cual. 
-    // Si es un número, le pone el signo $ y los puntitos de los miles.
-    const precioMostrar = isNaN(s.price) || s.price === "" || s.price === 0
+    // Si s.price no es un número (es decir, es la palabra "Consultar"), lo muestra directo.
+    // Si es un número (ej: "35000"), le pone el signo $ y el formato de miles.
+    const precioMostrar = isNaN(s.price) || s.price === "" || s.price === 0 || s.price.toString().toLowerCase() === "consultar"
       ? "Consultar" 
       : `$${Number(s.price).toLocaleString()}`;
 
@@ -45,8 +77,8 @@ function contactarWhatsApp(tipo) {
   document.getElementById('serviceModal').style.display = 'none';
 }
 
-// Inicializa las tarjetas de servicios al cargar la página
-renderServices();
+// Arranca la descarga automática desde tu Google Sheet al cargar la web
+cargarServiciosDesdeGoogle();
 
 
 // =============================================
@@ -75,7 +107,6 @@ function actualizarEstraws() {
 
 function enviarCalificacion() {
   // Convertimos el número seleccionado en un texto con emojis de estrellas
-  // Ejemplo: si ratingSeleccionado es 4, "⭐".repeat(4) generará "⭐⭐⭐⭐"
   let estrellasEmoji = "⭐".repeat(ratingSeleccionado);
   
   let mensaje = `¡Hola! Quiero dejar una reseña de ${estrellasEmoji} sobre mi servicio: `;
