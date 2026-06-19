@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LoAn Estética | Turnos online — Campana</title>
 <meta name="description" content="Reservá tu turno online en LoAn Estética, Campana. Tratamientos faciales, corporales y masajes.">
-<meta name="theme-color" content="#C07090">
+<meta name="theme-color" content="#e8c0d0">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,16 +25,22 @@
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  /* ── FIX FRANJA BLANCA ANDROID ──
+     El gradiente se pone en html (cubre TODO el viewport físico,
+     incluso cuando Chrome Android cambia el alto al mostrar/ocultar
+     la barra de URL o la gesture bar). background-attachment:fixed
+     en body causaba que esa zona quedara sin pintar -> franja blanca.
+  */
   html {
     scroll-behavior: smooth;
     height: 100%;
-    background: #e8c0d0;
+    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%);
+    background-color: #e8c0d0;
   }
   body {
     font-family: var(--font-body);
-    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%);
-    background-attachment: fixed;
-    background-color: #e8c0d0;
+    background: transparent; /* el gradiente real vive en html */
     color: var(--texto);
     height: 100%;
     min-height: 100dvh;
@@ -46,7 +52,7 @@
     top: 0; left: 0; right: 0; bottom: 0;
     width: 100%;
     overflow: hidden;
-    background: #e8c0d0;
+    background: transparent;
   }
 
   /* ── PÁGINAS ── */
@@ -227,7 +233,12 @@
   }
   .btn-glass:active { transform: scale(0.97); }
 
-  /* ── NAV BOTTOM ── */
+  /* ── NAV BOTTOM ──
+     FIX: el padding-bottom ahora usa max(env(...), 16px) en vez de
+     depender solo de env(safe-area-inset-bottom). En varios Android/
+     Chrome ese valor reporta 0 aunque haya gesture bar, dejando un
+     hueco sin pintar entre el nav y el borde real de la pantalla.
+  */
   nav.bottom {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
     background: rgba(255,220,235,0.55);
@@ -235,16 +246,18 @@
     border-top: 0.5px solid rgba(255,255,255,0.55);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.60), 0 -2px 12px rgba(160,60,100,0.07);
     display: flex; justify-content: space-around;
-    padding: 10px 0 env(safe-area-inset-bottom);
+    padding: 10px 0 max(env(safe-area-inset-bottom), 16px);
   }
-  /* Tapa la franja blanca de safe-area en iOS con el color del fondo */
+  /* Capa de respaldo: extiende el color del nav un poco más allá del
+     borde inferior real, por si el motor de render deja 1px de hueco
+     al redondear el viewport (común en Android con zoom de página). */
   nav.bottom::after {
     content: "";
-    position: absolute;
-    bottom: calc(-1 * env(safe-area-inset-bottom));
-    left: 0; right: 0;
-    height: env(safe-area-inset-bottom);
+    position: fixed;
+    left: 0; right: 0; bottom: -2px;
+    height: calc(max(env(safe-area-inset-bottom), 16px) + 4px);
     background: #e8c0d0;
+    z-index: -1;
   }
   nav.bottom button {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
