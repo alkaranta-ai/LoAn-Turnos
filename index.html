@@ -24,38 +24,31 @@
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; height: 100%; }
   body {
     font-family: var(--font-body);
-    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%) fixed;
+    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%);
+    background-attachment: fixed;
+    background-color: #f0c8d8;
     color: var(--texto);
     height: 100dvh;
     overflow: hidden;
   }
 
-  /* ── APP WRAPPER ── */
-  #app {
-    position: relative;
-    width: 100%;
-    height: 100dvh;
-    overflow: hidden;
-  }
+  #app { position: relative; width: 100%; height: 100dvh; overflow: hidden; }
 
   /* ── PÁGINAS ── */
   .page {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
     overflow-y: auto;
     padding-bottom: calc(78px + env(safe-area-inset-bottom));
     transition: transform 0.42s cubic-bezier(0.4,0,0.2,1), opacity 0.42s ease;
     will-change: transform, opacity;
   }
-  .page.slide-out-left  { transform: translateX(-12%) scale(0.96); opacity: 0; pointer-events: none; }
-  .page.slide-out-right { transform: translateX(100%);             opacity: 0; pointer-events: none; }
-  .page.slide-in-right  { transform: translateX(100%);             opacity: 0; }
+  .page.out-left  { transform: translateX(-12%) scale(0.96); opacity: 0; pointer-events: none; }
+  .page.out-right { transform: translateX(100%);             opacity: 0; pointer-events: none; }
 
   /* ── HEADER ── */
   header.top {
@@ -92,10 +85,9 @@
   }
   .brand .name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--tierra-dark); }
 
-  /* ── CONTENIDO ── */
+  /* ── CONTENIDO GENÉRICO ── */
   .page-content {
-    flex: 1;
-    padding: 36px max(20px, env(safe-area-inset-left));
+    flex: 1; padding: 36px max(20px, env(safe-area-inset-left));
     max-width: 760px; margin: 0 auto; width: 100%;
   }
   .section-head { text-align: center; margin-bottom: 28px; }
@@ -136,7 +128,7 @@
     padding: 4px 12px; font-weight: 600; font-size: 0.85rem !important; opacity: 1 !important;
   }
 
-  /* ── PÁGINA RESEÑAS ── */
+  /* ── RESEÑAS ── */
   .review-page-content {
     flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 36px max(20px, env(safe-area-inset-left)); gap: 24px; text-align: center;
@@ -150,19 +142,67 @@
   }
   .stars-row {
     display: flex; justify-content: center; gap: 8px;
-    font-size: 2.8rem; margin-bottom: 18px; cursor: pointer; user-select: none;
+    font-size: 2.8rem; margin-bottom: 18px; user-select: none;
+    -webkit-tap-highlight-color: transparent; outline: none;
   }
   .stars-row span {
-    display: inline-block; color: rgba(160,112,130,0.35);
+    display: inline-block; color: rgba(160,112,130,0.30);
     transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), color 0.15s;
+    -webkit-tap-highlight-color: transparent; outline: none; cursor: pointer;
   }
   .stars-row span.lit  { color: #FFD700; }
-  .stars-row span.bump { transform: scale(1.25); }
-  .star-label {
-    font-family: var(--font-display); font-size: 1.6rem; color: var(--tierra-dark);
-    min-height: 2.2rem; margin-bottom: 6px; transition: opacity 0.2s;
-  }
+  .stars-row span.bump { transform: scale(1.22); }
+  .star-label { font-family: var(--font-display); font-size: 1.6rem; color: var(--tierra-dark); min-height: 2.2rem; margin-bottom: 6px; }
   .review-hint { font-size: 0.85rem; color: var(--texto-claro); margin-bottom: 22px; }
+
+  /* ── HISTORIAL ── */
+  .historial-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .hist-card {
+    background: rgba(255,255,255,0.26);
+    backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 4px 16px rgba(160,60,100,0.08);
+    border-radius: var(--radius); padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+
+  .hist-icon {
+    width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    background: rgba(192,112,144,0.18);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+
+  .hist-body { flex: 1; min-width: 0; }
+  .hist-tipo {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--sage-dark); margin-bottom: 3px;
+  }
+  .hist-servicio { font-family: var(--font-display); font-size: 1.05rem; color: var(--tierra-dark); margin-bottom: 4px; line-height: 1.2; }
+  .hist-stars { font-size: 0.9rem; color: #FFD700; margin-bottom: 3px; letter-spacing: 2px; }
+  .hist-comentario { font-size: 0.8rem; color: var(--texto-claro); font-style: italic; margin-bottom: 4px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hist-fecha { font-size: 0.72rem; color: var(--texto-claro); }
+
+  .hist-empty {
+    text-align: center; padding: 50px 20px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255,255,255,0.45);
+    border-radius: var(--radius);
+  }
+  .hist-empty .empty-icon { font-size: 2.8rem; margin-bottom: 14px; opacity: 0.5; }
+  .hist-empty p { color: var(--texto-claro); font-size: 0.9rem; line-height: 1.5; }
+
+  .hist-clear {
+    margin-top: 18px; width: 100%; padding: 12px;
+    border-radius: 50px; border: 0.5px solid rgba(192,112,144,0.25);
+    background: rgba(255,255,255,0.20); color: var(--texto-claro);
+    font-family: var(--font-body); font-size: 0.82rem; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .hist-clear:active { background: rgba(255,255,255,0.35); }
 
   /* ── BOTÓN GLASS ── */
   .btn-glass {
@@ -189,13 +229,14 @@
   nav.bottom button {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
     background: none; border: none; cursor: pointer;
-    color: var(--texto-claro); font-size: 0.68rem; font-family: var(--font-body);
-    padding: 6px 20px; border-radius: 14px; transition: background 0.15s, color 0.15s;
+    color: var(--texto-claro); font-size: 0.65rem; font-family: var(--font-body);
+    padding: 6px 14px; border-radius: 14px; transition: background 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
   }
   nav.bottom button.active { background: rgba(192,112,144,0.18); color: var(--tierra-dark); }
   nav.bottom button svg { width: 22px; height: 22px; }
 
-  /* ── MODAL SERVICIO ── */
+  /* ── MODALES ── */
   .modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(60,10,30,0.45);
@@ -214,7 +255,6 @@
     animation: sheetUp 0.3s cubic-bezier(0.34,1.1,0.64,1);
   }
   @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
   .modal-handle { width: 36px; height: 4px; background: rgba(160,112,130,0.35); border-radius: 2px; margin: 0 auto 18px; }
   .modal-sheet h3 { font-family: var(--font-display); color: var(--tierra-dark); font-size: 1.5rem; margin-bottom: 18px; text-align: center; }
   .modal-btn {
@@ -232,7 +272,6 @@
     color: var(--texto-claro); box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); margin-bottom: 0;
   }
 
-  /* ── MODAL COMENTARIO ── */
   .modal-float-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(60,10,30,0.45);
@@ -265,8 +304,7 @@
   .btn-cancel-flat {
     width: 100%; padding: 12px; border-radius: 50px;
     background: rgba(255,255,255,0.35); border: 0.5px solid rgba(255,255,255,0.5);
-    color: var(--texto-claro); font-family: var(--font-body); font-weight: 500;
-    cursor: pointer; margin-top: 2px;
+    color: var(--texto-claro); font-family: var(--font-body); font-weight: 500; cursor: pointer; margin-top: 2px;
   }
 </style>
 </head>
@@ -292,9 +330,9 @@
   </div>
 
   <!-- ══ PÁGINA 2: RESEÑAS ══ -->
-  <div class="page slide-out-right" id="pageReseñas">
+  <div class="page out-right" id="pageReseñas">
     <header class="top with-back">
-      <button class="back-btn" id="btnVolver">
+      <button class="back-btn" id="btnVolverResenas">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Volver
       </button>
@@ -319,17 +357,38 @@
     </div>
   </div>
 
+  <!-- ══ PÁGINA 3: HISTORIAL ══ -->
+  <div class="page out-right" id="pageHistorial">
+    <header class="top with-back">
+      <button class="back-btn" id="btnVolverHistorial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Volver
+      </button>
+    </header>
+    <div class="page-content">
+      <div class="section-head">
+        <h2>Mi Historial</h2>
+        <p>Tus consultas y reseñas enviadas</p>
+      </div>
+      <div class="historial-list" id="historialList"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ── NAV BOTTOM ── -->
 <nav class="bottom">
-  <button class="active" id="navBtnServicios">
+  <button class="active" id="navServicios">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
     Servicios
   </button>
-  <button id="navBtnReseñas">
+  <button id="navResenas">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     Reseñas
+  </button>
+  <button id="navHistorial">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Historial
   </button>
 </nav>
 
@@ -358,96 +417,190 @@
 <script src="app.js"></script>
 <script>
 (function () {
-  // ── NAVEGACIÓN ──
-  var currentPage = 'pageServicios';
+
+  // ══════════════════════════════════════════
+  // NAVEGACIÓN
+  // ══════════════════════════════════════════
+  var ORDER = ['pageServicios', 'pageReseñas', 'pageHistorial'];
+  var current = 'pageServicios';
 
   function irA(id) {
-    if (id === currentPage) return;
-    var from = document.getElementById(currentPage);
-    var to   = document.getElementById(id);
-    var goRight = (id === 'pageReseñas');
+    if (id === current) return;
+    var fromEl = document.getElementById(current);
+    var toEl   = document.getElementById(id);
+    var fromIdx = ORDER.indexOf(current);
+    var toIdx   = ORDER.indexOf(id);
+    var goRight = toIdx > fromIdx;
 
-    from.classList.add(goRight ? 'slide-out-left' : 'slide-out-right');
-    from.classList.remove('slide-out-right', 'slide-out-left');
-    from.classList.add(goRight ? 'slide-out-left' : 'slide-out-right');
+    fromEl.classList.add(goRight ? 'out-left' : 'out-right');
+    toEl.classList.remove('out-left', 'out-right');
+    current = id;
 
-    to.classList.remove('slide-out-left', 'slide-out-right');
+    // Nav activo
+    ['navServicios','navResenas','navHistorial'].forEach(function(n, i) {
+      document.getElementById(n).classList.toggle('active', ORDER[i] === id);
+    });
 
-    currentPage = id;
-
-    document.getElementById('navBtnServicios').classList.toggle('active', id === 'pageServicios');
-    document.getElementById('navBtnReseñas').classList.toggle('active', id === 'pageReseñas');
+    // Renderizar historial al entrar
+    if (id === 'pageHistorial') renderHistorial();
   }
 
-  document.getElementById('navBtnServicios').addEventListener('click', function () { irA('pageServicios'); });
-  document.getElementById('navBtnReseñas').addEventListener('click',   function () { irA('pageReseñas');   });
-  document.getElementById('btnVolver').addEventListener('click',       function () { irA('pageServicios'); });
+  document.getElementById('navServicios').addEventListener('click',   function(){ irA('pageServicios');  });
+  document.getElementById('navResenas').addEventListener('click',     function(){ irA('pageReseñas');    });
+  document.getElementById('navHistorial').addEventListener('click',   function(){ irA('pageHistorial');  });
+  document.getElementById('btnVolverResenas').addEventListener('click',   function(){ irA('pageServicios'); });
+  document.getElementById('btnVolverHistorial').addEventListener('click',  function(){ irA('pageServicios'); });
 
-  // ── ESTRELLAS ──
+  // ══════════════════════════════════════════
+  // HISTORIAL — localStorage
+  // ══════════════════════════════════════════
+  var LS_KEY = 'loan_historial';
+
+  function getHistorial() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+    catch(e) { return []; }
+  }
+
+  function guardarItem(item) {
+    var h = getHistorial();
+    item.id   = Date.now();
+    item.fecha = new Date().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    h.unshift(item); // más nuevo arriba
+    localStorage.setItem(LS_KEY, JSON.stringify(h));
+  }
+
+  var ICONOS = { precio: '💬', disponibilidad: '📅', resena: '⭐' };
+  var TIPOS  = { precio: 'Consulta de precio', disponibilidad: 'Consulta de horario', resena: 'Reseña enviada' };
+
+  function renderHistorial() {
+    var lista = document.getElementById('historialList');
+    var h = getHistorial();
+    lista.innerHTML = '';
+
+    if (!h.length) {
+      lista.innerHTML = '<div class="hist-empty"><div class="empty-icon">🌸</div><p>Todavía no hay nada por aquí.<br>Tus consultas y reseñas aparecerán acá.</p></div>';
+      return;
+    }
+
+    h.forEach(function(item) {
+      var card = document.createElement('div');
+      card.className = 'hist-card';
+
+      var starsHtml = '';
+      if (item.tipo === 'resena' && item.estrellas) {
+        starsHtml = '<div class="hist-stars">' + '★'.repeat(item.estrellas) + '☆'.repeat(5 - item.estrellas) + '</div>';
+      }
+      var comentHtml = '';
+      if (item.comentario) {
+        comentHtml = '<div class="hist-comentario">"' + item.comentario + '"</div>';
+      }
+
+      card.innerHTML =
+        '<div class="hist-icon">' + (ICONOS[item.tipo] || '📋') + '</div>' +
+        '<div class="hist-body">' +
+          '<div class="hist-tipo">' + (TIPOS[item.tipo] || item.tipo) + '</div>' +
+          '<div class="hist-servicio">' + (item.servicio || '') + '</div>' +
+          starsHtml + comentHtml +
+          '<div class="hist-fecha">' + item.fecha + '</div>' +
+        '</div>';
+      lista.appendChild(card);
+    });
+
+    // Botón limpiar
+    var btnLimpiar = document.createElement('button');
+    btnLimpiar.className = 'hist-clear';
+    btnLimpiar.textContent = 'Borrar historial';
+    btnLimpiar.addEventListener('click', function() {
+      if (confirm('¿Borrar todo el historial?')) {
+        localStorage.removeItem(LS_KEY);
+        renderHistorial();
+      }
+    });
+    lista.appendChild(btnLimpiar);
+  }
+
+  // ══════════════════════════════════════════
+  // ESTRELLAS
+  // ══════════════════════════════════════════
   var rating = 5;
-  var labels = ['', 'Malo 😕', 'Regular 😐', 'Bien 🙂', 'Muy bien 😊', 'Excelente ✨'];
+  var LABELS = ['','Malo 😕','Regular 😐','Bien 🙂','Muy bien 😊','Excelente ✨'];
   var estrellas = document.querySelectorAll('#starRating span');
 
   function pintarEstrellas() {
-    estrellas.forEach(function (s) {
+    estrellas.forEach(function(s) {
       var v = parseInt(s.getAttribute('data-v'));
       s.classList.toggle('lit',  v <= rating);
       s.classList.toggle('bump', v === rating);
     });
-    document.getElementById('starLabel').textContent = labels[rating];
-    var lit = '★'.repeat(rating);
-    var off = '☆'.repeat(5 - rating);
-    document.getElementById('modalStarsDisplay').textContent = lit + off;
+    document.getElementById('starLabel').textContent = LABELS[rating];
+    document.getElementById('modalStarsDisplay').textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
   }
 
-  estrellas.forEach(function (s) {
-    s.addEventListener('click', function () {
+  estrellas.forEach(function(s) {
+    s.addEventListener('click', function(e) {
+      e.preventDefault();
+      estrellas.forEach(function(x){ x.classList.remove('bump'); });
       rating = parseInt(s.getAttribute('data-v'));
       pintarEstrellas();
     });
+    s.addEventListener('touchstart', function(e){ e.stopPropagation(); }, { passive: true });
   });
 
   pintarEstrellas();
 
-  // ── MODAL COMENTARIO ──
-  document.getElementById('btnEscribir').addEventListener('click', function () {
+  // ══════════════════════════════════════════
+  // MODAL COMENTARIO
+  // ══════════════════════════════════════════
+  document.getElementById('btnEscribir').addEventListener('click', function() {
     document.getElementById('commentText').value = '';
     document.getElementById('reviewModal').classList.add('flex');
   });
 
-  document.getElementById('btnCerrarReview').addEventListener('click', function () {
+  document.getElementById('btnCerrarReview').addEventListener('click', function() {
     document.getElementById('reviewModal').classList.remove('flex');
   });
 
-  document.getElementById('reviewModal').addEventListener('click', function (e) {
+  document.getElementById('reviewModal').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('flex');
   });
 
-  document.getElementById('btnEnviarWA').addEventListener('click', function () {
+  document.getElementById('btnEnviarWA').addEventListener('click', function() {
     var emoji   = '⭐'.repeat(rating);
     var texto   = document.getElementById('commentText').value.trim();
     var mensaje = '¡Hola! Quiero dejar una reseña de ' + emoji;
     if (texto) mensaje += '\n\n"' + texto + '"';
     window.open('https://wa.me/541136047671?text=' + encodeURIComponent(mensaje));
+
+    // Guardar en historial
+    guardarItem({ tipo: 'resena', servicio: 'Reseña general', estrellas: rating, comentario: texto });
+
     document.getElementById('reviewModal').classList.remove('flex');
   });
 
-  // ── MODAL SERVICIO ──
-  document.getElementById('btnCerrarServicio').addEventListener('click', function () {
+  // ══════════════════════════════════════════
+  // MODAL SERVICIO
+  // ══════════════════════════════════════════
+  document.getElementById('btnCerrarServicio').addEventListener('click', function() {
     document.getElementById('serviceModal').classList.remove('flex');
   });
 
-  document.getElementById('serviceModal').addEventListener('click', function (e) {
+  document.getElementById('serviceModal').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('flex');
   });
 
-  document.getElementById('btnPrecio').addEventListener('click', function () {
+  document.getElementById('btnPrecio').addEventListener('click', function() {
     if (typeof contactarWhatsApp === 'function') contactarWhatsApp('precio');
   });
 
-  document.getElementById('btnDisponibilidad').addEventListener('click', function () {
+  document.getElementById('btnDisponibilidad').addEventListener('click', function() {
     if (typeof contactarWhatsApp === 'function') contactarWhatsApp('disponibilidad');
   });
+
+  // ══════════════════════════════════════════
+  // HOOK en app.js — interceptar contactarWhatsApp
+  // para guardar en historial automáticamente
+  // ══════════════════════════════════════════
+  window.__guardarHistorial = guardarItem;
 
 })();
 </script>
