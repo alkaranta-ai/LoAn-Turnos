@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LoAn Estética | Turnos online — Campana</title>
 <meta name="description" content="Reservá tu turno online en LoAn Estética, Campana. Tratamientos faciales, corporales y masajes.">
-<meta name="theme-color" content="#F7EEF1">
+<meta name="theme-color" content="#FAF7F8">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,17 +15,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --tierra-dark: #6A4A56;
-    --tierra: #9A7484;
-    --sage-dark: #7A5566;
-    --texto-claro: #A88A96;
-    --texto: #432E38;
-    --bg-base: #F7EEF1;
+    --tierra-dark: #6E2F44;
+    --tierra: #C0577E;
+    --sage-dark: #8E3D5C;
+    --texto-claro: #A8748A;
+    --texto: #3A1A28;
+    --acento: #D89A4A;
+    --bg-base: #FAF7F8;
     --radius: 20px;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
+  button, a { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
 
   /* ── FIX FRANJA EN ANDROID (vía seguro) ──
      Color SÓLIDO único, sin gradientes ni capas duplicadas.
@@ -80,9 +82,9 @@
     padding-left: max(20px, env(safe-area-inset-left));
     padding-right: max(20px, env(safe-area-inset-right));
     display: flex; align-items: center; justify-content: center;
-    background: rgba(255,235,242,0.38);
-    backdrop-filter: blur(38px) saturate(240%);
-    -webkit-backdrop-filter: blur(38px) saturate(240%);
+    background: rgba(255,210,228,0.55);
+    backdrop-filter: blur(40px) saturate(280%);
+    -webkit-backdrop-filter: blur(40px) saturate(280%);
     border-bottom: 0.5px solid rgba(255,255,255,0.50);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(60,40,50,0.06);
   }
@@ -120,34 +122,35 @@
   .services-grid { display: flex; flex-direction: column; gap: 12px; }
   .service-card {
     position: relative;
-    background: rgba(255,232,240,0.30);
-    backdrop-filter: blur(34px) saturate(220%); -webkit-backdrop-filter: blur(34px) saturate(220%);
-    border: 0.5px solid rgba(255,255,255,0.60);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 4px 22px rgba(120,60,90,0.10);
+    background: rgba(255,198,222,0.50);
+    backdrop-filter: blur(30px) saturate(260%); -webkit-backdrop-filter: blur(30px) saturate(260%);
+    border: 0.5px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.80), 0 4px 14px rgba(140,40,80,0.16);
     border-radius: var(--radius); overflow: hidden; min-height: 190px;
     cursor: pointer; transition: transform 0.15s ease;
     display: flex; flex-direction: column; justify-content: flex-end;
     padding: 18px; color: #fff;
     background-size: cover; background-position: center;
   }
-  .service-card:active { transform: scale(0.98); }
+  .service-card:active { transform: scale(0.98); box-shadow: none; }
   .service-card::after {
     content: ""; position: absolute; inset: 0;
     background: linear-gradient(to top, rgba(20,15,18,0.72) 0%, rgba(0,0,0,0.10) 60%, transparent 100%);
     z-index: 1;
   }
   .service-card::before {
-    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); z-index: 3;
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--acento), rgba(255,255,255,0.7), var(--acento), transparent); z-index: 3;
   }
   .service-card h3, .service-card .meta { position: relative; z-index: 2; }
   .service-card h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 6px; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
   .service-card .meta { display: flex; align-items: center; justify-content: space-between; }
   .service-card .meta span { font-size: 0.82rem; opacity: 0.88; }
   .service-card .price {
-    background: rgba(255,255,255,0.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border: 0.5px solid rgba(255,255,255,0.40); border-radius: 50px;
-    padding: 4px 12px; font-weight: 600; font-size: 0.85rem !important; opacity: 1 !important;
+    background: rgba(255,255,255,0.30); backdrop-filter: blur(10px) saturate(180%); -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.55); border-radius: 50px;
+    padding: 4px 13px; font-weight: 700; font-size: 0.85rem !important; opacity: 1 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
   /* ── RESEÑAS ── */
@@ -156,10 +159,10 @@
     padding: 36px max(20px, env(safe-area-inset-left)); gap: 24px; text-align: center;
   }
   .review-card {
-    background: rgba(255,232,240,0.30);
-    backdrop-filter: blur(34px) saturate(220%); -webkit-backdrop-filter: blur(34px) saturate(220%);
-    border: 0.5px solid rgba(255,255,255,0.60);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.70), 0 4px 22px rgba(120,60,90,0.10);
+    background: rgba(255,198,222,0.50);
+    backdrop-filter: blur(30px) saturate(260%); -webkit-backdrop-filter: blur(30px) saturate(260%);
+    border: 0.5px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.78), 0 4px 14px rgba(140,40,80,0.16);
     border-radius: var(--radius); padding: 32px 24px; width: 100%; max-width: 420px;
   }
   .stars-row {
@@ -181,10 +184,10 @@
   .historial-list { display: flex; flex-direction: column; gap: 12px; }
 
   .hist-card {
-    background: rgba(255,232,240,0.30);
-    backdrop-filter: blur(34px) saturate(220%); -webkit-backdrop-filter: blur(34px) saturate(220%);
-    border: 0.5px solid rgba(255,255,255,0.60);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.70), 0 4px 18px rgba(120,60,90,0.08);
+    background: rgba(255,200,224,0.48);
+    backdrop-filter: blur(30px) saturate(250%); -webkit-backdrop-filter: blur(30px) saturate(250%);
+    border: 0.5px solid rgba(255,255,255,0.62);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 3px 10px rgba(140,40,80,0.12);
     border-radius: var(--radius); padding: 16px 18px;
     display: flex; gap: 14px; align-items: flex-start;
   }
@@ -223,20 +226,22 @@
     background: rgba(255,255,255,0.20); color: var(--texto-claro);
     font-family: var(--font-body); font-size: 0.82rem; cursor: pointer;
     transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent; outline: none; overflow: hidden;
   }
   .hist-clear:active { background: rgba(255,255,255,0.35); }
 
   /* ── BOTÓN GLASS ── */
   .btn-glass {
     width: 100%; padding: 15px; border-radius: 50px;
-    background: rgba(214,120,160,0.24);
-    backdrop-filter: blur(20px) saturate(200%); -webkit-backdrop-filter: blur(20px) saturate(200%);
-    border: 0.5px solid rgba(255,255,255,0.55);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 2px 8px rgba(60,40,50,0.10);
-    color: var(--tierra-dark); font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
-    cursor: pointer; transition: transform 0.12s;
+    background: linear-gradient(135deg, rgba(192,87,126,0.55) 0%, rgba(142,61,92,0.55) 100%);
+    backdrop-filter: blur(20px) saturate(220%); -webkit-backdrop-filter: blur(20px) saturate(220%);
+    border: 0.5px solid rgba(255,255,255,0.50);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 6px 18px rgba(110,30,68,0.28);
+    color: #fff; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: transform 0.12s; text-shadow: 0 1px 3px rgba(80,20,45,0.35);
+    -webkit-tap-highlight-color: transparent; outline: none; overflow: hidden;
   }
-  .btn-glass:active { transform: scale(0.97); }
+  .btn-glass:active { transform: scale(0.97); box-shadow: none; }
 
   /* ── NAV BOTTOM — liquid glass, color sólido ──
      Mismo --bg-base que el resto de la app, con transparencia +
@@ -246,8 +251,8 @@
   */
   nav.bottom {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
-    background: rgba(252,232,240,0.55);
-    backdrop-filter: blur(40px) saturate(240%); -webkit-backdrop-filter: blur(40px) saturate(240%);
+    background: rgba(248,196,222,0.72);
+    backdrop-filter: blur(40px) saturate(280%); -webkit-backdrop-filter: blur(40px) saturate(280%);
     border-top: 0.5px solid rgba(255,255,255,0.70);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.70), 0 -2px 12px rgba(0,0,0,0.05);
     display: flex; justify-content: space-around;
@@ -266,12 +271,18 @@
   }
   nav.bottom button {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
-    background: none; border: none; cursor: pointer;
+    background: none; border: none; cursor: pointer; outline: none;
     color: var(--texto-claro); font-size: 0.65rem; font-family: var(--font-body);
     padding: 6px 14px; border-radius: 14px; transition: background 0.15s, color 0.15s;
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; user-select: none;
+    overflow: hidden;
+    isolation: isolate;
   }
-  nav.bottom button.active { background: rgba(120,100,110,0.12); color: var(--tierra-dark); }
+  nav.bottom button.active { background: rgba(192,87,126,0.22); color: var(--tierra-dark); box-shadow: none; }
+  nav.bottom button:focus,
+  nav.bottom button:focus-visible { outline: none; -webkit-tap-highlight-color: transparent; }
   nav.bottom button svg { width: 22px; height: 22px; }
 
   /* ── MODALES ── */
@@ -285,8 +296,8 @@
   .modal-overlay.flex { display: flex; }
 
   .modal-sheet {
-    background: rgba(255,235,243,0.72);
-    backdrop-filter: blur(44px) saturate(220%); -webkit-backdrop-filter: blur(44px) saturate(220%);
+    background: rgba(255,222,236,0.78);
+    backdrop-filter: blur(44px) saturate(260%); -webkit-backdrop-filter: blur(44px) saturate(260%);
     border: 0.5px solid rgba(255,255,255,0.65);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 -4px 30px rgba(60,40,50,0.12);
     border-radius: 28px 28px 0 0; width: 100%; max-width: 520px; padding: 10px 20px 28px;
@@ -299,8 +310,9 @@
     width: 100%; margin-bottom: 10px; padding: 15px; border-radius: 16px;
     cursor: pointer; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
     border: 0.5px solid rgba(255,255,255,0.5); transition: transform 0.12s;
+    -webkit-tap-highlight-color: transparent; outline: none; overflow: hidden;
   }
-  .modal-btn:active { transform: scale(0.98); }
+  .modal-btn:active { transform: scale(0.98); box-shadow: none; }
   .modal-btn-primary {
     background: rgba(110,90,100,0.18); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     color: var(--tierra-dark); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
@@ -318,8 +330,8 @@
   }
   .modal-float-overlay.flex { display: flex; }
   .modal-float {
-    background: rgba(255,235,243,0.74);
-    backdrop-filter: blur(44px) saturate(220%); -webkit-backdrop-filter: blur(44px) saturate(220%);
+    background: rgba(255,222,236,0.80);
+    backdrop-filter: blur(44px) saturate(260%); -webkit-backdrop-filter: blur(44px) saturate(260%);
     border: 0.5px solid rgba(255,255,255,0.70);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.80), 0 20px 60px rgba(60,40,50,0.14);
     border-radius: 28px; width: 100%; max-width: 420px; padding: 28px 22px;
