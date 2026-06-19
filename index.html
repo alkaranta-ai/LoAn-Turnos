@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LoAn Estética | Turnos online — Campana</title>
 <meta name="description" content="Reservá tu turno online en LoAn Estética, Campana. Tratamientos faciales, corporales y masajes.">
-<meta name="theme-color" content="#FDF0F5">
+<meta name="theme-color" content="#E8C0D4">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,810 +13,528 @@
 <meta name="apple-mobile-web-app-title" content="LoAn">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
-/* ════════════════════════════════════════════
-   TOKENS
-   ════════════════════════════════════════════ */
 :root {
-  --rose-900:  #5C1A34;
-  --rose-800:  #7A2448;
-  --rose-700:  #9B3560;
-  --rose-600:  #B34D75;
-  --rose-500:  #C0577E;
-  --rose-400:  #D47A99;
-  --rose-300:  #E5A8BC;
-  --rose-200:  #F2CEDC;
-  --rose-100:  #FAE8EF;
-  --rose-50:   #FDF5F8;
-  --cream:     #FDF0F5;
-  --gold:      #C9894A;
-  --gold-lt:   #E8B97A;
-  --text:      #3A1728;
-  --text-mid:  #7A3D58;
-  --text-lt:   #A8728A;
-  --white:     #ffffff;
-  --r:         22px;
-  --font-d:    'Cormorant Garamond', Georgia, serif;
-  --font-b:    'Inter', system-ui, -apple-system, sans-serif;
-  --nav-h:     72px;
+  /* Paleta — saturada y viva */
+  --r9: #4A0D26;
+  --r8: #6E1A3A;
+  --r7: #921F4D;
+  --r6: #B8285E;
+  --r5: #D4547A;
+  --r4: #E07A97;
+  --r3: #ECA3B8;
+  --r2: #F5CCDA;
+  --r1: #FAE0EB;
+  --r0: #FEF0F5;
+  --bg: #F7D6E6;        /* fondo más saturado */
+  --gold: #C9894A;
+  --gold2: #F0C070;
+  --text: #320D1E;
+  --textm: #6E2444;
+  --textl: #A05A78;
+  --white: #fff;
+  --r: 24px;
+  --fd: 'Cormorant Garamond', Georgia, serif;
+  --fb: 'Inter', system-ui, sans-serif;
+  --nav-h: 76px;
 }
 
-/* ════════════════════════════════════════════
-   RESET BASE
-   ════════════════════════════════════════════ */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0; padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-button, a {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  outline: none;
-  cursor: pointer;
-  font-family: var(--font-b);
-}
-button:focus, button:focus-visible,
-a:focus, a:focus-visible { outline: none; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+button, a { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; user-select: none; outline: none; cursor: pointer; font-family: var(--fb); }
+button:focus, button:focus-visible, a:focus { outline: none; }
 
-/* ════════════════════════════════════════════
-   HTML / BODY — color sólido único
-   Sin gradientes en la raíz → sin franja en Android
-   ════════════════════════════════════════════ */
-html, body {
-  height: 100%;
-  /* Un único valor sólido; no hay segunda capa que pueda desalinearse */
-  background: var(--cream);
-}
-body {
-  font-family: var(--font-b);
-  color: var(--text);
-  min-height: 100dvh;
-  overflow: hidden;
-}
+html, body { height: 100%; background: var(--bg); }
+body { font-family: var(--fb); color: var(--text); min-height: 100dvh; overflow: hidden; }
 
-/* ════════════════════════════════════════════
-   FONDO GLOBAL — capa fija, un solo color
-   ════════════════════════════════════════════ */
+/* ── FONDO VIVO con mesh radial ── */
 #bgAnchor {
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  background: var(--cream);
-  /* Sin gradiente: imposible desfasaje en Android */
+  position: fixed; inset: 0; z-index: -10;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%,   rgba(212,84,122,0.38) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 80%,   rgba(146,31,77,0.30) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 40% at 50% 110%,  rgba(201,137,74,0.18) 0%, transparent 60%),
+    var(--bg);
 }
 
-/* ════════════════════════════════════════════
-   APP CONTAINER
-   ════════════════════════════════════════════ */
-#app {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  background: transparent;
-}
+/* ── APP ── */
+#app { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; background: transparent; }
 
-/* ════════════════════════════════════════════
-   PÁGINAS
-   ════════════════════════════════════════════ */
+/* ── PÁGINAS ── */
 .page {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
   overflow: hidden;
-  /* Safe area para el nav inferior */
-  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
-  transition:
-    transform 0.44s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity   0.44s ease;
+  transition: transform 0.46s cubic-bezier(0.4,0,0.2,1), opacity 0.46s ease;
   will-change: transform, opacity;
   background: transparent;
 }
-.page.out-left  { transform: translateX(-15%) scale(0.95); opacity: 0; pointer-events: none; }
-.page.out-right { transform: translateX(100%);              opacity: 0; pointer-events: none; }
+.page.out-left  { transform: translateX(-18%) scale(0.93); opacity: 0; pointer-events: none; }
+.page.out-right { transform: translateX(100%); opacity: 0; pointer-events: none; }
 
-/* ── SCROLL INTERNO ── */
+/* ── SCROLL ── */
 .scroll-area {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);
 }
 .scroll-area::-webkit-scrollbar { display: none; }
 
-/* ════════════════════════════════════════════
-   HEADER
-   ════════════════════════════════════════════ */
+/* ── HEADER — liquid glass ── */
 header.top {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  flex-shrink: 0;
-  padding-top:    calc(14px + env(safe-area-inset-top));
-  padding-bottom: 14px;
-  padding-left:   max(20px, env(safe-area-inset-left));
-  padding-right:  max(20px, env(safe-area-inset-right));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Glass: un solo color base translúcido — sin gradiente */
-  background: rgba(253, 240, 245, 0.82);
-  backdrop-filter: blur(32px) saturate(240%);
-  -webkit-backdrop-filter: blur(32px) saturate(240%);
-  border-bottom: 0.5px solid rgba(220, 160, 185, 0.30);
+  position: sticky; top: 0; z-index: 50; flex-shrink: 0;
+  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-bottom: 16px;
+  padding-left:  max(22px, env(safe-area-inset-left));
+  padding-right: max(22px, env(safe-area-inset-right));
+  display: flex; align-items: center; justify-content: center;
+  /* Liquid glass: tinte rosa vivo + blur fuerte */
+  background: rgba(232, 160, 192, 0.42);
+  backdrop-filter: blur(48px) saturate(320%) brightness(1.08);
+  -webkit-backdrop-filter: blur(48px) saturate(320%) brightness(1.08);
+  border-bottom: 0.5px solid rgba(255,255,255,0.55);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.70),
-    0 4px 16px rgba(90, 20, 50, 0.06);
+    inset 0 1.5px 0 rgba(255,255,255,0.75),
+    inset 0 -0.5px 0 rgba(180,60,110,0.12),
+    0 6px 24px rgba(100,20,55,0.10);
 }
 header.top.with-back { justify-content: flex-start; gap: 12px; }
 
-/* ── MARCA ── */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
+/* Reflejo superior del glass */
+header.top::after {
+  content: "";
+  position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.80), transparent);
+  pointer-events: none;
 }
+
+.brand { display: flex; align-items: center; gap: 12px; }
 .brand .mark {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  /* Gradiente sólo en el ícono, nunca en fondos de página */
-  background: linear-gradient(145deg, var(--rose-400) 0%, var(--rose-700) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-family: var(--font-d);
-  font-size: 1.2rem;
-  font-weight: 600;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(145deg, var(--r4) 0%, var(--r7) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-family: var(--fd); font-size: 1.25rem; font-weight: 600;
   box-shadow:
-    0 3px 10px rgba(155, 53, 96, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    0 4px 12px rgba(146,31,77,0.38),
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -1px 0 rgba(80,10,40,0.20);
   flex-shrink: 0;
 }
 .brand .name {
-  font-family: var(--font-d);
-  font-size: 1.45rem;
-  font-weight: 600;
-  color: var(--rose-900);
-  letter-spacing: 0.01em;
+  font-family: var(--fd); font-size: 1.5rem; font-weight: 600;
+  color: var(--r9); letter-spacing: 0.01em;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 
-/* ── BOTÓN VOLVER ── */
 .back-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: none;
-  border: none;
-  color: var(--rose-700);
-  font-size: 0.95rem;
-  font-weight: 500;
-  padding: 4px 0;
+  display: flex; align-items: center; gap: 5px;
+  background: none; border: none; color: var(--r7);
+  font-size: 0.96rem; font-weight: 500; padding: 4px 0;
 }
 .back-btn svg { width: 18px; height: 18px; }
 
-/* ════════════════════════════════════════════
-   CONTENIDO GENÉRICO
-   ════════════════════════════════════════════ */
-.page-content {
-  flex: 1;
-  padding: 28px max(20px, env(safe-area-inset-left));
-  max-width: 760px;
-  margin: 0 auto;
-  width: 100%;
-}
-.section-head {
-  text-align: center;
-  margin-bottom: 22px;
-}
+/* ── SECTION HEAD ── */
+.section-head { text-align: center; padding: 28px 20px 20px; }
 .section-head h2 {
-  font-family: var(--font-d);
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--rose-900);
-  margin-bottom: 4px;
-  letter-spacing: 0.01em;
+  font-family: var(--fd); font-size: 2.1rem; font-weight: 600;
+  color: var(--r9); margin-bottom: 5px; letter-spacing: 0.01em;
 }
-.section-head p {
-  color: var(--text-lt);
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-}
+.section-head p { color: var(--textl); font-size: 0.83rem; letter-spacing: 0.02em; }
 
 /* ════════════════════════════════════════════
-   TARJETAS SERVICIOS
+   STACKING CARDS — efecto apilado
+   Cada card tiene position:sticky con top
+   incremental → se "pegan" al header a medida
+   que el usuario sube, creando el stack visual
    ════════════════════════════════════════════ */
 .services-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 max(20px, env(safe-area-inset-left)) 24px;
+  display: flex; flex-direction: column; gap: 0;
+  padding: 0 16px 24px;
 }
 
 .service-card {
-  position: relative;
+  position: sticky;
+  /* top calculado por JS para cada card */
   border-radius: var(--r);
   overflow: hidden;
-  min-height: 172px;
+  min-height: 180px;
   cursor: pointer;
+  margin-bottom: 12px;
   transition: transform 0.14s ease, box-shadow 0.14s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 18px;
-  border: 0.5px solid rgba(220, 140, 175, 0.22);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 20px;
+
+  /* Liquid glass base — color tintado */
+  background: rgba(220, 100, 148, 0.22);
+  backdrop-filter: blur(40px) saturate(280%) brightness(1.06);
+  -webkit-backdrop-filter: blur(40px) saturate(280%) brightness(1.06);
+  border: 0.5px solid rgba(255,255,255,0.55);
   box-shadow:
-    0 4px 18px rgba(140, 40, 80, 0.14),
-    inset 0 0.5px 0 rgba(255, 255, 255, 0.65);
-  /* Animación de entrada escalonada via JS */
+    inset 0 1.5px 0 rgba(255,255,255,0.75),
+    inset 0 -1px 0 rgba(140,30,80,0.15),
+    0 8px 32px rgba(120,20,60,0.22),
+    0 2px 8px rgba(120,20,60,0.14);
+
+  /* Transform-origin abajo para que el stack se vea natural */
+  transform-origin: center top;
+  will-change: transform;
 }
 .service-card:active {
-  transform: scale(0.975);
-  box-shadow: 0 2px 8px rgba(140, 40, 80, 0.10);
+  transform: scale(0.976);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.70),
+    0 4px 12px rgba(120,20,60,0.16);
 }
 
-/* Fondos sólidos por categoría — sin imágenes externas */
-.service-card.bg-facial   { background: linear-gradient(145deg, #B5476B 0%, #7A2647 100%); }
-.service-card.bg-corporal { background: linear-gradient(145deg, #9E4068 0%, #5E2044 100%); }
-.service-card.bg-masaje   { background: linear-gradient(145deg, #9B6080 0%, #5E3055 100%); }
-.service-card.bg-cejas    { background: linear-gradient(145deg, #C06878 0%, #854050 100%); }
-.service-card.bg-peeling  { background: linear-gradient(145deg, #AA4472 0%, #6E2048 100%); }
+/* Capa de color sólido detrás del glass */
+.service-card .card-tint {
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0.82;
+}
+.card-tint-1 { background: linear-gradient(145deg, #C04070 0%, #7A1840 100%); }
+.card-tint-2 { background: linear-gradient(145deg, #A83868 0%, #681430 100%); }
+.card-tint-3 { background: linear-gradient(145deg, #B85888 0%, #7A2854 100%); }
+.card-tint-4 { background: linear-gradient(145deg, #C06080 0%, #823050 100%); }
+.card-tint-5 { background: linear-gradient(145deg, #B04068 0%, #701C38 100%); }
 
-/* Patrón SVG decorativo — z-index 0 */
+/* Patrón SVG decorativo */
 .service-card .card-pattern {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.11;
-  pointer-events: none;
+  position: absolute; inset: 0; z-index: 1; opacity: 0.13; pointer-events: none;
 }
-.service-card .card-pattern svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.service-card .card-pattern svg { width: 100%; height: 100%; }
 
-/* Overlay degradado hacia abajo */
+/* Overlay degradado al texto */
 .service-card .card-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  position: absolute; inset: 0; z-index: 2;
   background: linear-gradient(
     to top,
-    rgba(60, 10, 30, 0.78) 0%,
-    rgba(110, 20, 55, 0.32) 52%,
+    rgba(50, 8, 25, 0.82) 0%,
+    rgba(90, 16, 45, 0.40) 45%,
     transparent 100%
   );
 }
 
-/* Línea dorada en el borde superior */
+/* Línea dorada superior — firma de lujo */
 .service-card::before {
   content: "";
-  position: absolute;
-  top: 0; left: 22%; right: 22%;
-  height: 1px;
+  position: absolute; top: 0; left: 18%; right: 18%; height: 1px; z-index: 5;
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(201, 137, 74, 0.70),
-    rgba(255, 255, 255, 0.50),
-    rgba(201, 137, 74, 0.70),
-    transparent
+    90deg, transparent,
+    rgba(240,192,112,0.85), rgba(255,255,255,0.60),
+    rgba(240,192,112,0.85), transparent
   );
-  z-index: 3;
+}
+/* Reflejo glass en el borde superior */
+.service-card::after {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 50%; z-index: 3;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 100%
+  );
+  pointer-events: none; border-radius: var(--r) var(--r) 0 0;
 }
 
-/* Contenido de la card — sobre el overlay */
-.service-card .card-body {
-  position: relative;
-  z-index: 2;
-}
+.service-card .card-body { position: relative; z-index: 4; }
 .service-card h3 {
-  font-family: var(--font-d);
-  font-size: 1.22rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.97);
-  margin-bottom: 8px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.28);
-  letter-spacing: 0.01em;
+  font-family: var(--fd); font-size: 1.28rem; font-weight: 500;
+  color: rgba(255,255,255,0.97); margin-bottom: 9px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.35); letter-spacing: 0.01em;
 }
-.service-card .card-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.service-card .dur {
-  font-size: 0.75rem;
-  color: rgba(255, 220, 235, 0.82);
-  letter-spacing: 0.04em;
-}
+.service-card .card-meta { display: flex; align-items: center; justify-content: space-between; }
+.service-card .dur { font-size: 0.76rem; color: rgba(255,220,235,0.85); letter-spacing: 0.04em; }
 .service-card .price-pill {
-  background: rgba(255, 255, 255, 0.18);
-  border: 0.5px solid rgba(255, 255, 255, 0.40);
-  backdrop-filter: blur(8px) saturate(160%);
-  -webkit-backdrop-filter: blur(8px) saturate(160%);
-  border-radius: 50px;
-  padding: 4px 14px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: white;
-  letter-spacing: 0.02em;
+  /* Liquid glass en la pill */
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(12px) saturate(200%);
+  -webkit-backdrop-filter: blur(12px) saturate(200%);
+  border: 0.5px solid rgba(255,255,255,0.50);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 50px; padding: 5px 14px;
+  font-size: 0.80rem; font-weight: 600; color: white; letter-spacing: 0.02em;
 }
 
-/* Animación entrada escalonada */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* Animación entrada */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
 }
 
-/* ════════════════════════════════════════════
-   PÁGINA RESEÑAS
-   ════════════════════════════════════════════ */
+/* ── RESEÑAS ── */
 .review-page-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 32px max(20px, env(safe-area-inset-left)) 0;
-  gap: 22px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 32px 20px 0; gap: 24px;
 }
 .review-tagline { text-align: center; }
 .review-tagline h2 {
-  font-family: var(--font-d);
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--rose-900);
-  margin-bottom: 5px;
-  letter-spacing: 0.01em;
+  font-family: var(--fd); font-size: 2.1rem; font-weight: 600;
+  color: var(--r9); margin-bottom: 5px; letter-spacing: 0.01em;
 }
-.review-tagline p { font-size: 0.82rem; color: var(--text-lt); }
+.review-tagline p { font-size: 0.83rem; color: var(--textl); }
 
 .review-card {
   width: 100%;
-  background: rgba(255, 255, 255, 0.60);
-  border: 0.5px solid rgba(220, 155, 185, 0.32);
-  border-radius: var(--r);
-  padding: 28px 22px;
+  /* Liquid glass blanco */
+  background: rgba(255,255,255,0.38);
+  backdrop-filter: blur(40px) saturate(260%) brightness(1.06);
+  -webkit-backdrop-filter: blur(40px) saturate(260%) brightness(1.06);
+  border: 0.5px solid rgba(255,255,255,0.65);
+  border-radius: var(--r); padding: 30px 24px;
   box-shadow:
-    0 4px 20px rgba(140, 40, 80, 0.10),
-    inset 0 1px 0 rgba(255, 255, 255, 0.80);
+    inset 0 1.5px 0 rgba(255,255,255,0.80),
+    0 8px 32px rgba(120,20,60,0.18),
+    0 2px 8px rgba(120,20,60,0.10);
   text-align: center;
-  backdrop-filter: blur(20px) saturate(200%);
-  -webkit-backdrop-filter: blur(20px) saturate(200%);
 }
 
-/* ── ESTRELLAS ── */
 .stars-row {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  font-size: 2.4rem;
-  margin-bottom: 14px;
-  user-select: none;
+  display: flex; justify-content: center; gap: 10px;
+  font-size: 2.5rem; margin-bottom: 14px; user-select: none;
 }
 .stars-row span {
   display: inline-block;
-  color: rgba(170, 130, 145, 0.24);
-  transition:
-    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-    color     0.15s;
-  cursor: pointer;
-  line-height: 1;
-  -webkit-tap-highlight-color: transparent;
+  color: rgba(160,100,130,0.28);
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), color 0.15s;
+  cursor: pointer; line-height: 1;
 }
-.stars-row span.lit  { color: #E8A030; }
-.stars-row span.bump { transform: scale(1.22); }
+.stars-row span.lit  { color: #F0A830; }
+.stars-row span.bump { transform: scale(1.25); }
 
 .star-label {
-  font-family: var(--font-d);
-  font-size: 1.45rem;
-  font-weight: 500;
-  color: var(--rose-700);
-  min-height: 2rem;
-  margin-bottom: 4px;
-  letter-spacing: 0.01em;
+  font-family: var(--fd); font-size: 1.5rem; font-weight: 500;
+  color: var(--r7); min-height: 2.1rem; margin-bottom: 4px; letter-spacing: 0.01em;
 }
-.review-hint {
-  font-size: 0.78rem;
-  color: var(--text-lt);
-  margin-bottom: 20px;
-}
+.review-hint { font-size: 0.79rem; color: var(--textl); margin-bottom: 22px; }
 
-/* ════════════════════════════════════════════
-   BOTÓN PRINCIPAL
-   ════════════════════════════════════════════ */
+/* ── BOTÓN PRINCIPAL ── */
 .btn-glass {
-  width: 100%;
-  padding: 14px;
-  border-radius: 50px;
-  border: none;
-  background: linear-gradient(135deg, var(--rose-500) 0%, var(--rose-700) 100%);
+  width: 100%; padding: 15px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--r5) 0%, var(--r7) 100%);
   color: white;
-  font-family: var(--font-b);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-family: var(--fb); font-size: 0.90rem; font-weight: 600; letter-spacing: 0.04em;
   box-shadow:
-    0 6px 20px rgba(150, 40, 90, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    0 8px 24px rgba(146,31,77,0.35),
+    0 2px 6px rgba(146,31,77,0.20),
+    inset 0 1.5px 0 rgba(255,255,255,0.30);
   transition: transform 0.12s ease, box-shadow 0.12s ease;
-  text-shadow: 0 1px 2px rgba(80, 10, 40, 0.22);
+  text-shadow: 0 1px 3px rgba(60,8,30,0.28);
   overflow: hidden;
 }
 .btn-glass:active {
   transform: scale(0.97);
-  box-shadow: 0 2px 8px rgba(150, 40, 90, 0.18);
+  box-shadow: 0 3px 10px rgba(146,31,77,0.22), inset 0 1.5px 0 rgba(255,255,255,0.25);
 }
 
-/* ════════════════════════════════════════════
-   HISTORIAL
-   ════════════════════════════════════════════ */
-.historial-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+/* ── HISTORIAL ── */
+.historial-list { display: flex; flex-direction: column; gap: 10px; padding: 0 4px; }
 
 .hist-card {
-  background: rgba(255, 255, 255, 0.58);
-  border: 0.5px solid rgba(220, 155, 185, 0.28);
-  border-radius: 18px;
-  padding: 14px 16px;
-  display: flex;
-  gap: 13px;
-  align-items: flex-start;
+  background: rgba(255,255,255,0.38);
+  backdrop-filter: blur(32px) saturate(240%);
+  -webkit-backdrop-filter: blur(32px) saturate(240%);
+  border: 0.5px solid rgba(255,255,255,0.60);
+  border-radius: 20px; padding: 15px 17px;
+  display: flex; gap: 13px; align-items: flex-start;
   box-shadow:
-    0 2px 10px rgba(140, 40, 80, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    0 4px 16px rgba(120,20,60,0.12);
 }
 .hist-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  background: linear-gradient(145deg, var(--rose-100), var(--rose-200));
-  border: 0.5px solid rgba(220, 155, 185, 0.30);
+  width: 40px; height: 40px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
+  background: linear-gradient(145deg, rgba(245,204,218,0.90), rgba(232,160,192,0.70));
+  border: 0.5px solid rgba(255,255,255,0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
 }
-.hist-body    { flex: 1; min-width: 0; }
-.hist-tipo    {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--rose-500);
-  margin-bottom: 2px;
-}
-.hist-servicio {
-  font-family: var(--font-d);
-  font-size: 1rem;
-  color: var(--rose-900);
-  margin-bottom: 3px;
-  line-height: 1.2;
-}
-.hist-stars      { font-size: 0.82rem; color: #E8A030; margin-bottom: 2px; letter-spacing: 3px; }
-.hist-comentario {
-  font-size: 0.78rem;
-  color: var(--text-lt);
-  font-style: italic;
-  margin-bottom: 3px;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.hist-fecha { font-size: 0.66rem; color: var(--text-lt); }
+.hist-body { flex: 1; min-width: 0; }
+.hist-tipo { font-size: 0.63rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--r6); margin-bottom: 2px; }
+.hist-servicio { font-family: var(--fd); font-size: 1.02rem; color: var(--r9); margin-bottom: 3px; line-height: 1.2; }
+.hist-stars { font-size: 0.84rem; color: #F0A830; margin-bottom: 2px; letter-spacing: 3px; }
+.hist-comentario { font-size: 0.79rem; color: var(--textl); font-style: italic; margin-bottom: 3px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hist-fecha { font-size: 0.67rem; color: var(--textl); }
 
 .hist-empty {
-  text-align: center;
-  padding: 48px 20px;
-  background: rgba(255, 255, 255, 0.38);
-  border: 0.5px solid rgba(220, 155, 185, 0.22);
+  text-align: center; padding: 50px 20px;
+  background: rgba(255,255,255,0.30);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(255,255,255,0.50);
   border-radius: var(--r);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
 }
-.hist-empty .empty-icon { font-size: 2.4rem; margin-bottom: 12px; opacity: 0.5; }
-.hist-empty p           { color: var(--text-lt); font-size: 0.84rem; line-height: 1.6; }
+.hist-empty .empty-icon { font-size: 2.6rem; margin-bottom: 12px; opacity: 0.55; }
+.hist-empty p { color: var(--textl); font-size: 0.86rem; line-height: 1.65; }
 
 .hist-clear {
-  margin-top: 14px;
-  width: 100%;
-  padding: 11px;
-  border-radius: 50px;
-  border: 0.5px solid rgba(200, 140, 170, 0.22);
-  background: rgba(255, 255, 255, 0.35);
-  color: var(--text-lt);
-  font-family: var(--font-b);
-  font-size: 0.80rem;
-  cursor: pointer;
-  transition: background 0.15s;
-  overflow: hidden;
+  margin-top: 14px; width: 100%; padding: 12px; border-radius: 50px;
+  border: 0.5px solid rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  color: var(--textl); font-family: var(--fb); font-size: 0.81rem; cursor: pointer;
+  transition: background 0.15s; overflow: hidden;
 }
-.hist-clear:active { background: rgba(255, 255, 255, 0.58); }
+.hist-clear:active { background: rgba(255,255,255,0.50); }
 
 /* ════════════════════════════════════════════
-   NAV BOTTOM — franja-free
-   Un único color sólido translúcido + capa ::after
-   que usa el mismo --cream sin gradiente.
+   NAV BOTTOM — liquid glass saturado
+   Sin gradiente en ::after → sin franja Android
    ════════════════════════════════════════════ */
 nav.bottom {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 60;
-  /* Un solo color — imposible desfasaje */
-  background: rgba(253, 235, 245, 0.88);
-  backdrop-filter: blur(40px) saturate(280%);
-  -webkit-backdrop-filter: blur(40px) saturate(280%);
-  border-top: 0.5px solid rgba(220, 160, 185, 0.32);
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
+  background: rgba(224, 140, 178, 0.52);
+  backdrop-filter: blur(48px) saturate(320%) brightness(1.08);
+  -webkit-backdrop-filter: blur(48px) saturate(320%) brightness(1.08);
+  border-top: 0.5px solid rgba(255,255,255,0.62);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    0 -2px 12px rgba(0, 0, 0, 0.04);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+    inset 0 1.5px 0 rgba(255,255,255,0.70),
+    0 -4px 20px rgba(100,20,55,0.10);
+  display: flex; justify-content: space-around; align-items: center;
   padding: 8px 0 max(env(safe-area-inset-bottom), 12px);
 }
-/* Capa de cierre del safe-area — igual color que el fondo */
+/* Cierre safe-area: color sólido = sin franja */
 nav.bottom::after {
   content: "";
-  position: fixed;
-  left: 0; right: 0;
+  position: fixed; left: 0; right: 0;
   bottom: calc(-1 * max(env(safe-area-inset-bottom), 12px));
   height: calc(max(env(safe-area-inset-bottom), 12px) + 2px);
-  background: var(--cream);   /* color sólido = no hay dos gradientes */
+  background: #EBBDD4; /* valor calculado de var(--bg) + tinte nav */
   z-index: -1;
 }
 nav.bottom button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  color: var(--text-lt);
-  font-size: 0.60rem;
-  font-family: var(--font-b);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 6px 16px 5px;
-  border-radius: 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none;
+  color: var(--textm); font-size: 0.61rem; font-family: var(--fb);
+  font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 6px 16px 5px; border-radius: 18px;
   transition: color 0.18s, background 0.18s;
-  overflow: hidden;
-  isolation: isolate;
+  overflow: hidden; isolation: isolate;
 }
-nav.bottom button svg {
-  width: 22px;
-  height: 22px;
-  transition: transform 0.18s;
-}
+nav.bottom button svg { width: 22px; height: 22px; transition: transform 0.2s; }
 nav.bottom button.active {
-  color: var(--rose-700);
-  background: rgba(192, 87, 126, 0.12);
+  color: var(--r9);
+  background: rgba(255,255,255,0.36);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 2px 8px rgba(100,20,55,0.12);
 }
-nav.bottom button.active svg { transform: scale(1.08); }
-nav.bottom button:focus,
-nav.bottom button:focus-visible { outline: none; }
+nav.bottom button.active svg { transform: scale(1.10); }
+nav.bottom button:focus, nav.bottom button:focus-visible { outline: none; }
 
-/* ════════════════════════════════════════════
-   MODALES — overlay de hoja inferior
-   ════════════════════════════════════════════ */
+/* ── MODALES ── */
 .modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(20, 8, 16, 0.48);
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-  z-index: 100;
-  align-items: flex-end;
-  justify-content: center;
+  display: none; position: fixed; inset: 0;
+  background: rgba(30, 6, 18, 0.52);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  z-index: 100; align-items: flex-end; justify-content: center;
   padding-bottom: env(safe-area-inset-bottom);
 }
 .modal-overlay.flex { display: flex; }
 
 .modal-sheet {
-  background: rgba(253, 240, 248, 0.94);
-  backdrop-filter: blur(44px) saturate(260%);
-  -webkit-backdrop-filter: blur(44px) saturate(260%);
-  border: 0.5px solid rgba(220, 160, 185, 0.38);
+  background: rgba(250, 220, 238, 0.88);
+  backdrop-filter: blur(56px) saturate(300%) brightness(1.08);
+  -webkit-backdrop-filter: blur(56px) saturate(300%) brightness(1.08);
+  border: 0.5px solid rgba(255,255,255,0.70);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.80),
-    0 -6px 40px rgba(70, 10, 40, 0.14);
-  border-radius: 28px 28px 0 0;
-  width: 100%;
-  max-width: 520px;
-  padding: 8px 20px 28px;
-  animation: sheetUp 0.32s cubic-bezier(0.34, 1.05, 0.64, 1);
+    inset 0 1.5px 0 rgba(255,255,255,0.85),
+    0 -8px 48px rgba(80,10,40,0.18);
+  border-radius: 30px 30px 0 0;
+  width: 100%; max-width: 520px; padding: 8px 20px 30px;
+  animation: sheetUp 0.34s cubic-bezier(0.34,1.05,0.64,1);
 }
-@keyframes sheetUp {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0);    }
-}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-.modal-handle {
-  width: 32px;
-  height: 3.5px;
-  background: rgba(160, 90, 120, 0.22);
-  border-radius: 2px;
-  margin: 0 auto 18px;
-}
+.modal-handle { width: 34px; height: 4px; background: rgba(180,60,110,0.24); border-radius: 2px; margin: 0 auto 18px; }
 .modal-sheet h3 {
-  font-family: var(--font-d);
-  color: var(--rose-900);
-  font-size: 1.45rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  text-align: center;
-  letter-spacing: 0.01em;
+  font-family: var(--fd); color: var(--r9); font-size: 1.5rem; font-weight: 600;
+  margin-bottom: 16px; text-align: center; letter-spacing: 0.01em;
 }
 
-/* Botones del modal de servicio */
 .modal-btn {
-  width: 100%;
-  margin-bottom: 9px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  border: 0.5px solid rgba(220, 155, 185, 0.30);
-  background: rgba(255, 255, 255, 0.52);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: var(--rose-900);
-  font-family: var(--font-b);
-  font-size: 0.90rem;
-  font-weight: 500;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  width: 100%; margin-bottom: 9px; padding: 15px 17px; border-radius: 18px;
+  border: 0.5px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.48);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  color: var(--r9);
+  font-family: var(--fb); font-size: 0.90rem; font-weight: 500;
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.75), 0 2px 10px rgba(100,20,55,0.10);
   transition: transform 0.12s, background 0.12s;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  overflow: hidden;
+  text-align: left; display: flex; align-items: center; gap: 13px; overflow: hidden;
 }
-.modal-btn:active {
-  transform: scale(0.98);
-  background: rgba(255, 255, 255, 0.74);
-}
-.modal-btn .btn-label strong {
-  display: block;
-  font-size: 0.88rem;
-  color: var(--rose-900);
-  font-weight: 600;
-  margin-bottom: 1px;
-}
-.modal-btn .btn-label span {
-  font-size: 0.74rem;
-  color: var(--text-lt);
-  font-weight: 400;
-}
-.modal-btn-cancel {
-  width: 100%;
-  padding: 13px;
-  border-radius: 50px;
-  border: 0.5px solid rgba(200, 140, 170, 0.24);
-  background: rgba(255, 255, 255, 0.36);
-  color: var(--text-lt);
-  font-family: var(--font-b);
-  font-size: 0.86rem;
-  font-weight: 500;
-  margin-top: 2px;
-  margin-bottom: 0;
-  transition: background 0.12s;
-  overflow: hidden;
-}
-.modal-btn-cancel:active { background: rgba(255, 255, 255, 0.58); }
+.modal-btn:active { transform: scale(0.98); background: rgba(255,255,255,0.68); }
+.modal-btn .btn-label strong { display: block; font-size: 0.89rem; color: var(--r9); font-weight: 600; margin-bottom: 1px; }
+.modal-btn .btn-label span   { font-size: 0.75rem; color: var(--textl); font-weight: 400; }
+.modal-btn-icon { font-size: 1.3rem; flex-shrink: 0; }
 
-/* ════════════════════════════════════════════
-   MODAL FLOTANTE (comentario)
-   ════════════════════════════════════════════ */
+.modal-btn-cancel {
+  width: 100%; padding: 14px; border-radius: 50px; margin-top: 2px; margin-bottom: 0;
+  border: 0.5px solid rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.30);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  color: var(--textl); font-family: var(--fb); font-size: 0.87rem; font-weight: 500;
+  transition: background 0.12s; overflow: hidden;
+}
+.modal-btn-cancel:active { background: rgba(255,255,255,0.52); }
+
+/* ── MODAL FLOTANTE ── */
 .modal-float-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(20, 8, 16, 0.48);
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  display: none; position: fixed; inset: 0;
+  background: rgba(30,6,18,0.52);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  z-index: 100; align-items: center; justify-content: center; padding: 20px;
 }
 .modal-float-overlay.flex { display: flex; }
 
 .modal-float {
-  background: rgba(253, 240, 248, 0.94);
-  backdrop-filter: blur(44px) saturate(260%);
-  -webkit-backdrop-filter: blur(44px) saturate(260%);
-  border: 0.5px solid rgba(220, 160, 185, 0.38);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.80),
-    0 24px 60px rgba(70, 10, 40, 0.18);
-  border-radius: 26px;
-  width: 100%;
-  max-width: 420px;
-  padding: 26px 20px;
-  animation: floatIn 0.30s cubic-bezier(0.34, 1.2, 0.64, 1);
+  background: rgba(250,220,238,0.88);
+  backdrop-filter: blur(56px) saturate(300%) brightness(1.08);
+  -webkit-backdrop-filter: blur(56px) saturate(300%) brightness(1.08);
+  border: 0.5px solid rgba(255,255,255,0.70);
+  box-shadow: inset 0 1.5px 0 rgba(255,255,255,0.85), 0 28px 70px rgba(80,10,40,0.22);
+  border-radius: 28px; width: 100%; max-width: 420px; padding: 28px 22px;
+  animation: floatIn 0.32s cubic-bezier(0.34,1.2,0.64,1);
 }
 @keyframes floatIn {
-  from { transform: scale(0.92) translateY(14px); opacity: 0; }
+  from { transform: scale(0.90) translateY(16px); opacity: 0; }
   to   { transform: scale(1)    translateY(0);    opacity: 1; }
 }
 .modal-float h3 {
-  font-family: var(--font-d);
-  color: var(--rose-900);
-  font-size: 1.45rem;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 4px;
-  letter-spacing: 0.01em;
+  font-family: var(--fd); color: var(--r9); font-size: 1.5rem; font-weight: 600;
+  text-align: center; margin-bottom: 4px; letter-spacing: 0.01em;
 }
-.modal-stars-display {
-  font-size: 1.3rem;
-  text-align: center;
-  color: #E8A030;
-  letter-spacing: 4px;
-  margin-bottom: 16px;
-}
+.modal-stars-display { font-size: 1.35rem; text-align: center; color: #F0A830; letter-spacing: 4px; margin-bottom: 18px; }
+
 .comment-input {
-  width: 100%;
-  padding: 13px 15px;
-  border-radius: 14px;
-  border: 0.5px solid rgba(200, 140, 170, 0.28);
-  background: rgba(255, 255, 255, 0.48);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-family: var(--font-b);
-  font-size: 0.86rem;
-  color: var(--text);
-  resize: none;
-  outline: none;
-  min-height: 100px;
-  margin-bottom: 14px;
+  width: 100%; padding: 14px 16px; border-radius: 16px;
+  border: 0.5px solid rgba(200,120,160,0.30);
+  background: rgba(255,255,255,0.44);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  font-family: var(--fb); font-size: 0.87rem; color: var(--text);
+  resize: none; outline: none; min-height: 104px; margin-bottom: 14px;
   transition: border-color 0.2s;
-  box-shadow: inset 0 1px 3px rgba(180, 80, 120, 0.06);
+  box-shadow: inset 0 1px 4px rgba(160,60,100,0.08);
 }
-.comment-input:focus      { border-color: rgba(192, 87, 126, 0.44); }
-.comment-input::placeholder { color: var(--text-lt); }
+.comment-input:focus { border-color: rgba(212,84,122,0.48); }
+.comment-input::placeholder { color: var(--textl); }
 
 .btn-cancel-flat {
-  width: 100%;
-  padding: 11px;
-  border-radius: 50px;
-  border: 0.5px solid rgba(200, 140, 170, 0.22);
-  background: rgba(255, 255, 255, 0.35);
-  color: var(--text-lt);
-  font-family: var(--font-b);
-  font-size: 0.84rem;
-  font-weight: 500;
-  margin-top: 8px;
-  transition: background 0.12s;
-  overflow: hidden;
+  width: 100%; padding: 12px; border-radius: 50px; margin-top: 8px;
+  border: 0.5px solid rgba(255,255,255,0.42);
+  background: rgba(255,255,255,0.30);
+  color: var(--textl); font-family: var(--fb); font-size: 0.85rem; font-weight: 500;
+  transition: background 0.12s; overflow: hidden;
 }
-.btn-cancel-flat:active { background: rgba(255, 255, 255, 0.56); }
+.btn-cancel-flat:active { background: rgba(255,255,255,0.52); }
 </style>
 </head>
 <body>
 
-<!-- Capa de fondo fija — un solo color, sin gradiente -->
 <div id="bgAnchor"></div>
 
 <div id="app">
 
-  <!-- ══════════════════════════════════════
-       PÁGINA 1 — SERVICIOS
-       ══════════════════════════════════════ -->
+  <!-- ══ PÁGINA 1: SERVICIOS ══ -->
   <div class="page" id="pageServicios">
     <header class="top">
       <div class="brand">
@@ -825,25 +543,19 @@ nav.bottom button:focus-visible { outline: none; }
       </div>
     </header>
     <div class="scroll-area">
-      <div class="page-content" style="padding-bottom:0">
-        <div class="section-head">
-          <h2>Servicios</h2>
-          <p>Tocá un servicio para empezar tu reserva</p>
-        </div>
+      <div class="section-head">
+        <h2>Servicios</h2>
+        <p>Tocá un servicio para empezar tu reserva</p>
       </div>
       <div class="services-grid" id="servicesGrid"></div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       PÁGINA 2 — RESEÑAS
-       ══════════════════════════════════════ -->
+  <!-- ══ PÁGINA 2: RESEÑAS ══ -->
   <div class="page out-right" id="pageReseñas">
     <header class="top with-back">
       <button class="back-btn" id="btnVolverResenas">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Volver
       </button>
     </header>
@@ -869,21 +581,17 @@ nav.bottom button:focus-visible { outline: none; }
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       PÁGINA 3 — HISTORIAL
-       ══════════════════════════════════════ -->
+  <!-- ══ PÁGINA 3: HISTORIAL ══ -->
   <div class="page out-right" id="pageHistorial">
     <header class="top with-back">
       <button class="back-btn" id="btnVolverHistorial">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Volver
       </button>
     </header>
     <div class="scroll-area">
-      <div class="page-content">
-        <div class="section-head">
+      <div style="padding: 0 16px">
+        <div class="section-head" style="padding-left:4px;padding-right:4px">
           <h2>Historial</h2>
           <p>Tus consultas y reseñas enviadas</p>
         </div>
@@ -892,52 +600,38 @@ nav.bottom button:focus-visible { outline: none; }
     </div>
   </div>
 
-</div><!-- /#app -->
+</div>
 
-<!-- ══════════════════════════════════════
-     NAV BOTTOM
-     ══════════════════════════════════════ -->
+<!-- NAV -->
 <nav class="bottom">
   <button class="active" id="navServicios">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3"  y="3"  width="7" height="7" rx="1.5"/>
-      <rect x="14" y="3"  width="7" height="7" rx="1.5"/>
-      <rect x="3"  y="14" width="7" height="7" rx="1.5"/>
-      <rect x="14" y="14" width="7" height="7" rx="1.5"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
     Servicios
   </button>
   <button id="navResenas">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     Reseñas
   </button>
   <button id="navHistorial">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <polyline points="12 6 12 12 16 14"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     Historial
   </button>
 </nav>
 
-<!-- ══════════════════════════════════════
-     MODAL — SERVICIO (sheet inferior)
-     ══════════════════════════════════════ -->
+<!-- MODAL SERVICIO -->
 <div class="modal-overlay" id="serviceModal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <h3 id="modalTitle">Consultar servicio</h3>
     <button class="modal-btn" id="btnPrecio">
-      <span style="font-size:1.25rem;flex-shrink:0">💬</span>
+      <span class="modal-btn-icon">💬</span>
       <span class="btn-label">
         <strong>Más información</strong>
         <span>Precio y detalles del servicio</span>
       </span>
     </button>
     <button class="modal-btn" id="btnDisponibilidad">
-      <span style="font-size:1.25rem;flex-shrink:0">📅</span>
+      <span class="modal-btn-icon">📅</span>
       <span class="btn-label">
         <strong>Consultar horario</strong>
         <span>Ver disponibilidad y reservar</span>
@@ -947,9 +641,7 @@ nav.bottom button:focus-visible { outline: none; }
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     MODAL — COMENTARIO (flotante centrado)
-     ══════════════════════════════════════ -->
+<!-- MODAL COMENTARIO -->
 <div class="modal-float-overlay" id="reviewModal">
   <div class="modal-float">
     <h3>Tu reseña</h3>
@@ -960,286 +652,219 @@ nav.bottom button:focus-visible { outline: none; }
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCRIPTS
-     ══════════════════════════════════════ -->
-<!-- app.js externo (lógica Firebase + servicios) cargado primero -->
+<!-- app.js externo (Firebase + lógica de servicios) -->
 <script src="app.js"></script>
 
 <script>
 (function () {
-  'use strict';
+'use strict';
 
-  /* ──────────────────────────────────────────────
-     RENDERIZADO DE TARJETAS
-     Las tarjetas se generan desde window.SERVICIOS
-     (definido en app.js). Si no existe el array,
-     se usa un fallback de demostración.
-  ────────────────────────────────────────────── */
+/* ────────────────────────────────────────────
+   PATRONES SVG decorativos (5 variantes)
+──────────────────────────────────────────── */
+var PATTERNS = [
+  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><ellipse cx="290" cy="-10" rx="150" ry="150" fill="white"/><ellipse cx="310" cy="175" rx="100" ry="100" fill="white"/><circle cx="30" cy="100" r="80" fill="white"/></svg>',
+  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><path d="M-20,75 Q90,-25 210,85 T390,45" stroke="white" fill="none" stroke-width="72"/><path d="M-20,155 Q90,65 210,165 T390,125" stroke="white" fill="none" stroke-width="46"/></svg>',
+  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect x="205" y="-45" width="190" height="270" rx="95" fill="white" transform="rotate(-22 285 90)"/><rect x="-65" y="15" width="170" height="230" rx="85" fill="white" transform="rotate(16 15 95)"/></svg>',
+  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><circle cx="325" cy="-5" r="115" fill="white"/><circle cx="-5" cy="185" r="85" fill="white"/><circle cx="162" cy="90" r="44" fill="white"/></svg>',
+  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><path d="M325,0 L325,180 L145,180 Z" fill="white"/><path d="M0,0 L175,0 L0,135 Z" fill="white"/><ellipse cx="205" cy="58" rx="68" ry="68" fill="white"/></svg>'
+];
 
-  /* Patrones SVG decorativos por índice cíclico */
-  var PATTERNS = [
-    /* 0 — circulares */
-    '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><ellipse cx="280" cy="-20" rx="140" ry="140" fill="white"/><ellipse cx="300" cy="180" rx="90" ry="90" fill="white"/><circle cx="40" cy="90" r="70" fill="white"/></svg>',
-    /* 1 — ondas */
-    '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><path d="M-20,70 Q80,-30 200,80 T380,40" stroke="white" fill="none" stroke-width="70"/><path d="M-20,150 Q80,60 200,170 T380,130" stroke="white" fill="none" stroke-width="44"/></svg>',
-    /* 2 — rectángulos rotados */
-    '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect x="200" y="-40" width="180" height="260" rx="90" fill="white" transform="rotate(-20 280 90)"/><rect x="-60" y="20" width="160" height="220" rx="80" fill="white" transform="rotate(15 20 90)"/></svg>',
-    /* 3 — triángulos + círculo */
-    '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><circle cx="320" cy="0" r="110" fill="white"/><circle cx="0" cy="180" r="80" fill="white"/><circle cx="160" cy="90" r="42" fill="white"/></svg>',
-    /* 4 — diagonal */
-    '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><path d="M320,0 L320,180 L140,180 Z" fill="white"/><path d="M0,0 L170,0 L0,130 Z" fill="white"/><ellipse cx="200" cy="60" rx="65" ry="65" fill="white"/></svg>',
-  ];
+var TINTS   = ['card-tint-1','card-tint-2','card-tint-3','card-tint-4','card-tint-5'];
 
-  /* Clases de fondo cíclicas */
-  var BG_CLASSES = ['bg-facial','bg-corporal','bg-masaje','bg-cejas','bg-peeling'];
+/* ── HEADER HEIGHT para el sticky offset ── */
+function getHeaderH() {
+  var h = document.querySelector('#pageServicios header.top');
+  return h ? h.getBoundingClientRect().height : 60;
+}
 
-  function buildServiceCard(servicio, index) {
+/* ── RENDER CARDS ── */
+function buildCard(s, index) {
+  var card = document.createElement('div');
+  card.className = 'service-card';
+
+  /* Sticky stacking: cada card se pega más abajo que la anterior */
+  var hh = getHeaderH();
+  var CARD_PEEK = 44; /* cuántos px se ve de la card anterior debajo */
+  card.style.top = (hh + 8 + index * CARD_PEEK) + 'px';
+
+  /* z-index creciente para que las últimas queden encima */
+  card.style.zIndex = 10 + index;
+
+  /* Animación entrada */
+  card.style.animation = 'cardIn 0.42s ease both';
+  card.style.animationDelay = (0.05 + index * 0.08) + 's';
+
+  card.innerHTML =
+    '<div class="card-tint ' + TINTS[index % TINTS.length] + '"></div>' +
+    '<div class="card-pattern">' + PATTERNS[index % PATTERNS.length] + '</div>' +
+    '<div class="card-overlay"></div>' +
+    '<div class="card-body">' +
+      '<h3>' + (s.emoji || '') + ' ' + s.nombre + '</h3>' +
+      '<div class="card-meta">' +
+        '<span class="dur">' + (s.duracion || s.dur || '') + '</span>' +
+        '<span class="price-pill">' + (s.precio || '') + '</span>' +
+      '</div>' +
+    '</div>';
+
+  card.addEventListener('click', function () {
+    window._selectedService = s;
+    document.getElementById('modalTitle').textContent = s.nombre;
+    document.getElementById('serviceModal').classList.add('flex');
+  });
+  return card;
+}
+
+function renderServicios() {
+  var grid = document.getElementById('servicesGrid');
+  var lista = (Array.isArray(window.SERVICIOS) && window.SERVICIOS.length)
+    ? window.SERVICIOS : [];
+  grid.innerHTML = '';
+  lista.forEach(function (s, i) { grid.appendChild(buildCard(s, i)); });
+}
+
+window.__renderServicios = renderServicios;
+renderServicios();
+
+/* ── NAVEGACIÓN ── */
+var ORDER   = ['pageServicios','pageReseñas','pageHistorial'];
+var current = 'pageServicios';
+
+function irA(id) {
+  if (id === current) return;
+  var fromEl  = document.getElementById(current);
+  var toEl    = document.getElementById(id);
+  var goRight = ORDER.indexOf(id) > ORDER.indexOf(current);
+  fromEl.classList.add(goRight ? 'out-left' : 'out-right');
+  toEl.classList.remove('out-left','out-right');
+  current = id;
+  ['navServicios','navResenas','navHistorial'].forEach(function (n, i) {
+    document.getElementById(n).classList.toggle('active', ORDER[i] === id);
+  });
+  if (id === 'pageHistorial') renderHistorial();
+}
+
+document.getElementById('navServicios').addEventListener('click',      function(){ irA('pageServicios'); });
+document.getElementById('navResenas').addEventListener('click',        function(){ irA('pageReseñas');   });
+document.getElementById('navHistorial').addEventListener('click',      function(){ irA('pageHistorial'); });
+document.getElementById('btnVolverResenas').addEventListener('click',  function(){ irA('pageServicios'); });
+document.getElementById('btnVolverHistorial').addEventListener('click',function(){ irA('pageServicios'); });
+
+/* ── HISTORIAL ── */
+var LS_KEY = 'loan_historial';
+
+function getH()  { try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch(e){ return []; } }
+
+function guardarItem(item) {
+  var h = getH();
+  item.id    = Date.now();
+  item.fecha = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  h.unshift(item);
+  localStorage.setItem(LS_KEY, JSON.stringify(h));
+}
+window.__guardarHistorial = guardarItem;
+
+var ICONOS = { precio:'💬', disponibilidad:'📅', resena:'⭐' };
+var TIPOS  = { precio:'Más información', disponibilidad:'Consulta de horario', resena:'Reseña enviada' };
+
+function renderHistorial() {
+  var lista = document.getElementById('historialList');
+  var h = getH();
+  lista.innerHTML = '';
+  if (!h.length) {
+    lista.innerHTML = '<div class="hist-empty"><div class="empty-icon">🌸</div><p>Todavía no hay nada por aquí.<br>Tus consultas y reseñas aparecerán acá.</p></div>';
+    return;
+  }
+  h.forEach(function(item) {
     var card = document.createElement('div');
-    var bgClass = BG_CLASSES[index % BG_CLASSES.length];
-    card.className = 'service-card ' + bgClass;
-
-    /* Animación de entrada escalonada */
-    card.style.animation = 'fadeSlideUp 0.40s ease both';
-    card.style.animationDelay = (0.04 + index * 0.07) + 's';
-
+    card.className = 'hist-card';
+    var stars = (item.tipo === 'resena' && item.estrellas)
+      ? '<div class="hist-stars">' + '★'.repeat(item.estrellas) + '☆'.repeat(5-item.estrellas) + '</div>' : '';
+    var coment = item.comentario
+      ? '<div class="hist-comentario">"' + item.comentario + '"</div>' : '';
     card.innerHTML =
-      '<div class="card-pattern">' + PATTERNS[index % PATTERNS.length] + '</div>' +
-      '<div class="card-overlay"></div>' +
-      '<div class="card-body">' +
-        '<h3>' + (servicio.emoji || '') + ' ' + servicio.nombre + '</h3>' +
-        '<div class="card-meta">' +
-          '<span class="dur">' + (servicio.duracion || servicio.dur || '') + '</span>' +
-          '<span class="price-pill">' + (servicio.precio || '') + '</span>' +
-        '</div>' +
+      '<div class="hist-icon">' + (ICONOS[item.tipo]||'📋') + '</div>' +
+      '<div class="hist-body">' +
+        '<div class="hist-tipo">'      + (TIPOS[item.tipo]||item.tipo) + '</div>' +
+        '<div class="hist-servicio">'  + (item.servicio||'') + '</div>' +
+        stars + coment +
+        '<div class="hist-fecha">'     + item.fecha + '</div>' +
       '</div>';
-
-    card.addEventListener('click', function () {
-      window._selectedService = servicio;
-      document.getElementById('modalTitle').textContent = servicio.nombre;
-      document.getElementById('serviceModal').classList.add('flex');
-    });
-
-    return card;
-  }
-
-  function renderServicios() {
-    var grid = document.getElementById('servicesGrid');
-    /* Usa los servicios de app.js si están disponibles */
-    var lista = (Array.isArray(window.SERVICIOS) && window.SERVICIOS.length)
-      ? window.SERVICIOS
-      : [];
-    grid.innerHTML = '';
-    lista.forEach(function (s, i) {
-      grid.appendChild(buildServiceCard(s, i));
-    });
-  }
-
-  /* app.js puede llamar a window.__renderServicios() después de
-     cargar los datos de Firebase */
-  window.__renderServicios = renderServicios;
-
-  /* Intentar render inicial (por si app.js ya llenó window.SERVICIOS) */
-  renderServicios();
-
-  /* ──────────────────────────────────────────────
-     NAVEGACIÓN
-  ────────────────────────────────────────────── */
-  var ORDER   = ['pageServicios', 'pageReseñas', 'pageHistorial'];
-  var current = 'pageServicios';
-
-  function irA(id) {
-    if (id === current) return;
-    var fromEl  = document.getElementById(current);
-    var toEl    = document.getElementById(id);
-    var goRight = ORDER.indexOf(id) > ORDER.indexOf(current);
-
-    fromEl.classList.add(goRight ? 'out-left' : 'out-right');
-    toEl.classList.remove('out-left', 'out-right');
-    current = id;
-
-    ['navServicios', 'navResenas', 'navHistorial'].forEach(function (n, i) {
-      document.getElementById(n).classList.toggle('active', ORDER[i] === id);
-    });
-
-    if (id === 'pageHistorial') renderHistorial();
-  }
-
-  document.getElementById('navServicios').addEventListener('click',     function () { irA('pageServicios'); });
-  document.getElementById('navResenas').addEventListener('click',       function () { irA('pageReseñas');   });
-  document.getElementById('navHistorial').addEventListener('click',     function () { irA('pageHistorial'); });
-  document.getElementById('btnVolverResenas').addEventListener('click', function () { irA('pageServicios'); });
-  document.getElementById('btnVolverHistorial').addEventListener('click', function () { irA('pageServicios'); });
-
-  /* ──────────────────────────────────────────────
-     HISTORIAL — localStorage
-  ────────────────────────────────────────────── */
-  var LS_KEY = 'loan_historial';
-
-  function getHistorial() {
-    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
-    catch (e) { return []; }
-  }
-
-  function guardarItem(item) {
-    var h = getHistorial();
-    item.id    = Date.now();
-    item.fecha = new Date().toLocaleDateString('es-AR', {
-      day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
-    h.unshift(item);
-    localStorage.setItem(LS_KEY, JSON.stringify(h));
-  }
-
-  /* Exponer para que app.js pueda guardar entradas */
-  window.__guardarHistorial = guardarItem;
-
-  var ICONOS = { precio: '💬', disponibilidad: '📅', resena: '⭐' };
-  var TIPOS  = { precio: 'Más información', disponibilidad: 'Consulta de horario', resena: 'Reseña enviada' };
-
-  function renderHistorial() {
-    var lista = document.getElementById('historialList');
-    var h = getHistorial();
-    lista.innerHTML = '';
-
-    if (!h.length) {
-      lista.innerHTML =
-        '<div class="hist-empty">' +
-          '<div class="empty-icon">🌸</div>' +
-          '<p>Todavía no hay nada por aquí.<br>Tus consultas y reseñas aparecerán acá.</p>' +
-        '</div>';
-      return;
-    }
-
-    h.forEach(function (item) {
-      var card = document.createElement('div');
-      card.className = 'hist-card';
-
-      var starsHtml = '';
-      if (item.tipo === 'resena' && item.estrellas) {
-        starsHtml =
-          '<div class="hist-stars">' +
-          '★'.repeat(item.estrellas) +
-          '☆'.repeat(5 - item.estrellas) +
-          '</div>';
-      }
-      var comentHtml = '';
-      if (item.comentario) {
-        comentHtml = '<div class="hist-comentario">"' + item.comentario + '"</div>';
-      }
-
-      card.innerHTML =
-        '<div class="hist-icon">' + (ICONOS[item.tipo] || '📋') + '</div>' +
-        '<div class="hist-body">' +
-          '<div class="hist-tipo">'     + (TIPOS[item.tipo] || item.tipo) + '</div>' +
-          '<div class="hist-servicio">' + (item.servicio || '') + '</div>' +
-          starsHtml + comentHtml +
-          '<div class="hist-fecha">'    + item.fecha + '</div>' +
-        '</div>';
-
-      lista.appendChild(card);
-    });
-
-    var btnLimpiar = document.createElement('button');
-    btnLimpiar.className = 'hist-clear';
-    btnLimpiar.textContent = 'Borrar historial';
-    btnLimpiar.addEventListener('click', function () {
-      if (confirm('¿Borrar todo el historial?')) {
-        localStorage.removeItem(LS_KEY);
-        renderHistorial();
-      }
-    });
-    lista.appendChild(btnLimpiar);
-  }
-
-  /* ──────────────────────────────────────────────
-     ESTRELLAS
-  ────────────────────────────────────────────── */
-  var rating  = 5;
-  var LABELS  = ['', 'Malo 😕', 'Regular 😐', 'Bien 🙂', 'Muy bien 😊', 'Excelente ✨'];
-  var estrellas = document.querySelectorAll('#starRating span');
-
-  function pintarEstrellas() {
-    estrellas.forEach(function (s) {
-      var v = parseInt(s.getAttribute('data-v'), 10);
-      s.classList.toggle('lit',  v <= rating);
-      s.classList.toggle('bump', v === rating);
-    });
-    document.getElementById('starLabel').textContent = LABELS[rating];
-    document.getElementById('modalStarsDisplay').textContent =
-      '★'.repeat(rating) + '☆'.repeat(5 - rating);
-  }
-
-  estrellas.forEach(function (s) {
-    s.addEventListener('click', function (e) {
-      e.preventDefault();
-      estrellas.forEach(function (x) { x.classList.remove('bump'); });
-      rating = parseInt(s.getAttribute('data-v'), 10);
-      pintarEstrellas();
-    });
-    s.addEventListener('touchstart', function (e) { e.stopPropagation(); }, { passive: true });
+    lista.appendChild(card);
   });
-
-  pintarEstrellas();
-
-  /* ──────────────────────────────────────────────
-     MODAL COMENTARIO
-  ────────────────────────────────────────────── */
-  document.getElementById('btnEscribir').addEventListener('click', function () {
-    document.getElementById('commentText').value = '';
-    document.getElementById('reviewModal').classList.add('flex');
+  var btn = document.createElement('button');
+  btn.className = 'hist-clear';
+  btn.textContent = 'Borrar historial';
+  btn.addEventListener('click', function(){
+    if (confirm('¿Borrar todo el historial?')){ localStorage.removeItem(LS_KEY); renderHistorial(); }
   });
+  lista.appendChild(btn);
+}
 
-  document.getElementById('btnCerrarReview').addEventListener('click', function () {
-    document.getElementById('reviewModal').classList.remove('flex');
+/* ── ESTRELLAS ── */
+var rating    = 5;
+var LABELS    = ['','Malo 😕','Regular 😐','Bien 🙂','Muy bien 😊','Excelente ✨'];
+var estrellas = document.querySelectorAll('#starRating span');
+
+function pintarEstrellas() {
+  estrellas.forEach(function(s){
+    var v = parseInt(s.getAttribute('data-v'),10);
+    s.classList.toggle('lit',  v <= rating);
+    s.classList.toggle('bump', v === rating);
   });
-
-  document.getElementById('reviewModal').addEventListener('click', function (e) {
-    if (e.target === this) this.classList.remove('flex');
+  document.getElementById('starLabel').textContent = LABELS[rating];
+  document.getElementById('modalStarsDisplay').textContent = '★'.repeat(rating) + '☆'.repeat(5-rating);
+}
+estrellas.forEach(function(s){
+  s.addEventListener('click', function(e){
+    e.preventDefault();
+    estrellas.forEach(function(x){ x.classList.remove('bump'); });
+    rating = parseInt(s.getAttribute('data-v'),10);
+    pintarEstrellas();
   });
+  s.addEventListener('touchstart', function(e){ e.stopPropagation(); },{ passive:true });
+});
+pintarEstrellas();
 
-  document.getElementById('btnEnviarWA').addEventListener('click', function () {
-    var emoji   = '⭐'.repeat(rating);
-    var texto   = document.getElementById('commentText').value.trim();
-    var mensaje = '¡Hola! Quiero dejar una reseña de ' + emoji;
-    if (texto) mensaje += '\n\n"' + texto + '"';
-    window.open('https://wa.me/541136047671?text=' + encodeURIComponent(mensaje));
+/* ── MODAL COMENTARIO ── */
+document.getElementById('btnEscribir').addEventListener('click', function(){
+  document.getElementById('commentText').value = '';
+  document.getElementById('reviewModal').classList.add('flex');
+});
+document.getElementById('btnCerrarReview').addEventListener('click', function(){
+  document.getElementById('reviewModal').classList.remove('flex');
+});
+document.getElementById('reviewModal').addEventListener('click', function(e){
+  if (e.target === this) this.classList.remove('flex');
+});
+document.getElementById('btnEnviarWA').addEventListener('click', function(){
+  var texto   = document.getElementById('commentText').value.trim();
+  var mensaje = '¡Hola! Quiero dejar una reseña de ' + '⭐'.repeat(rating);
+  if (texto) mensaje += '\n\n"' + texto + '"';
+  window.open('https://wa.me/541136047671?text=' + encodeURIComponent(mensaje));
+  guardarItem({ tipo:'resena', servicio:'Reseña general', estrellas:rating, comentario:texto });
+  document.getElementById('reviewModal').classList.remove('flex');
+});
 
-    guardarItem({ tipo: 'resena', servicio: 'Reseña general', estrellas: rating, comentario: texto });
-
-    document.getElementById('reviewModal').classList.remove('flex');
-  });
-
-  /* ──────────────────────────────────────────────
-     MODAL SERVICIO
-  ────────────────────────────────────────────── */
-  document.getElementById('btnCerrarServicio').addEventListener('click', function () {
-    document.getElementById('serviceModal').classList.remove('flex');
-  });
-
-  document.getElementById('serviceModal').addEventListener('click', function (e) {
-    if (e.target === this) this.classList.remove('flex');
-  });
-
-  document.getElementById('btnPrecio').addEventListener('click', function () {
-    var s = window._selectedService;
-    if (s) {
-      guardarItem({ tipo: 'precio', servicio: s.nombre });
-      /* app.js puede tener su propio contactarWhatsApp */
-      if (typeof contactarWhatsApp === 'function') contactarWhatsApp('precio');
-    }
-    document.getElementById('serviceModal').classList.remove('flex');
-  });
-
-  document.getElementById('btnDisponibilidad').addEventListener('click', function () {
-    var s = window._selectedService;
-    if (s) {
-      guardarItem({ tipo: 'disponibilidad', servicio: s.nombre });
-      if (typeof contactarWhatsApp === 'function') contactarWhatsApp('disponibilidad');
-    }
-    document.getElementById('serviceModal').classList.remove('flex');
-  });
+/* ── MODAL SERVICIO ── */
+document.getElementById('btnCerrarServicio').addEventListener('click', function(){
+  document.getElementById('serviceModal').classList.remove('flex');
+});
+document.getElementById('serviceModal').addEventListener('click', function(e){
+  if (e.target === this) this.classList.remove('flex');
+});
+document.getElementById('btnPrecio').addEventListener('click', function(){
+  var s = window._selectedService;
+  if (s) guardarItem({ tipo:'precio', servicio:s.nombre });
+  if (typeof contactarWhatsApp === 'function') contactarWhatsApp('precio');
+  document.getElementById('serviceModal').classList.remove('flex');
+});
+document.getElementById('btnDisponibilidad').addEventListener('click', function(){
+  var s = window._selectedService;
+  if (s) guardarItem({ tipo:'disponibilidad', servicio:s.nombre });
+  if (typeof contactarWhatsApp === 'function') contactarWhatsApp('disponibilidad');
+  document.getElementById('serviceModal').classList.remove('flex');
+});
 
 })();
 </script>
