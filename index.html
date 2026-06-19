@@ -26,25 +26,33 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  /* ── FIX FRANJA BLANCA ANDROID ──
-     El gradiente se pone en html (cubre TODO el viewport físico,
-     incluso cuando Chrome Android cambia el alto al mostrar/ocultar
-     la barra de URL o la gesture bar). background-attachment:fixed
-     en body causaba que esa zona quedara sin pintar -> franja blanca.
+  /* ── FIX FRANJA BLANCA ANDROID (definitivo) ──
+     En Chrome Android, el área que queda detrás de la gesture bar /
+     URL bar colapsada a veces se pinta antes de que el background
+     de html/body termine de cubrir el viewport dinámico (bug de
+     100dvh + position:fixed anidados). La solución es una capa
+     #bgAnchor, fixed e inset:0, con el color sólido + gradiente
+     puesto DIRECTAMENTE (sin depender de html/body), que actúa
+     como piso permanente detrás de toda la app.
   */
-  html {
-    scroll-behavior: smooth;
+  html, body {
     height: 100%;
-    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%);
-    background-color: #e8c0d0;
+    background: #e8c0d0; /* color sólido de respaldo, nunca blanco */
   }
   body {
     font-family: var(--font-body);
-    background: transparent; /* el gradiente real vive en html */
     color: var(--texto);
-    height: 100%;
     min-height: 100dvh;
     overflow: hidden;
+  }
+  html { scroll-behavior: smooth; }
+
+  #bgAnchor {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%);
+    background-color: #e8c0d0;
   }
 
   #app {
@@ -233,30 +241,31 @@
   }
   .btn-glass:active { transform: scale(0.97); }
 
-  /* ── NAV BOTTOM ──
-     FIX: el padding-bottom ahora usa max(env(...), 16px) en vez de
-     depender solo de env(safe-area-inset-bottom). En varios Android/
-     Chrome ese valor reporta 0 aunque haya gesture bar, dejando un
-     hueco sin pintar entre el nav y el borde real de la pantalla.
+  /* ── NAV BOTTOM — liquid glass rosa ──
+     Más translúcida y saturada para fundirse con el fondo en vez
+     de competir con él; la capa ::after de respaldo usa el mismo
+     gradiente rosa (no un sólido aparte) para que cualquier resto
+     de borde en Android sea imperceptible.
   */
   nav.bottom {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
-    background: rgba(255,220,235,0.55);
-    backdrop-filter: blur(32px) saturate(200%); -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border-top: 0.5px solid rgba(255,255,255,0.55);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.60), 0 -2px 12px rgba(160,60,100,0.07);
+    background: linear-gradient(180deg, rgba(255,228,240,0.45) 0%, rgba(245,200,220,0.62) 100%);
+    backdrop-filter: blur(36px) saturate(220%); -webkit-backdrop-filter: blur(36px) saturate(220%);
+    border-top: 0.5px solid rgba(255,255,255,0.60);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 -2px 12px rgba(160,60,100,0.08);
     display: flex; justify-content: space-around;
     padding: 10px 0 max(env(safe-area-inset-bottom), 16px);
   }
-  /* Capa de respaldo: extiende el color del nav un poco más allá del
-     borde inferior real, por si el motor de render deja 1px de hueco
-     al redondear el viewport (común en Android con zoom de página). */
+  /* Capa de respaldo: mismo gradiente rosa que #bgAnchor, fixed y
+     extendida un poco más allá del borde real, para que cualquier
+     hueco de subpíxel en Android se rellene con el mismo tono. */
   nav.bottom::after {
     content: "";
     position: fixed;
-    left: 0; right: 0; bottom: -2px;
-    height: calc(max(env(safe-area-inset-bottom), 16px) + 4px);
-    background: #e8c0d0;
+    left: 0; right: 0; bottom: -6px;
+    height: calc(max(env(safe-area-inset-bottom), 16px) + 10px);
+    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%);
+    background-color: #e8c0d0;
     z-index: -1;
   }
   nav.bottom button {
@@ -342,6 +351,8 @@
 </style>
 </head>
 <body>
+
+<div id="bgAnchor"></div>
 
 <div id="app">
 
