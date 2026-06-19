@@ -15,36 +15,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --crema: #FDF0F5;
-    --sage: #D48FAA;
-    --sage-dark: #B0527A;
-    --tierra: #C07090;
     --tierra-dark: #7A4A5A;
-    --texto: #4A2A3A;
+    --tierra: #C07090;
+    --sage-dark: #B0527A;
     --texto-claro: #A07080;
-    --blanco: #FFFAFC;
+    --texto: #4A2A3A;
     --radius: 20px;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-    --glass-bg: rgba(255,255,255,0.26);
-    --glass-border: rgba(255,255,255,0.55);
-    --glass-blur: blur(28px) saturate(180%);
-    --glass-inner: inset 0 1px 0 rgba(255,255,255,0.7);
-    --glass-shadow: 0 4px 20px rgba(160,60,100,0.10);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
     font-family: var(--font-body);
     background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%) fixed;
     color: var(--texto);
-    overflow: hidden;
     height: 100dvh;
+    overflow: hidden;
   }
 
-  /* ── PÁGINAS ── */
+  /* ── APP WRAPPER ── */
   #app {
     position: relative;
     width: 100%;
@@ -52,72 +42,45 @@
     overflow: hidden;
   }
 
+  /* ── PÁGINAS ── */
   .page {
     position: absolute;
     inset: 0;
     display: flex;
     flex-direction: column;
-    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease;
-    will-change: transform, opacity;
     overflow-y: auto;
     padding-bottom: calc(78px + env(safe-area-inset-bottom));
+    transition: transform 0.42s cubic-bezier(0.4,0,0.2,1), opacity 0.42s ease;
+    will-change: transform, opacity;
   }
-
-  .page.hidden-right {
-    transform: translateX(100%);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .page.hidden-left {
-    transform: translateX(-8%) scale(0.96);
-    opacity: 0;
-    pointer-events: none;
-  }
+  .page.slide-out-left  { transform: translateX(-12%) scale(0.96); opacity: 0; pointer-events: none; }
+  .page.slide-out-right { transform: translateX(100%);             opacity: 0; pointer-events: none; }
+  .page.slide-in-right  { transform: translateX(100%);             opacity: 0; }
 
   /* ── HEADER ── */
   header.top {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: sticky; top: 0; z-index: 50; flex-shrink: 0;
     padding-top: calc(14px + env(safe-area-inset-top));
     padding-bottom: 14px;
     padding-left: max(20px, env(safe-area-inset-left));
     padding-right: max(20px, env(safe-area-inset-right));
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     background: rgba(255,248,252,0.30);
     backdrop-filter: blur(32px) saturate(200%);
     -webkit-backdrop-filter: blur(32px) saturate(200%);
     border-bottom: 0.5px solid rgba(255,255,255,0.50);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(160,60,100,0.08);
-    flex-shrink: 0;
   }
-
-  header.top.with-back {
-    justify-content: flex-start;
-    gap: 14px;
-  }
+  header.top.with-back { justify-content: flex-start; gap: 14px; }
 
   .back-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: none;
-    border: none;
-    color: var(--sage-dark);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    padding: 4px 0;
+    display: flex; align-items: center; gap: 5px;
+    background: none; border: none; color: var(--sage-dark);
+    font-family: var(--font-body); font-size: 1rem; font-weight: 500; cursor: pointer; padding: 4px 0;
   }
-
   .back-btn svg { width: 20px; height: 20px; }
 
   .brand { display: flex; align-items: center; gap: 10px; }
-
   .brand .mark {
     width: 38px; height: 38px; border-radius: 50%;
     background: rgba(192,112,144,0.28);
@@ -125,48 +88,44 @@
     border: 0.5px solid rgba(255,255,255,0.65);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
     display: flex; align-items: center; justify-content: center;
-    color: var(--tierra-dark);
-    font-family: var(--font-display); font-weight: 600; font-size: 1.3rem;
+    color: var(--tierra-dark); font-family: var(--font-display); font-weight: 600; font-size: 1.3rem;
   }
-
-  .brand .name {
-    font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--tierra-dark);
-  }
+  .brand .name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--tierra-dark); }
 
   /* ── CONTENIDO ── */
   .page-content {
     flex: 1;
     padding: 36px max(20px, env(safe-area-inset-left));
-    max-width: 760px;
-    margin: 0 auto;
-    width: 100%;
+    max-width: 760px; margin: 0 auto; width: 100%;
   }
-
   .section-head { text-align: center; margin-bottom: 28px; }
   .section-head h2 { font-family: var(--font-display); font-size: 2.2rem; color: var(--tierra-dark); margin-bottom: 6px; }
   .section-head p { color: var(--texto-claro); font-size: 0.9rem; }
 
-  /* ── TARJETAS ── */
+  /* ── TARJETAS SERVICIOS ── */
   .services-grid { display: flex; flex-direction: column; gap: 12px; }
-
   .service-card {
     position: relative;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-    border: 0.5px solid var(--glass-border);
-    box-shadow: var(--glass-inner), var(--glass-shadow);
-    border-radius: var(--radius);
-    overflow: hidden;
-    min-height: 190px;
-    cursor: pointer;
-    transition: transform 0.15s ease;
+    background: rgba(255,255,255,0.26);
+    backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 4px 20px rgba(160,60,100,0.10);
+    border-radius: var(--radius); overflow: hidden; min-height: 190px;
+    cursor: pointer; transition: transform 0.15s ease;
     display: flex; flex-direction: column; justify-content: flex-end;
     padding: 18px; color: #fff;
+    background-size: cover; background-position: center;
   }
   .service-card:active { transform: scale(0.98); }
-  .service-card .card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
-  .service-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(60,10,30,0.72) 0%, rgba(0,0,0,0.10) 60%, transparent 100%); z-index: 1; }
-  .service-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%); z-index: 3; }
+  .service-card::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(60,10,30,0.72) 0%, rgba(0,0,0,0.10) 60%, transparent 100%);
+    z-index: 1;
+  }
+  .service-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent); z-index: 3;
+  }
   .service-card h3, .service-card .meta { position: relative; z-index: 2; }
   .service-card h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 6px; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
   .service-card .meta { display: flex; align-items: center; justify-content: space-between; }
@@ -175,66 +134,45 @@
     background: rgba(255,255,255,0.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     border: 0.5px solid rgba(255,255,255,0.40); border-radius: 50px;
     padding: 4px 12px; font-weight: 600; font-size: 0.85rem !important; opacity: 1 !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
   }
 
   /* ── PÁGINA RESEÑAS ── */
   .review-page-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 36px max(20px, env(safe-area-inset-left));
-    gap: 28px;
-    text-align: center;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 36px max(20px, env(safe-area-inset-left)); gap: 24px; text-align: center;
   }
-
   .review-card {
     background: rgba(255,255,255,0.26);
     backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
     border: 0.5px solid rgba(255,255,255,0.55);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 4px 20px rgba(160,60,100,0.10);
-    border-radius: var(--radius);
-    padding: 32px 24px;
-    width: 100%;
-    max-width: 420px;
+    border-radius: var(--radius); padding: 32px 24px; width: 100%; max-width: 420px;
   }
-
-  .stars-container {
-    display: flex; justify-content: center; gap: 10px;
-    font-size: 3rem; margin-bottom: 20px; cursor: pointer; user-select: none;
+  .stars-row {
+    display: flex; justify-content: center; gap: 8px;
+    font-size: 2.8rem; margin-bottom: 18px; cursor: pointer; user-select: none;
   }
-
-  .stars-container span {
-    transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), color 0.15s ease;
-    display: inline-block;
+  .stars-row span {
+    display: inline-block; color: rgba(160,112,130,0.35);
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), color 0.15s;
   }
-  .stars-container span.active { transform: scale(1.18); }
-  .stars-container span:active { transform: scale(0.92); }
-
-  .review-subtitle {
-    font-size: 0.88rem; color: var(--texto-claro); margin-bottom: 6px;
-  }
-
+  .stars-row span.lit  { color: #FFD700; }
+  .stars-row span.bump { transform: scale(1.25); }
   .star-label {
     font-family: var(--font-display); font-size: 1.6rem; color: var(--tierra-dark);
-    min-height: 2rem; margin-bottom: 20px; transition: opacity 0.2s;
+    min-height: 2.2rem; margin-bottom: 6px; transition: opacity 0.2s;
   }
+  .review-hint { font-size: 0.85rem; color: var(--texto-claro); margin-bottom: 22px; }
 
-  /* ── BTN ── */
+  /* ── BOTÓN GLASS ── */
   .btn-glass {
-    width: 100%;
-    padding: 15px;
-    border-radius: 50px;
+    width: 100%; padding: 15px; border-radius: 50px;
     background: rgba(176,82,122,0.28);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border: 0.5px solid rgba(255,255,255,0.55);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 2px 8px rgba(160,60,100,0.15);
-    color: var(--tierra-dark);
-    font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.12s;
+    color: var(--tierra-dark); font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: transform 0.12s;
   }
   .btn-glass:active { transform: scale(0.97); }
 
@@ -248,93 +186,37 @@
     display: flex; justify-content: space-around;
     padding: 10px 0 env(safe-area-inset-bottom);
   }
-
   nav.bottom button {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
     background: none; border: none; cursor: pointer;
     color: var(--texto-claro); font-size: 0.68rem; font-family: var(--font-body);
-    padding: 6px 20px; border-radius: 14px;
-    transition: background 0.15s, color 0.15s;
+    padding: 6px 20px; border-radius: 14px; transition: background 0.15s, color 0.15s;
   }
   nav.bottom button.active { background: rgba(192,112,144,0.18); color: var(--tierra-dark); }
   nav.bottom button svg { width: 22px; height: 22px; }
 
   /* ── MODAL SERVICIO ── */
-  #serviceModal {
+  .modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(60,10,30,0.45);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     z-index: 100; align-items: flex-end; justify-content: center;
     padding-bottom: env(safe-area-inset-bottom);
   }
-
-  /* ── MODAL COMENTARIO ── */
-  #reviewModal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(60,10,30,0.45);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    z-index: 100; align-items: center; justify-content: center;
-    padding: 20px;
-    animation: fadeIn 0.25s ease;
-  }
-
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-  .modal-float {
-    background: rgba(255,248,252,0.72);
-    backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 0.5px solid rgba(255,255,255,0.70);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.80), 0 20px 60px rgba(160,60,100,0.22);
-    border-radius: 28px;
-    width: 100%; max-width: 420px;
-    padding: 28px 22px;
-    animation: slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1);
-  }
-
-  .modal-float h3 {
-    font-family: var(--font-display); color: var(--tierra-dark);
-    font-size: 1.5rem; margin-bottom: 6px; text-align: center;
-  }
-
-  .modal-float .modal-stars {
-    font-size: 1.4rem; text-align: center; margin-bottom: 18px; letter-spacing: 4px; color: #FFD700;
-  }
-
-  .comment-input {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 16px;
-    border: 0.5px solid rgba(192,112,144,0.30);
-    background: rgba(255,255,255,0.40);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    font-family: var(--font-body); font-size: 0.92rem;
-    color: var(--texto); resize: none;
-    outline: none;
-    transition: border-color 0.2s;
-    margin-bottom: 14px;
-    min-height: 110px;
-  }
-  .comment-input:focus { border-color: rgba(192,112,144,0.60); }
-  .comment-input::placeholder { color: var(--texto-claro); }
+  .modal-overlay.flex { display: flex; }
 
   .modal-sheet {
     background: rgba(255,248,252,0.70);
     backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
     border: 0.5px solid rgba(255,255,255,0.65);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 -4px 30px rgba(160,60,100,0.18);
-    border-radius: 28px 28px 0 0;
-    width: 100%; max-width: 520px;
-    padding: 10px 20px 28px;
+    border-radius: 28px 28px 0 0; width: 100%; max-width: 520px; padding: 10px 20px 28px;
+    animation: sheetUp 0.3s cubic-bezier(0.34,1.1,0.64,1);
   }
+  @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
   .modal-handle { width: 36px; height: 4px; background: rgba(160,112,130,0.35); border-radius: 2px; margin: 0 auto 18px; }
-
-  .modal-sheet h3 {
-    font-family: var(--font-display); color: var(--tierra-dark);
-    font-size: 1.5rem; margin-bottom: 18px; text-align: center;
-  }
-
+  .modal-sheet h3 { font-family: var(--font-display); color: var(--tierra-dark); font-size: 1.5rem; margin-bottom: 18px; text-align: center; }
   .modal-btn {
     width: 100%; margin-bottom: 10px; padding: 15px; border-radius: 16px;
     cursor: pointer; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
@@ -348,6 +230,43 @@
   .modal-btn-cancel {
     background: rgba(255,255,255,0.35); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     color: var(--texto-claro); box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); margin-bottom: 0;
+  }
+
+  /* ── MODAL COMENTARIO ── */
+  .modal-float-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(60,10,30,0.45);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 100; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-float-overlay.flex { display: flex; }
+  .modal-float {
+    background: rgba(255,248,252,0.72);
+    backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.70);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.80), 0 20px 60px rgba(160,60,100,0.22);
+    border-radius: 28px; width: 100%; max-width: 420px; padding: 28px 22px;
+    animation: floatIn 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  @keyframes floatIn { from { transform: scale(0.92) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+  .modal-float h3 { font-family: var(--font-display); color: var(--tierra-dark); font-size: 1.5rem; margin-bottom: 4px; text-align: center; }
+  .modal-stars-display { font-size: 1.4rem; text-align: center; margin-bottom: 18px; letter-spacing: 4px; color: #FFD700; }
+  .comment-input {
+    width: 100%; padding: 14px 16px; border-radius: 16px;
+    border: 0.5px solid rgba(192,112,144,0.30);
+    background: rgba(255,255,255,0.40);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    font-family: var(--font-body); font-size: 0.92rem; color: var(--texto);
+    resize: none; outline: none; transition: border-color 0.2s;
+    margin-bottom: 14px; min-height: 110px;
+  }
+  .comment-input:focus { border-color: rgba(192,112,144,0.60); }
+  .comment-input::placeholder { color: var(--texto-claro); }
+  .btn-cancel-flat {
+    width: 100%; padding: 12px; border-radius: 50px;
+    background: rgba(255,255,255,0.35); border: 0.5px solid rgba(255,255,255,0.5);
+    color: var(--texto-claro); font-family: var(--font-body); font-weight: 500;
+    cursor: pointer; margin-top: 2px;
   }
 </style>
 </head>
@@ -373,32 +292,29 @@
   </div>
 
   <!-- ══ PÁGINA 2: RESEÑAS ══ -->
-  <div class="page hidden-right" id="pageReseñas">
+  <div class="page slide-out-right" id="pageReseñas">
     <header class="top with-back">
-      <button class="back-btn" onclick="irA('pageServicios')">
+      <button class="back-btn" id="btnVolver">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Volver
       </button>
     </header>
     <div class="review-page-content">
       <div>
-        <h2 style="font-family: var(--font-display); font-size: 2.4rem; color: var(--tierra-dark); margin-bottom: 8px;">¿Cómo fue tu visita?</h2>
-        <p class="review-subtitle">Tu opinión nos ayuda a seguir creciendo</p>
+        <h2 style="font-family:var(--font-display);font-size:2.4rem;color:var(--tierra-dark);margin-bottom:8px;">¿Cómo fue tu visita?</h2>
+        <p style="font-size:0.88rem;color:var(--texto-claro);">Tu opinión nos ayuda a seguir creciendo</p>
       </div>
-
       <div class="review-card">
-        <div class="stars-container" id="starRating">
-          <span data-value="1">★</span>
-          <span data-value="2">★</span>
-          <span data-value="3">★</span>
-          <span data-value="4">★</span>
-          <span data-value="5">★</span>
+        <div class="stars-row" id="starRating">
+          <span data-v="1">★</span>
+          <span data-v="2">★</span>
+          <span data-v="3">★</span>
+          <span data-v="4">★</span>
+          <span data-v="5">★</span>
         </div>
-        <div class="star-label" id="starLabel">Excelente ✨</div>
-        <p class="review-subtitle" style="margin-bottom: 22px;">Tocá las estrellas para calificar</p>
-        <button class="btn-glass" onclick="abrirModalComentario()">
-          Escribir comentario
-        </button>
+        <div class="star-label" id="starLabel"> </div>
+        <p class="review-hint">Tocá las estrellas para calificar</p>
+        <button class="btn-glass" id="btnEscribir">Escribir comentario</button>
       </div>
     </div>
   </div>
@@ -407,120 +323,133 @@
 
 <!-- ── NAV BOTTOM ── -->
 <nav class="bottom">
-  <button class="active" id="navServicios" onclick="irA('pageServicios')">
+  <button class="active" id="navBtnServicios">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
     Servicios
   </button>
-  <button id="navReseñas" onclick="irA('pageReseñas')">
+  <button id="navBtnReseñas">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     Reseñas
   </button>
 </nav>
 
 <!-- ── MODAL SERVICIO ── -->
-<div id="serviceModal" style="display:none; position:fixed; inset:0; background:rgba(60,10,30,0.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:100; align-items:flex-end; justify-content:center; padding-bottom:env(safe-area-inset-bottom);">
+<div class="modal-overlay" id="serviceModal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <h3 id="modalTitle">Consultar servicio</h3>
-    <button onclick="contactarWhatsApp('precio')" class="modal-btn modal-btn-primary">💬 Preguntar precio</button>
-    <button onclick="contactarWhatsApp('disponibilidad')" class="modal-btn modal-btn-primary">📅 Consultar día y horario</button>
-    <button onclick="document.getElementById('serviceModal').style.display='none'" class="modal-btn modal-btn-cancel">Cancelar</button>
+    <button class="modal-btn modal-btn-primary" id="btnPrecio">💬 Preguntar precio</button>
+    <button class="modal-btn modal-btn-primary" id="btnDisponibilidad">📅 Consultar día y horario</button>
+    <button class="modal-btn modal-btn-cancel" id="btnCerrarServicio">Cancelar</button>
   </div>
 </div>
 
 <!-- ── MODAL COMENTARIO ── -->
-<div id="reviewModal" style="display:none; position:fixed; inset:0; background:rgba(60,10,30,0.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:100; align-items:center; justify-content:center; padding:20px;">
+<div class="modal-float-overlay" id="reviewModal">
   <div class="modal-float">
     <h3>Tu reseña</h3>
-    <div class="modal-stars" id="modalStars">★★★★★</div>
-    <textarea class="comment-input" id="commentText" placeholder="Contanos cómo fue tu experiencia..." rows="4"></textarea>
-    <button class="btn-glass" style="margin-bottom: 10px;" onclick="enviarComentarioWhatsApp()">
-      Enviar por WhatsApp
-    </button>
-    <button onclick="cerrarModalComentario()" style="width:100%; padding:12px; border-radius:50px; background:rgba(255,255,255,0.35); border:0.5px solid rgba(255,255,255,0.5); color:var(--texto-claro); font-family:var(--font-body); font-weight:500; cursor:pointer;">
-      Cancelar
-    </button>
+    <div class="modal-stars-display" id="modalStarsDisplay">★★★★★</div>
+    <textarea class="comment-input" id="commentText" placeholder="Contanos cómo fue tu experiencia..."></textarea>
+    <button class="btn-glass" id="btnEnviarWA" style="margin-bottom:10px;">Enviar por WhatsApp</button>
+    <button class="btn-cancel-flat" id="btnCerrarReview">Cancelar</button>
   </div>
 </div>
 
 <script src="app.js"></script>
 <script>
-  // ── NAVEGACIÓN ENTRE PÁGINAS ──
-  const pages = ['pageServicios', 'pageReseñas'];
-  let currentPage = 'pageServicios';
+(function () {
+  // ── NAVEGACIÓN ──
+  var currentPage = 'pageServicios';
 
   function irA(id) {
     if (id === currentPage) return;
-    const current = document.getElementById(currentPage);
-    const next = document.getElementById(id);
+    var from = document.getElementById(currentPage);
+    var to   = document.getElementById(id);
+    var goRight = (id === 'pageReseñas');
 
-    const goingRight = pages.indexOf(id) > pages.indexOf(currentPage);
+    from.classList.add(goRight ? 'slide-out-left' : 'slide-out-right');
+    from.classList.remove('slide-out-right', 'slide-out-left');
+    from.classList.add(goRight ? 'slide-out-left' : 'slide-out-right');
 
-    current.classList.add(goingRight ? 'hidden-left' : 'hidden-right');
-    current.classList.remove('hidden-right', 'hidden-left');
-    if (goingRight) current.classList.add('hidden-left');
-    else current.classList.add('hidden-right');
-
-    next.classList.remove('hidden-right', 'hidden-left');
+    to.classList.remove('slide-out-left', 'slide-out-right');
 
     currentPage = id;
 
-    document.querySelectorAll('nav.bottom button').forEach(b => b.classList.remove('active'));
-    if (id === 'pageServicios') document.getElementById('navServicios').classList.add('active');
-    if (id === 'pageReseñas') document.getElementById('navReseñas').classList.add('active');
+    document.getElementById('navBtnServicios').classList.toggle('active', id === 'pageServicios');
+    document.getElementById('navBtnReseñas').classList.toggle('active', id === 'pageReseñas');
   }
 
-  // ── ESTRELLAS RESEÑA ──
-  let ratingSeleccionado = 5;
-  const labels = ['', 'Malo 😕', 'Regular 😐', 'Bien 🙂', 'Muy bien 😊', 'Excelente ✨'];
+  document.getElementById('navBtnServicios').addEventListener('click', function () { irA('pageServicios'); });
+  document.getElementById('navBtnReseñas').addEventListener('click',   function () { irA('pageReseñas');   });
+  document.getElementById('btnVolver').addEventListener('click',       function () { irA('pageServicios'); });
 
-  const estrellas = document.querySelectorAll('#starRating span');
-  estrellas.forEach(e => {
-    e.addEventListener('click', () => {
-      ratingSeleccionado = parseInt(e.getAttribute('data-value'));
-      actualizarEstrellas();
+  // ── ESTRELLAS ──
+  var rating = 5;
+  var labels = ['', 'Malo 😕', 'Regular 😐', 'Bien 🙂', 'Muy bien 😊', 'Excelente ✨'];
+  var estrellas = document.querySelectorAll('#starRating span');
+
+  function pintarEstrellas() {
+    estrellas.forEach(function (s) {
+      var v = parseInt(s.getAttribute('data-v'));
+      s.classList.toggle('lit',  v <= rating);
+      s.classList.toggle('bump', v === rating);
+    });
+    document.getElementById('starLabel').textContent = labels[rating];
+    var lit = '★'.repeat(rating);
+    var off = '☆'.repeat(5 - rating);
+    document.getElementById('modalStarsDisplay').textContent = lit + off;
+  }
+
+  estrellas.forEach(function (s) {
+    s.addEventListener('click', function () {
+      rating = parseInt(s.getAttribute('data-v'));
+      pintarEstrellas();
     });
   });
 
-  function actualizarEstrellas() {
-    estrellas.forEach(e => {
-      const v = parseInt(e.getAttribute('data-value'));
-      e.style.color = v <= ratingSeleccionado ? '#FFD700' : 'rgba(160,112,130,0.35)';
-      e.classList.toggle('active', v === ratingSeleccionado);
-    });
-    document.getElementById('starLabel').textContent = labels[ratingSeleccionado];
-    document.getElementById('modalStars').textContent = '★'.repeat(ratingSeleccionado) + '☆'.repeat(5 - ratingSeleccionado);
-  }
-
-  actualizarEstrellas();
+  pintarEstrellas();
 
   // ── MODAL COMENTARIO ──
-  function abrirModalComentario() {
-    const m = document.getElementById('reviewModal');
-    m.style.display = 'flex';
+  document.getElementById('btnEscribir').addEventListener('click', function () {
     document.getElementById('commentText').value = '';
-  }
-
-  function cerrarModalComentario() {
-    document.getElementById('reviewModal').style.display = 'none';
-  }
-
-  function enviarComentarioWhatsApp() {
-    const estrellaEmoji = '⭐'.repeat(ratingSeleccionado);
-    const comentario = document.getElementById('commentText').value.trim();
-    let mensaje = `¡Hola! Quiero dejar una reseña de ${estrellaEmoji}`;
-    if (comentario) mensaje += `\n\n"${comentario}"`;
-    window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
-    cerrarModalComentario();
-  }
-
-  // Cerrar modal tocando afuera
-  document.getElementById('reviewModal').addEventListener('click', function(e) {
-    if (e.target === this) cerrarModalComentario();
+    document.getElementById('reviewModal').classList.add('flex');
   });
-  document.getElementById('serviceModal').addEventListener('click', function(e) {
-    if (e.target === this) this.style.display = 'none';
+
+  document.getElementById('btnCerrarReview').addEventListener('click', function () {
+    document.getElementById('reviewModal').classList.remove('flex');
   });
+
+  document.getElementById('reviewModal').addEventListener('click', function (e) {
+    if (e.target === this) this.classList.remove('flex');
+  });
+
+  document.getElementById('btnEnviarWA').addEventListener('click', function () {
+    var emoji   = '⭐'.repeat(rating);
+    var texto   = document.getElementById('commentText').value.trim();
+    var mensaje = '¡Hola! Quiero dejar una reseña de ' + emoji;
+    if (texto) mensaje += '\n\n"' + texto + '"';
+    window.open('https://wa.me/541136047671?text=' + encodeURIComponent(mensaje));
+    document.getElementById('reviewModal').classList.remove('flex');
+  });
+
+  // ── MODAL SERVICIO ──
+  document.getElementById('btnCerrarServicio').addEventListener('click', function () {
+    document.getElementById('serviceModal').classList.remove('flex');
+  });
+
+  document.getElementById('serviceModal').addEventListener('click', function (e) {
+    if (e.target === this) this.classList.remove('flex');
+  });
+
+  document.getElementById('btnPrecio').addEventListener('click', function () {
+    if (typeof contactarWhatsApp === 'function') contactarWhatsApp('precio');
+  });
+
+  document.getElementById('btnDisponibilidad').addEventListener('click', function () {
+    if (typeof contactarWhatsApp === 'function') contactarWhatsApp('disponibilidad');
+  });
+
+})();
 </script>
 </body>
 </html>
