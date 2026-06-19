@@ -57,7 +57,7 @@ function renderServices() {
     card.onclick = () => {
       selectedServiceId = s.id;
       document.getElementById('modalTitle').textContent = s.name;
-      document.getElementById('serviceModal').style.display = 'flex';
+      document.getElementById('serviceModal').classList.add('flex');
     };
     grid.appendChild(card);
   });
@@ -65,11 +65,19 @@ function renderServices() {
 
 function contactarWhatsApp(tipo) {
   const s = SERVICES.find(x => x.id === selectedServiceId);
+  if (!s) return;
+
   let mensaje = tipo === 'precio'
     ? `Hola, me gustaría consultar el precio de: ${s.name}`
     : `Hola, me gustaría consultar disponibilidad de días y horarios para: ${s.name}`;
+
   window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
-  document.getElementById('serviceModal').style.display = 'none';
+  document.getElementById('serviceModal').classList.remove('flex');
+
+  // Guardar automáticamente en el historial
+  if (typeof window.__guardarHistorial === 'function') {
+    window.__guardarHistorial({ tipo: tipo, servicio: s.name });
+  }
 }
 
 cargarServiciosDesdeGoogle();
