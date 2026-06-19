@@ -11,72 +11,359 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LoAn">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { 
-    --crema:#FDF0F5; --arena:#F5D0DE; --sage:#D48FAA; --sage-dark:#B0527A; 
-    --tierra:#C07090; --tierra-dark:#7A4A5A; --texto:#4A2A3A; --texto-claro:#A07080; 
-    --blanco:#FFFAFC; --radius:18px; --shadow: 0 8px 24px rgba(180,80,120,0.10); 
-    --font-display: 'Cormorant Garamond', Georgia, serif; --font-body: 'Inter', system-ui, -apple-system, sans-serif; 
+  :root {
+    --crema: #FDF0F5;
+    --arena: #F5D0DE;
+    --sage: #D48FAA;
+    --sage-dark: #B0527A;
+    --tierra: #C07090;
+    --tierra-dark: #7A4A5A;
+    --texto: #4A2A3A;
+    --texto-claro: #A07080;
+    --blanco: #FFFAFC;
+    --radius: 20px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Liquid Glass tokens */
+    --glass-bg: rgba(255, 255, 255, 0.26);
+    --glass-border: rgba(255, 255, 255, 0.55);
+    --glass-blur: blur(28px) saturate(180%);
+    --glass-inner: inset 0 1px 0 rgba(255,255,255,0.7);
+    --glass-shadow: 0 4px 20px rgba(160, 60, 100, 0.10);
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{ font-family: var(--font-body); background: var(--crema); color: var(--texto); padding-bottom: 78px; }
-  
-  .services-grid { display: flex; flex-direction: column; gap: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    /* Fondo con gradiente suave para realzar el cristal */
+    background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%) fixed;
+    color: var(--texto);
+    /* Safe area bottom para barra de navegación nativa */
+    padding-bottom: calc(78px + env(safe-area-inset-bottom));
+  }
+
+  /* ── LIQUID GLASS base ── */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 0.5px solid var(--glass-border);
+    box-shadow: var(--glass-inner), var(--glass-shadow);
+  }
+
+  /* ── HEADER ── */
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    /* Safe area top para muesca/Dynamic Island */
+    padding-top: calc(14px + env(safe-area-inset-top));
+    padding-bottom: 14px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 248, 252, 0.30);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.50);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(160,60,100,0.08);
+  }
+
+  .brand { display: flex; align-items: center; gap: 10px; }
+
+  .brand .mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(192, 112, 144, 0.28);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 0.5px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tierra-dark);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+
+  .brand .name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--tierra-dark);
+  }
+
+  /* ── SECCIONES ── */
+  section {
+    padding: 40px max(20px, env(safe-area-inset-left));
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-head { text-align: center; margin-bottom: 28px; }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--tierra-dark);
+    margin-bottom: 6px;
+  }
+  .section-head p { color: var(--texto-claro); font-size: 0.9rem; }
+
+  /* ── SERVICES GRID ── */
+  .services-grid { display: flex; flex-direction: column; gap: 12px; }
+
   .service-card {
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 0.5px solid var(--glass-border);
+    box-shadow: var(--glass-inner), var(--glass-shadow);
     border-radius: var(--radius);
-    padding: 18px;
-    box-shadow: var(--shadow);
+    overflow: hidden;
+    min-height: 190px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    min-height: 200px;
-    overflow: hidden;
+    padding: 18px;
     color: #fff;
-    cursor: pointer;
-    transition: transform .15s ease;
-    margin-bottom: 12px;
   }
+
+  .service-card:active { transform: scale(0.98); }
+
+  /* Imagen de fondo */
+  .service-card .card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    border-radius: inherit;
+  }
+
+  /* Gradiente oscuro inferior */
   .service-card::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    pointer-events: none;
+    background: linear-gradient(to top, rgba(60,10,30,0.72) 0%, rgba(0,0,0,0.10) 60%, transparent 100%);
+    border-radius: inherit;
+    z-index: 1;
   }
-  .service-card h3, .service-card .meta { position: relative; z-index: 1; }
-  .service-card h3 { font-family: var(--font-display); font-size: 1.2rem; margin: 0; }
-  .service-card .price { font-weight: 700; color: #fff; }
-  .service-card .icon { display: none; }
-  .service-card.selected { outline: 4px solid var(--sage-dark); }
 
-  header.top{ position:sticky; top:0; z-index:50; background: rgba(246,241,231,0.92); backdrop-filter: blur(10px); border-bottom:1px solid rgba(192,112,144,0.12); padding: 14px 20px; display:flex; align-items:center; justify-content:space-between; }
-  .brand{display:flex; align-items:center; gap:10px;}
-  .brand .mark{ width:38px; height:38px; border-radius:50%; background: linear-gradient(135deg, var(--sage), var(--tierra)); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--font-display); font-weight:600; font-size:1.3rem; }
-  .brand .name{ font-family: var(--font-display); font-size:1.5rem; font-weight:600; color: var(--tierra-dark); }
-  
-  .btn{ display:inline-flex; align-items:center; gap:8px; padding: 14px 26px; border-radius: 999px; font-weight:600; text-decoration:none; border:none; cursor:pointer; }
-  .btn-primary{ background: var(--sage-dark); color:#fff; }
-  .btn-ghost{ background: var(--blanco); color: var(--tierra-dark); border:1px solid rgba(192,112,144,0.2); }
-  
-  section{ padding: 56px 20px; max-width: 760px; margin: 0 auto; }
-  .section-head{ text-align:center; margin-bottom:32px; }
-  .section-head h2{ font-family: var(--font-display); font-size: 2.4rem; color: var(--tierra-dark); }
-  
-  .booking-card{ background: var(--blanco); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
-  .field{ margin-bottom:18px; }
-  .field label{ display:block; font-weight:600; color:var(--tierra-dark); margin-bottom:8px; }
-  .field input, .field select, .field textarea{ width:100%; padding: 12px; border-radius:12px; border:1px solid rgba(192,112,144,0.22); background: var(--crema); }
-  
-  nav.bottom{ position:fixed; bottom:0; left:0; right:0; z-index:60; background: rgba(255,254,252,0.97); backdrop-filter: blur(10px); border-top:1px solid rgba(192,112,144,0.12); display:flex; justify-content:space-around; padding: 10px; }
-  nav.bottom a{ display:flex; flex-direction:column; align-items:center; text-decoration:none; color:var(--texto-claro); font-size:0.7rem; }
+  /* Línea de brillo superior — efecto cristal */
+  .service-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+    z-index: 3;
+    border-radius: inherit;
+  }
+
+  .service-card h3,
+  .service-card .meta { position: relative; z-index: 2; }
+
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    margin: 0 0 6px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+
+  .service-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .service-card .meta span {
+    font-size: 0.82rem;
+    opacity: 0.88;
+  }
+
+  .service-card .price {
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 0.5px solid rgba(255,255,255,0.40);
+    border-radius: 50px;
+    padding: 4px 12px;
+    font-weight: 600;
+    font-size: 0.85rem !important;
+    opacity: 1 !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+  }
+
+  /* ── BOTONES ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: rgba(176, 82, 122, 0.30);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 2px 8px rgba(160,60,100,0.15);
+    color: var(--tierra-dark);
+  }
+
+  .btn-primary:active { transform: scale(0.97); }
+
+  /* ── CARD GENÉRICA (booking/rating) ── */
+  .booking-card {
+    background: rgba(255,255,255,0.26);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 4px 20px rgba(160,60,100,0.10);
+    border-radius: var(--radius);
+    padding: 26px 20px;
+  }
+
+  /* ── ESTRELLAS ── */
+  #starRating span { transition: color 0.15s ease; }
+
+  /* ── NAV BOTTOM ── */
+  nav.bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: rgba(255, 248, 252, 0.32);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border-top: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.60), 0 -2px 12px rgba(160,60,100,0.07);
+    display: flex;
+    justify-content: space-around;
+    /* Safe area bottom */
+    padding: 10px max(env(safe-area-inset-right), 0px) env(safe-area-inset-bottom);
+  }
+
+  nav.bottom a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    text-decoration: none;
+    color: var(--texto-claro);
+    font-size: 0.68rem;
+    padding: 6px 16px;
+    border-radius: 14px;
+    transition: background 0.15s;
+  }
+
+  nav.bottom a.active {
+    background: rgba(192, 112, 144, 0.18);
+    color: var(--tierra-dark);
+  }
+
+  nav.bottom a svg { width: 22px; height: 22px; }
+
+  /* ── MODAL ── */
+  #serviceModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(60, 10, 30, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .modal-sheet {
+    background: rgba(255, 248, 252, 0.70);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 -4px 30px rgba(160,60,100,0.18);
+    border-radius: 28px 28px 0 0;
+    width: 100%;
+    max-width: 520px;
+    padding: 10px 20px 28px;
+  }
+
+  .modal-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(160, 112, 130, 0.35);
+    border-radius: 2px;
+    margin: 0 auto 18px;
+  }
+
+  .modal-sheet h3 {
+    font-family: var(--font-display);
+    color: var(--tierra-dark);
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+
+  .modal-btn {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 0.5px solid rgba(255,255,255,0.5);
+    transition: transform 0.12s;
+  }
+  .modal-btn:active { transform: scale(0.98); }
+
+  .modal-btn-primary {
+    background: rgba(176, 82, 122, 0.28);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: var(--tierra-dark);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+
+  .modal-btn-cancel {
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: var(--texto-claro);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+    margin-bottom: 0;
+  }
 </style>
 </head>
 <body>
 
-<header class="top" style="justify-content: center;">
+<header class="top">
   <div class="brand">
     <div class="mark">L</div>
     <div class="name">LoAn Estética</div>
@@ -96,33 +383,45 @@
     <h2>¿Qué te pareció tu visita?</h2>
     <p>Tu opinión nos ayuda a seguir creciendo</p>
   </div>
-  
-  <div class="booking-card" style="max-width: 450px; margin: 0 auto; padding: 30px 20px;">
-    <div id="starRating" style="font-size: 2.5rem; margin-bottom: 15px; cursor: pointer; display: inline-block; user-select: none;">
-      <span data-value="1" style="color: #D48FAA; transition: color 0.2s;">★</span>
-      <span data-value="2" style="color: #D48FAA; transition: color 0.2s;">★</span>
-      <span data-value="3" style="color: #D48FAA; transition: color 0.2s;">★</span>
-      <span data-value="4" style="color: #D48FAA; transition: color 0.2s;">★</span>
-      <span data-value="5" style="color: #D48FAA; transition: color 0.2s;">★</span>
+
+  <div class="booking-card" style="max-width: 450px; margin: 0 auto;">
+    <div id="starRating" style="font-size: 2.6rem; margin-bottom: 14px; cursor: pointer; display: block; user-select: none; letter-spacing: 6px;">
+      <span data-value="1">★</span>
+      <span data-value="2">★</span>
+      <span data-value="3">★</span>
+      <span data-value="4">★</span>
+      <span data-value="5">★</span>
     </div>
-    
-    <h3 style="font-family: var(--font-display); color: var(--tierra-dark); margin-bottom: 10px; font-size: 1.4rem;">Dejanos tu reseña</h3>
-    <p style="font-size: 0.9rem; color: var(--texto-claro); margin-bottom: 25px;">Seleccioná las estrellas y compartí tu experiencia con nosotros.</p>
-    
-    <button onclick="enviarCalificacion()" class="btn btn-primary" style="width: 100%; justify-content: center; border: none; font-size: 1rem; cursor: pointer;">
-       Calificar o dejar comentario
+    <h3 style="font-family: var(--font-display); color: var(--tierra-dark); margin-bottom: 8px; font-size: 1.4rem;">Dejanos tu reseña</h3>
+    <p style="font-size: 0.88rem; color: var(--texto-claro); margin-bottom: 22px;">Seleccioná las estrellas y compartí tu experiencia.</p>
+    <button onclick="enviarCalificacion()" class="btn btn-primary" style="width: 100%; justify-content: center;">
+      Calificar o dejar comentario
     </button>
   </div>
 </section>
 
-<script src="app.js"></script>
-<div id="serviceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center;">
-  <div style="background:white; padding:25px; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
-    <h3 id="modalTitle" style="color:#7A4A5A; margin-bottom:15px;">Consultar servicio</h3>
-    <button onclick="contactarWhatsApp('precio')" style="width:100%; margin-bottom:10px; padding:12px; background:#B0527A; color:white; border:none; border-radius:10px; cursor:pointer;">Preguntar precio</button>
-    <button onclick="contactarWhatsApp('disponibilidad')" style="width:100%; margin-bottom:10px; padding:12px; background:#B0527A; color:white; border:none; border-radius:10px; cursor:pointer;">Consultar día y horario</button>
-    <button onclick="document.getElementById('serviceModal').style.display='none'" style="width:100%; padding:12px; background:#f0f0f0; border:none; border-radius:10px; cursor:pointer;">Cancelar</button>
+<nav class="bottom">
+  <a href="#servicios" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Servicios
+  </a>
+  <a href="#calificaciones">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Reseñas
+  </a>
+</nav>
+
+<!-- MODAL BOTTOM SHEET -->
+<div id="serviceModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <h3 id="modalTitle">Consultar servicio</h3>
+    <button onclick="contactarWhatsApp('precio')" class="modal-btn modal-btn-primary">💬 Preguntar precio</button>
+    <button onclick="contactarWhatsApp('disponibilidad')" class="modal-btn modal-btn-primary">📅 Consultar día y horario</button>
+    <button onclick="document.getElementById('serviceModal').style.display='none'" class="modal-btn modal-btn-cancel">Cancelar</button>
   </div>
 </div>
+
+<script src="app.js"></script>
 </body>
 </html>
