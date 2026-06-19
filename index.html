@@ -16,7 +16,6 @@
 <style>
   :root {
     --crema: #FDF0F5;
-    --arena: #F5D0DE;
     --sage: #D48FAA;
     --sage-dark: #B0527A;
     --tierra: #C07090;
@@ -27,13 +26,11 @@
     --radius: 20px;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-
-    /* Liquid Glass tokens */
-    --glass-bg: rgba(255, 255, 255, 0.26);
-    --glass-border: rgba(255, 255, 255, 0.55);
+    --glass-bg: rgba(255,255,255,0.26);
+    --glass-border: rgba(255,255,255,0.55);
     --glass-blur: blur(28px) saturate(180%);
     --glass-inner: inset 0 1px 0 rgba(255,255,255,0.7);
-    --glass-shadow: 0 4px 20px rgba(160, 60, 100, 0.10);
+    --glass-shadow: 0 4px 20px rgba(160,60,100,0.10);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,20 +38,41 @@
 
   body {
     font-family: var(--font-body);
-    /* Fondo con gradiente suave para realzar el cristal */
     background: linear-gradient(160deg, #f0c8d8 0%, #fde8f0 45%, #e8c0d0 100%) fixed;
     color: var(--texto);
-    /* Safe area bottom para barra de navegación nativa */
+    overflow: hidden;
+    height: 100dvh;
+  }
+
+  /* ── PÁGINAS ── */
+  #app {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .page {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease;
+    will-change: transform, opacity;
+    overflow-y: auto;
     padding-bottom: calc(78px + env(safe-area-inset-bottom));
   }
 
-  /* ── LIQUID GLASS base ── */
-  .glass {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 0.5px solid var(--glass-border);
-    box-shadow: var(--glass-inner), var(--glass-shadow);
+  .page.hidden-right {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .page.hidden-left {
+    transform: translateX(-8%) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* ── HEADER ── */
@@ -62,7 +80,6 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    /* Safe area top para muesca/Dynamic Island */
     padding-top: calc(14px + env(safe-area-inset-top));
     padding-bottom: 14px;
     padding-left: max(20px, env(safe-area-inset-left));
@@ -70,349 +87,338 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 248, 252, 0.30);
+    background: rgba(255,248,252,0.30);
     backdrop-filter: blur(32px) saturate(200%);
     -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border-bottom: 0.5px solid rgba(255, 255, 255, 0.50);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(160,60,100,0.08);
+    border-bottom: 0.5px solid rgba(255,255,255,0.50);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(160,60,100,0.08);
+    flex-shrink: 0;
   }
+
+  header.top.with-back {
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    color: var(--sage-dark);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .back-btn svg { width: 20px; height: 20px; }
 
   .brand { display: flex; align-items: center; gap: 10px; }
 
   .brand .mark {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(192, 112, 144, 0.28);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(192,112,144,0.28);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border: 0.5px solid rgba(255,255,255,0.65);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     color: var(--tierra-dark);
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.3rem;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.3rem;
   }
 
   .brand .name {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--tierra-dark);
+    font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--tierra-dark);
   }
 
-  /* ── SECCIONES ── */
-  section {
-    padding: 40px max(20px, env(safe-area-inset-left));
+  /* ── CONTENIDO ── */
+  .page-content {
+    flex: 1;
+    padding: 36px max(20px, env(safe-area-inset-left));
     max-width: 760px;
     margin: 0 auto;
+    width: 100%;
   }
 
   .section-head { text-align: center; margin-bottom: 28px; }
-  .section-head h2 {
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    color: var(--tierra-dark);
-    margin-bottom: 6px;
-  }
+  .section-head h2 { font-family: var(--font-display); font-size: 2.2rem; color: var(--tierra-dark); margin-bottom: 6px; }
   .section-head p { color: var(--texto-claro); font-size: 0.9rem; }
 
-  /* ── SERVICES GRID ── */
+  /* ── TARJETAS ── */
   .services-grid { display: flex; flex-direction: column; gap: 12px; }
 
   .service-card {
     position: relative;
     background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
     border: 0.5px solid var(--glass-border);
     box-shadow: var(--glass-inner), var(--glass-shadow);
     border-radius: var(--radius);
     overflow: hidden;
     min-height: 190px;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 18px;
-    color: #fff;
+    transition: transform 0.15s ease;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 18px; color: #fff;
   }
-
   .service-card:active { transform: scale(0.98); }
-
-  /* Imagen de fondo */
-  .service-card .card-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-    border-radius: inherit;
-  }
-
-  /* Gradiente oscuro inferior */
-  .service-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(60,10,30,0.72) 0%, rgba(0,0,0,0.10) 60%, transparent 100%);
-    border-radius: inherit;
-    z-index: 1;
-  }
-
-  /* Línea de brillo superior — efecto cristal */
-  .service-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
-    z-index: 3;
-    border-radius: inherit;
-  }
-
-  .service-card h3,
-  .service-card .meta { position: relative; z-index: 2; }
-
-  .service-card h3 {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    margin: 0 0 6px;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  }
-
-  .service-card .meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .service-card .meta span {
-    font-size: 0.82rem;
-    opacity: 0.88;
-  }
-
+  .service-card .card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; }
+  .service-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(60,10,30,0.72) 0%, rgba(0,0,0,0.10) 60%, transparent 100%); z-index: 1; }
+  .service-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%); z-index: 3; }
+  .service-card h3, .service-card .meta { position: relative; z-index: 2; }
+  .service-card h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 6px; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+  .service-card .meta { display: flex; align-items: center; justify-content: space-between; }
+  .service-card .meta span { font-size: 0.82rem; opacity: 0.88; }
   .service-card .price {
-    background: rgba(255,255,255,0.22);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 0.5px solid rgba(255,255,255,0.40);
-    border-radius: 50px;
-    padding: 4px 12px;
-    font-weight: 600;
-    font-size: 0.85rem !important;
-    opacity: 1 !important;
+    background: rgba(255,255,255,0.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 0.5px solid rgba(255,255,255,0.40); border-radius: 50px;
+    padding: 4px 12px; font-weight: 600; font-size: 0.85rem !important; opacity: 1 !important;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
   }
 
-  /* ── BOTONES ── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 26px;
-    border-radius: 999px;
-    font-weight: 600;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 1rem;
-  }
-
-  .btn-primary {
-    background: rgba(176, 82, 122, 0.30);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 0.5px solid rgba(255,255,255,0.55);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 2px 8px rgba(160,60,100,0.15);
-    color: var(--tierra-dark);
-  }
-
-  .btn-primary:active { transform: scale(0.97); }
-
-  /* ── CARD GENÉRICA (booking/rating) ── */
-  .booking-card {
-    background: rgba(255,255,255,0.26);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    border: 0.5px solid rgba(255,255,255,0.55);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 4px 20px rgba(160,60,100,0.10);
-    border-radius: var(--radius);
-    padding: 26px 20px;
-  }
-
-  /* ── ESTRELLAS ── */
-  #starRating span { transition: color 0.15s ease; }
-
-  /* ── NAV BOTTOM ── */
-  nav.bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 60;
-    background: rgba(255, 248, 252, 0.32);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border-top: 0.5px solid rgba(255,255,255,0.55);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.60), 0 -2px 12px rgba(160,60,100,0.07);
-    display: flex;
-    justify-content: space-around;
-    /* Safe area bottom */
-    padding: 10px max(env(safe-area-inset-right), 0px) env(safe-area-inset-bottom);
-  }
-
-  nav.bottom a {
+  /* ── PÁGINA RESEÑAS ── */
+  .review-page-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
-    text-decoration: none;
-    color: var(--texto-claro);
-    font-size: 0.68rem;
-    padding: 6px 16px;
-    border-radius: 14px;
-    transition: background 0.15s;
-  }
-
-  nav.bottom a.active {
-    background: rgba(192, 112, 144, 0.18);
-    color: var(--tierra-dark);
-  }
-
-  nav.bottom a svg { width: 22px; height: 22px; }
-
-  /* ── MODAL ── */
-  #serviceModal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(60, 10, 30, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 100;
-    align-items: flex-end;
     justify-content: center;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .modal-sheet {
-    background: rgba(255, 248, 252, 0.70);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 0.5px solid rgba(255,255,255,0.65);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 -4px 30px rgba(160,60,100,0.18);
-    border-radius: 28px 28px 0 0;
-    width: 100%;
-    max-width: 520px;
-    padding: 10px 20px 28px;
-  }
-
-  .modal-handle {
-    width: 36px;
-    height: 4px;
-    background: rgba(160, 112, 130, 0.35);
-    border-radius: 2px;
-    margin: 0 auto 18px;
-  }
-
-  .modal-sheet h3 {
-    font-family: var(--font-display);
-    color: var(--tierra-dark);
-    font-size: 1.5rem;
-    margin-bottom: 18px;
+    padding: 36px max(20px, env(safe-area-inset-left));
+    gap: 28px;
     text-align: center;
   }
 
-  .modal-btn {
+  .review-card {
+    background: rgba(255,255,255,0.26);
+    backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65), 0 4px 20px rgba(160,60,100,0.10);
+    border-radius: var(--radius);
+    padding: 32px 24px;
     width: 100%;
-    margin-bottom: 10px;
+    max-width: 420px;
+  }
+
+  .stars-container {
+    display: flex; justify-content: center; gap: 10px;
+    font-size: 3rem; margin-bottom: 20px; cursor: pointer; user-select: none;
+  }
+
+  .stars-container span {
+    transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), color 0.15s ease;
+    display: inline-block;
+  }
+  .stars-container span.active { transform: scale(1.18); }
+  .stars-container span:active { transform: scale(0.92); }
+
+  .review-subtitle {
+    font-size: 0.88rem; color: var(--texto-claro); margin-bottom: 6px;
+  }
+
+  .star-label {
+    font-family: var(--font-display); font-size: 1.6rem; color: var(--tierra-dark);
+    min-height: 2rem; margin-bottom: 20px; transition: opacity 0.2s;
+  }
+
+  /* ── BTN ── */
+  .btn-glass {
+    width: 100%;
     padding: 15px;
-    border-radius: 16px;
+    border-radius: 50px;
+    background: rgba(176,82,122,0.28);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 2px 8px rgba(160,60,100,0.15);
+    color: var(--tierra-dark);
+    font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
     cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    font-weight: 600;
-    border: 0.5px solid rgba(255,255,255,0.5);
     transition: transform 0.12s;
   }
-  .modal-btn:active { transform: scale(0.98); }
+  .btn-glass:active { transform: scale(0.97); }
 
-  .modal-btn-primary {
-    background: rgba(176, 82, 122, 0.28);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    color: var(--tierra-dark);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  /* ── NAV BOTTOM ── */
+  nav.bottom {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
+    background: rgba(255,248,252,0.32);
+    backdrop-filter: blur(32px) saturate(200%); -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border-top: 0.5px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.60), 0 -2px 12px rgba(160,60,100,0.07);
+    display: flex; justify-content: space-around;
+    padding: 10px 0 env(safe-area-inset-bottom);
   }
 
+  nav.bottom button {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    background: none; border: none; cursor: pointer;
+    color: var(--texto-claro); font-size: 0.68rem; font-family: var(--font-body);
+    padding: 6px 20px; border-radius: 14px;
+    transition: background 0.15s, color 0.15s;
+  }
+  nav.bottom button.active { background: rgba(192,112,144,0.18); color: var(--tierra-dark); }
+  nav.bottom button svg { width: 22px; height: 22px; }
+
+  /* ── MODAL SERVICIO ── */
+  #serviceModal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(60,10,30,0.45);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 100; align-items: flex-end; justify-content: center;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ── MODAL COMENTARIO ── */
+  #reviewModal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(60,10,30,0.45);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 100; align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.25s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-float {
+    background: rgba(255,248,252,0.72);
+    backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.70);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.80), 0 20px 60px rgba(160,60,100,0.22);
+    border-radius: 28px;
+    width: 100%; max-width: 420px;
+    padding: 28px 22px;
+    animation: slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  }
+
+  .modal-float h3 {
+    font-family: var(--font-display); color: var(--tierra-dark);
+    font-size: 1.5rem; margin-bottom: 6px; text-align: center;
+  }
+
+  .modal-float .modal-stars {
+    font-size: 1.4rem; text-align: center; margin-bottom: 18px; letter-spacing: 4px; color: #FFD700;
+  }
+
+  .comment-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 0.5px solid rgba(192,112,144,0.30);
+    background: rgba(255,255,255,0.40);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    font-family: var(--font-body); font-size: 0.92rem;
+    color: var(--texto); resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 14px;
+    min-height: 110px;
+  }
+  .comment-input:focus { border-color: rgba(192,112,144,0.60); }
+  .comment-input::placeholder { color: var(--texto-claro); }
+
+  .modal-sheet {
+    background: rgba(255,248,252,0.70);
+    backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.65);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 -4px 30px rgba(160,60,100,0.18);
+    border-radius: 28px 28px 0 0;
+    width: 100%; max-width: 520px;
+    padding: 10px 20px 28px;
+  }
+
+  .modal-handle { width: 36px; height: 4px; background: rgba(160,112,130,0.35); border-radius: 2px; margin: 0 auto 18px; }
+
+  .modal-sheet h3 {
+    font-family: var(--font-display); color: var(--tierra-dark);
+    font-size: 1.5rem; margin-bottom: 18px; text-align: center;
+  }
+
+  .modal-btn {
+    width: 100%; margin-bottom: 10px; padding: 15px; border-radius: 16px;
+    cursor: pointer; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
+    border: 0.5px solid rgba(255,255,255,0.5); transition: transform 0.12s;
+  }
+  .modal-btn:active { transform: scale(0.98); }
+  .modal-btn-primary {
+    background: rgba(176,82,122,0.28); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    color: var(--tierra-dark); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
   .modal-btn-cancel {
-    background: rgba(255,255,255,0.35);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    color: var(--texto-claro);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
-    margin-bottom: 0;
+    background: rgba(255,255,255,0.35); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    color: var(--texto-claro); box-shadow: inset 0 1px 0 rgba(255,255,255,0.55); margin-bottom: 0;
   }
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="brand">
-    <div class="mark">L</div>
-    <div class="name">LoAn Estética</div>
-  </div>
-</header>
+<div id="app">
 
-<section id="servicios">
-  <div class="section-head">
-    <h2>Servicios</h2>
-    <p>Tocá un servicio para empezar tu reserva</p>
-  </div>
-  <div class="services-grid" id="servicesGrid"></div>
-</section>
-
-<section id="calificaciones" style="text-align: center;">
-  <div class="section-head">
-    <h2>¿Qué te pareció tu visita?</h2>
-    <p>Tu opinión nos ayuda a seguir creciendo</p>
-  </div>
-
-  <div class="booking-card" style="max-width: 450px; margin: 0 auto;">
-    <div id="starRating" style="font-size: 2.6rem; margin-bottom: 14px; cursor: pointer; display: block; user-select: none; letter-spacing: 6px;">
-      <span data-value="1">★</span>
-      <span data-value="2">★</span>
-      <span data-value="3">★</span>
-      <span data-value="4">★</span>
-      <span data-value="5">★</span>
+  <!-- ══ PÁGINA 1: SERVICIOS ══ -->
+  <div class="page" id="pageServicios">
+    <header class="top">
+      <div class="brand">
+        <div class="mark">L</div>
+        <div class="name">LoAn Estética</div>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="section-head">
+        <h2>Servicios</h2>
+        <p>Tocá un servicio para empezar tu reserva</p>
+      </div>
+      <div class="services-grid" id="servicesGrid"></div>
     </div>
-    <h3 style="font-family: var(--font-display); color: var(--tierra-dark); margin-bottom: 8px; font-size: 1.4rem;">Dejanos tu reseña</h3>
-    <p style="font-size: 0.88rem; color: var(--texto-claro); margin-bottom: 22px;">Seleccioná las estrellas y compartí tu experiencia.</p>
-    <button onclick="enviarCalificacion()" class="btn btn-primary" style="width: 100%; justify-content: center;">
-      Calificar o dejar comentario
-    </button>
   </div>
-</section>
 
+  <!-- ══ PÁGINA 2: RESEÑAS ══ -->
+  <div class="page hidden-right" id="pageReseñas">
+    <header class="top with-back">
+      <button class="back-btn" onclick="irA('pageServicios')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Volver
+      </button>
+    </header>
+    <div class="review-page-content">
+      <div>
+        <h2 style="font-family: var(--font-display); font-size: 2.4rem; color: var(--tierra-dark); margin-bottom: 8px;">¿Cómo fue tu visita?</h2>
+        <p class="review-subtitle">Tu opinión nos ayuda a seguir creciendo</p>
+      </div>
+
+      <div class="review-card">
+        <div class="stars-container" id="starRating">
+          <span data-value="1">★</span>
+          <span data-value="2">★</span>
+          <span data-value="3">★</span>
+          <span data-value="4">★</span>
+          <span data-value="5">★</span>
+        </div>
+        <div class="star-label" id="starLabel">Excelente ✨</div>
+        <p class="review-subtitle" style="margin-bottom: 22px;">Tocá las estrellas para calificar</p>
+        <button class="btn-glass" onclick="abrirModalComentario()">
+          Escribir comentario
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── NAV BOTTOM ── -->
 <nav class="bottom">
-  <a href="#servicios" class="active">
+  <button class="active" id="navServicios" onclick="irA('pageServicios')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
     Servicios
-  </a>
-  <a href="#calificaciones">
+  </button>
+  <button id="navReseñas" onclick="irA('pageReseñas')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
     Reseñas
-  </a>
+  </button>
 </nav>
 
-<!-- MODAL BOTTOM SHEET -->
-<div id="serviceModal">
+<!-- ── MODAL SERVICIO ── -->
+<div id="serviceModal" style="display:none; position:fixed; inset:0; background:rgba(60,10,30,0.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:100; align-items:flex-end; justify-content:center; padding-bottom:env(safe-area-inset-bottom);">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <h3 id="modalTitle">Consultar servicio</h3>
@@ -422,6 +428,99 @@
   </div>
 </div>
 
+<!-- ── MODAL COMENTARIO ── -->
+<div id="reviewModal" style="display:none; position:fixed; inset:0; background:rgba(60,10,30,0.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:100; align-items:center; justify-content:center; padding:20px;">
+  <div class="modal-float">
+    <h3>Tu reseña</h3>
+    <div class="modal-stars" id="modalStars">★★★★★</div>
+    <textarea class="comment-input" id="commentText" placeholder="Contanos cómo fue tu experiencia..." rows="4"></textarea>
+    <button class="btn-glass" style="margin-bottom: 10px;" onclick="enviarComentarioWhatsApp()">
+      Enviar por WhatsApp
+    </button>
+    <button onclick="cerrarModalComentario()" style="width:100%; padding:12px; border-radius:50px; background:rgba(255,255,255,0.35); border:0.5px solid rgba(255,255,255,0.5); color:var(--texto-claro); font-family:var(--font-body); font-weight:500; cursor:pointer;">
+      Cancelar
+    </button>
+  </div>
+</div>
+
 <script src="app.js"></script>
+<script>
+  // ── NAVEGACIÓN ENTRE PÁGINAS ──
+  const pages = ['pageServicios', 'pageReseñas'];
+  let currentPage = 'pageServicios';
+
+  function irA(id) {
+    if (id === currentPage) return;
+    const current = document.getElementById(currentPage);
+    const next = document.getElementById(id);
+
+    const goingRight = pages.indexOf(id) > pages.indexOf(currentPage);
+
+    current.classList.add(goingRight ? 'hidden-left' : 'hidden-right');
+    current.classList.remove('hidden-right', 'hidden-left');
+    if (goingRight) current.classList.add('hidden-left');
+    else current.classList.add('hidden-right');
+
+    next.classList.remove('hidden-right', 'hidden-left');
+
+    currentPage = id;
+
+    document.querySelectorAll('nav.bottom button').forEach(b => b.classList.remove('active'));
+    if (id === 'pageServicios') document.getElementById('navServicios').classList.add('active');
+    if (id === 'pageReseñas') document.getElementById('navReseñas').classList.add('active');
+  }
+
+  // ── ESTRELLAS RESEÑA ──
+  let ratingSeleccionado = 5;
+  const labels = ['', 'Malo 😕', 'Regular 😐', 'Bien 🙂', 'Muy bien 😊', 'Excelente ✨'];
+
+  const estrellas = document.querySelectorAll('#starRating span');
+  estrellas.forEach(e => {
+    e.addEventListener('click', () => {
+      ratingSeleccionado = parseInt(e.getAttribute('data-value'));
+      actualizarEstrellas();
+    });
+  });
+
+  function actualizarEstrellas() {
+    estrellas.forEach(e => {
+      const v = parseInt(e.getAttribute('data-value'));
+      e.style.color = v <= ratingSeleccionado ? '#FFD700' : 'rgba(160,112,130,0.35)';
+      e.classList.toggle('active', v === ratingSeleccionado);
+    });
+    document.getElementById('starLabel').textContent = labels[ratingSeleccionado];
+    document.getElementById('modalStars').textContent = '★'.repeat(ratingSeleccionado) + '☆'.repeat(5 - ratingSeleccionado);
+  }
+
+  actualizarEstrellas();
+
+  // ── MODAL COMENTARIO ──
+  function abrirModalComentario() {
+    const m = document.getElementById('reviewModal');
+    m.style.display = 'flex';
+    document.getElementById('commentText').value = '';
+  }
+
+  function cerrarModalComentario() {
+    document.getElementById('reviewModal').style.display = 'none';
+  }
+
+  function enviarComentarioWhatsApp() {
+    const estrellaEmoji = '⭐'.repeat(ratingSeleccionado);
+    const comentario = document.getElementById('commentText').value.trim();
+    let mensaje = `¡Hola! Quiero dejar una reseña de ${estrellaEmoji}`;
+    if (comentario) mensaje += `\n\n"${comentario}"`;
+    window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
+    cerrarModalComentario();
+  }
+
+  // Cerrar modal tocando afuera
+  document.getElementById('reviewModal').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModalComentario();
+  });
+  document.getElementById('serviceModal').addEventListener('click', function(e) {
+    if (e.target === this) this.style.display = 'none';
+  });
+</script>
 </body>
 </html>
