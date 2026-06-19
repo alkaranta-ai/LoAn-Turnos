@@ -68,7 +68,7 @@ function contactarWhatsApp(tipo) {
   if (!s) return;
 
   let mensaje = tipo === 'precio'
-    ? `Hola, me gustaría consultar el precio de: ${s.name}`
+    ? `Hola, me gustaría obtener más información sobre: ${s.name}`
     : `Hola, me gustaría consultar disponibilidad de días y horarios para: ${s.name}`;
 
   window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
