@@ -764,8 +764,15 @@ var ILLUSTRATIONS = [
   '</svg>'
 ];
 
-function buildCardImage(index) {
-  return ILLUSTRATIONS[index % ILLUSTRATIONS.length];
+function buildCardImage(index, uid) {
+  var svg = ILLUSTRATIONS[index % ILLUSTRATIONS.length];
+  var gradId = 'g' + (index % ILLUSTRATIONS.length + 1);
+  var uniqueId = gradId + '-' + uid;
+  /* Reemplaza el id del gradiente y su referencia url(#...) por uno único,
+     evitando que SVGs repetidos en la misma página colisionen por id duplicado
+     (eso era lo que provocaba que la imagen se viera cortada/partida). */
+  var re = new RegExp(gradId, 'g');
+  return svg.replace(re, uniqueId);
 }
 
 /* ── RENDER CARDS (carrusel horizontal) ── */
@@ -775,7 +782,7 @@ function buildCard(s, index) {
 
   card.innerHTML =
     '<div class="card-bg ' + ('card-bg-' + ((index % 5) + 1)) + '"></div>' +
-    '<div class="card-image">' + buildCardImage(index) + '</div>' +
+    '<div class="card-image">' + buildCardImage(index, index) + '</div>' +
     '<div class="card-overlay"></div>' +
     '<div class="card-body">' +
       '<h3>' + (s.emoji || '') + ' ' + s.nombre + '</h3>' +
