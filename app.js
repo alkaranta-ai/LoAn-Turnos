@@ -10,11 +10,11 @@ function csvToArray(text) {
   const result = [];
   const headers = lines[0].split(",").map(h => h.trim().replace(/\r/g, ""));
   for (let i = 1; i < lines.length; i++) {
-    if (!lines[i]) continue;
+    if (!lines[i].trim()) continue;
     const obj = {};
     const currentline = lines[i].split(",").map(c => c.trim().replace(/\r/g, ""));
     headers.forEach((header, index) => {
-      let value = currentline[index];
+      let value = currentline[index] || "";
       if (header === "duration") value = Number(value);
       obj[header] = value;
     });
@@ -28,56 +28,71 @@ async function cargarServiciosDesdeGoogle() {
     const response = await fetch(SHEET_URL);
     const data = await response.text();
     SERVICES = csvToArray(data);
-    renderServices();
+
+    // Mapear al formato que usa el HTML (nombre, duracion, precio, emoji)
+    window.SERVICIOS = SERVICES.map(s => {
+      const precioMostrar =
+        isNaN(s.price) || s.price === "" || s.price === "0" || s.price === 0 ||
+        s.price.toString().toLowerCase() === "consultar"
+          ? "Consultar"
+          : `$${Number(s.price).toLocaleString("es-AR")}`;
+
+      return {
+        id:      s.id,
+        nombre:  s.name || s.nombre || "",
+        duracion: s.duration ? `${s.duration} min` : (s.duracion || ""),
+        precio:  precioMostrar,
+        emoji:   s.emoji || "",
+        raw:     s
+      };
+    });
+
+    if (typeof window.__renderServicios === "function") {
+      window.__renderServicios();
+    }
   } catch (error) {
-    console.error("Error al cargar los precios desde Google Sheet:", error);
+    console.error("Error al cargar los servicios desde Google Sheet:", error);
+    // Datos de fallback para que la app funcione sin conexión
+    window.SERVICIOS = [
+      { id:"s1", nombre:"Tratamiento Facial", duracion:"60 min", precio:"Consultar", emoji:"" },
+      { id:"s2", nombre:"Limpieza de Cutis",  duracion:"45 min", precio:"Consultar", emoji:"" },
+      { id:"s3", nombre:"Masaje Relajante",   duracion:"60 min", precio:"Consultar", emoji:"" }
+    ];
+    if (typeof window.__renderServicios === "function") {
+      window.__renderServicios();
+    }
   }
-}
-
-function renderServices() {
-  const grid = document.getElementById("servicesGrid");
-  if (!grid) return;
-  grid.innerHTML = "";
-
-  SERVICES.forEach((s) => {
-    const precioMostrar = isNaN(s.price) || s.price === "" || s.price === 0 || s.price.toString().toLowerCase() === "consultar"
-      ? "Consultar"
-      : `$${Number(s.price).toLocaleString()}`;
-
-    const card = document.createElement("div");
-    card.className = "service-card";
-    if (s.image) card.style.backgroundImage = `url('${s.image}')`;
-    card.innerHTML = `
-      <h3>${s.name}</h3>
-      <div class="meta">
-        <span>${s.duration} min</span>
-        <span class="price">${precioMostrar}</span>
-      </div>`;
-
-    card.onclick = () => {
-      selectedServiceId = s.id;
-      document.getElementById('modalTitle').textContent = s.name;
-      document.getElementById('serviceModal').classList.add('flex');
-    };
-    grid.appendChild(card);
-  });
 }
 
 function contactarWhatsApp(tipo) {
   const s = SERVICES.find(x => x.id === selectedServiceId);
-  if (!s) return;
+  const servNombre = s ? s.name || s.nombre || selectedServiceId : selectedServiceId;
 
-  let mensaje = tipo === 'precio'
-    ? `Hola, me gustaría obtener más información sobre: ${s.name}`
-    : `Hola, me gustaría consultar disponibilidad de días y horarios para: ${s.name}`;
+  const mensaje = tipo === "precio"
+    ? `Hola, me gustaría obtener más información sobre: ${servNombre}`
+    : `Hola, me gustaría consultar disponibilidad de días y horarios para: ${servNombre}`;
 
   window.open(`https://wa.me/541136047671?text=${encodeURIComponent(mensaje)}`);
-  document.getElementById('serviceModal').classList.remove('flex');
 
-  // Guardar automáticamente en el historial
-  if (typeof window.__guardarHistorial === 'function') {
-    window.__guardarHistorial({ tipo: tipo, servicio: s.name });
+  if (typeof window.__guardarHistorial === "function") {
+    window.__guardarHistorial({ tipo, servicio: servNombre });
   }
 }
+
+// Actualizar selectedServiceId cuando se abre un modal
+document.addEventListener("DOMContentLoaded", () => {
+  // Permite que el HTML principal sepa qué servicio fue seleccionado
+  const origSelected = Object.getOwnPropertyDescriptor(window, "_selectedService");
+  const proxy = {
+    set(v) {
+      if (v && v.id) selectedServiceId = v.id;
+      window.__selectedServiceInternal = v;
+    },
+    get() { return window.__selectedServiceInternal; }
+  };
+  Object.defineProperty(window, "_selectedService", {
+    get: proxy.get, set: proxy.set, configurable: true
+  });
+});
 
 cargarServiciosDesdeGoogle();
