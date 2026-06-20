@@ -9,6 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LoAn">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +36,7 @@
   --fb: 'DM Sans', system-ui, sans-serif;
 
   /* Layout */
-  --nav-h: 80px;
+  --nav-h: 64px;
   --r-card: 28px;
   --r-pill: 50px;
 
@@ -150,7 +151,7 @@ body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 20px);
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 32px);
 }
 .scroll-area::-webkit-scrollbar { display: none; }
 
@@ -650,41 +651,41 @@ header.top.with-back { justify-content: flex-start; gap: 10px; }
 .hist-clear:active { background: var(--glass-rose-bg); color: var(--rose-deep); }
 
 /* ══════════════════════════════════════
-   NAV BOTTOM — Liquid Glass
+   NAV BOTTOM — Dock flotante estilo iOS
 ══════════════════════════════════════ */
 nav.bottom {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 60;
-  background: rgba(255,255,255,0.50);
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 60;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  background: rgba(255,255,255,0.56);
   backdrop-filter: blur(64px) saturate(230%) brightness(1.08) contrast(1.03);
   -webkit-backdrop-filter: blur(64px) saturate(230%) brightness(1.08) contrast(1.03);
-  border-top: 0.5px solid var(--glass-border);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 30px;
   box-shadow:
     inset 0 1.5px 0 var(--glass-shine),
-    0 -6px 24px rgba(163,40,79,0.10);
-  display: flex; justify-content: space-around; align-items: center;
-  padding: 8px 0 max(env(safe-area-inset-bottom), 14px);
-}
-
-/* Cierra safe-area con color sólido */
-nav.bottom::after {
-  content: "";
-  position: fixed; left: 0; right: 0;
-  bottom: calc(-1 * max(env(safe-area-inset-bottom), 14px));
-  height: calc(max(env(safe-area-inset-bottom), 14px) + 2px);
-  background: #ffffff;
-  z-index: -1;
+    inset 0 -1px 0 rgba(163,40,79,0.08),
+    0 18px 42px rgba(163,40,79,0.24),
+    0 4px 14px rgba(163,40,79,0.14);
+  display: flex; justify-content: center; align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
 }
 
 nav.bottom button {
   display: flex; flex-direction: column; align-items: center; gap: 3px;
   color: var(--rose-pale);
-  font-size: 0.58rem; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 7px 18px 6px; border-radius: 18px;
-  transition: color 0.18s, background 0.18s, box-shadow 0.18s;
+  font-size: 0.56rem; font-weight: 500;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 8px 16px 7px; border-radius: 20px;
+  transition: color 0.18s, background 0.18s, box-shadow 0.18s, transform 0.18s;
   overflow: hidden; isolation: isolate;
 }
-nav.bottom button svg { width: 22px; height: 22px; transition: transform 0.2s; }
+nav.bottom button svg { width: 21px; height: 21px; transition: transform 0.2s; }
 
 nav.bottom button.active {
   color: var(--rose-deep);
@@ -694,6 +695,7 @@ nav.bottom button.active {
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.88),
     var(--glass-rose-shadow);
+  transform: translateY(-1px);
 }
 nav.bottom button.active svg { transform: scale(1.10); }
 nav.bottom button:active {
