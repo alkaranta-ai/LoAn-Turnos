@@ -80,7 +80,7 @@ html {
   width: 100%;
   overflow: hidden;
   position: fixed;
-  background: #F5D5DF; /* sólido, es lo que se ve detrás de la barra de gestos en iOS/Android */
+  background: var(--rose-blush); /* mismo rosa de punta a punta: notch, costados y barra de gestos */
 }
 body {
   position: fixed;
@@ -92,14 +92,14 @@ body {
     radial-gradient(ellipse 80% 55% at 10% -5%,
       rgba(248,215,225,0.55) 0%, transparent 65%),
     radial-gradient(ellipse 60% 50% at 95% 90%,
-      rgba(232,165,181,0.38) 0%, transparent 60%),
+      rgba(232,165,181,0.42) 0%, transparent 60%),
     radial-gradient(ellipse 90% 40% at 50% 100%,
-      rgba(232,165,181,0.40) 0%, rgba(245,213,223,0.22) 45%, transparent 80%),
+      rgba(232,165,181,0.48) 0%, rgba(245,213,223,0.30) 45%, transparent 80%),
     linear-gradient(to top,
-      rgba(245,213,223,0.45) 0%,
-      rgba(245,213,223,0.18) 14%,
+      rgba(245,213,223,0.55) 0%,
+      rgba(245,213,223,0.26) 14%,
       transparent 30%),
-    var(--cream);
+    var(--rose-blush);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   font-family: var(--fb);
@@ -115,14 +115,14 @@ body {
     radial-gradient(ellipse 80% 55% at 10% -5%,
       rgba(248,215,225,0.55) 0%, transparent 65%),
     radial-gradient(ellipse 60% 50% at 95% 90%,
-      rgba(232,165,181,0.38) 0%, transparent 60%),
+      rgba(232,165,181,0.42) 0%, transparent 60%),
     radial-gradient(ellipse 90% 40% at 50% 100%,
-      rgba(232,165,181,0.40) 0%, rgba(245,213,223,0.22) 45%, transparent 80%),
+      rgba(232,165,181,0.48) 0%, rgba(245,213,223,0.30) 45%, transparent 80%),
     linear-gradient(to top,
-      rgba(245,213,223,0.45) 0%,
-      rgba(245,213,223,0.18) 14%,
+      rgba(245,213,223,0.55) 0%,
+      rgba(245,213,223,0.26) 14%,
       transparent 30%),
-    var(--cream);
+    var(--rose-blush);
 }
 
 /* Partículas flotantes de luz */
@@ -199,11 +199,13 @@ header.top {
   padding-left:  max(24px, env(safe-area-inset-left));
   padding-right: max(24px, env(safe-area-inset-right));
   display: flex; align-items: center; justify-content: center;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 0.5px solid transparent;
-  box-shadow: none;
+  background: rgba(255,248,245,0.42);
+  backdrop-filter: blur(46px) saturate(200%) brightness(1.08);
+  -webkit-backdrop-filter: blur(46px) saturate(200%) brightness(1.08);
+  border-bottom: 0.5px solid var(--glass-border);
+  box-shadow:
+    inset 0 1.5px 0 var(--glass-shine),
+    0 6px 24px rgba(163,40,79,0.08);
   transition:
     background 0.32s ease,
     backdrop-filter 0.32s ease,
@@ -216,23 +218,21 @@ header.top::after {
   background: linear-gradient(90deg,
     transparent, rgba(255,255,255,0.95), rgba(200,135,58,0.40), rgba(255,255,255,0.95), transparent);
   pointer-events: none;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.32s ease;
 }
 
-/* Estado "scrolleado": se activa por JS cuando el contenido pasa por debajo.
-   Reemplaza la franja fija por un glass sutil que aparece solo
-   cuando hace falta separar visualmente el header del contenido. */
+/* Estado "scrolleado": intensifica levemente el glass cuando el contenido
+   pasa por debajo, para reforzar la separación visual sin partir de cero
+   (el header ya es glass desde el inicio, esto solo lo acentúa). */
 header.top.is-scrolled {
-  background: rgba(255,248,245,0.50);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-bottom: 0.5px solid var(--glass-border);
+  background: rgba(255,248,245,0.58);
+  backdrop-filter: blur(52px) saturate(210%);
+  -webkit-backdrop-filter: blur(52px) saturate(210%);
   box-shadow:
     inset 0 1.5px 0 var(--glass-shine),
-    0 6px 24px rgba(163,40,79,0.08);
+    0 8px 28px rgba(163,40,79,0.12);
 }
-header.top.is-scrolled::after { opacity: 1; }
 
 header.top.with-back { justify-content: flex-start; gap: 10px; }
 
