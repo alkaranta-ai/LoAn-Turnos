@@ -217,27 +217,26 @@ header.top::after {
 .card-bg-5 { background: linear-gradient(160deg, #FFF3EE 0%, #FFFFFF 70%); }
 .service-card .card-image {
   position: absolute; inset: 0; z-index: 0;
-  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
 .service-card .card-image svg {
-  width: 62%; height: 62%; max-width: 220px;
-  opacity: 0.9;
+  width: 100%; height: 100%;
+  display: block;
 }
 
 /* Overlay degradado solo en la franja inferior, para que el texto en negro
    tenga un fondo claro y legible sin tapar la imagen */
 .service-card .card-overlay {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  height: 42%;
+  height: 46%;
   background: linear-gradient(
     to top,
-    rgba(255,255,255,0.78) 0%,
-    rgba(255,255,255,0.55) 55%,
+    rgba(255,255,255,0.85) 0%,
+    rgba(255,255,255,0.60) 50%,
     transparent 100%
   );
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /* Línea dorada superior — firma de lujo */
@@ -701,20 +700,68 @@ nav.bottom button:focus, nav.bottom button:focus-visible { outline: none; }
 'use strict';
 
 /* ────────────────────────────────────────────
-   ILUSTRACIONES — una sola imagen limpia por tarjeta
-   (íconos lineales en rosa, sin capas repetidas)
+   ILUSTRACIONES — una sola imagen que llena
+   toda la tarjeta (viewBox tipo retrato +
+   preserveAspectRatio slice = efecto "cover")
 ──────────────────────────────────────────── */
 var ILLUSTRATIONS = [
   /* flor / facial */
-  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 50c0-12 8-20 8-20s8 8 8 20-8 20-8 20-8-8-8-20z"/><path d="M50 50c0-12-8-20-8-20s-8 8-8 20 8 20 8 20 8-8 8-20z"/><path d="M50 50c12 0 20 8 20 8s-8 8-20 8-20-8-20-8 8-8 20-8z"/><path d="M50 50c12 0 20-8 20-8s-8-8-20-8-20 8-20 8 8 8 20 8z"/><circle cx="50" cy="50" r="6"/></g></svg>',
+  '<svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFE3ED"/><stop offset="100%" stop-color="#FFFFFF"/></linearGradient></defs>' +
+    '<rect width="300" height="420" fill="url(#g1)"/>' +
+    '<g transform="translate(150,180)" fill="#D4547A" opacity="0.9">' +
+      '<path d="M0 -10C0 -55 38 -90 38 -90S76 -55 76 -10 38 80 38 80 0 35 0 -10z" transform="rotate(0)"/>' +
+      '<path d="M0 -10C0 -55 -38 -90 -38 -90S-76 -55 -76 -10 -38 80 -38 80 0 35 0 -10z"/>' +
+      '<path d="M0 -10C45 -10 80 28 80 28S45 66 0 66 -80 28 -80 28 -45 -10 0 -10z" transform="rotate(90 0 -10) translate(0,0)"/>' +
+      '<circle cx="0" cy="-10" r="26" fill="#921F4D"/>' +
+    '</g>' +
+    '<circle cx="60" cy="340" r="70" fill="#F5CCDA" opacity="0.6"/>' +
+    '<circle cx="250" cy="60" r="50" fill="#F5CCDA" opacity="0.5"/>' +
+  '</svg>',
   /* manos / masaje */
-  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 60c0-16 8-30 20-30s20 14 20 30"/><path d="M22 60h56"/><path d="M30 60v8a8 8 0 0 0 8 8h24a8 8 0 0 0 8-8v-8"/><circle cx="50" cy="30" r="6"/></g></svg>',
+  '<svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFEFEC"/><stop offset="100%" stop-color="#FFFFFF"/></linearGradient></defs>' +
+    '<rect width="300" height="420" fill="url(#g2)"/>' +
+    '<circle cx="240" cy="80" r="90" fill="#F5CCDA" opacity="0.55"/>' +
+    '<circle cx="30" cy="370" r="100" fill="#ECA3B8" opacity="0.40"/>' +
+    '<g transform="translate(150,230)" fill="none" stroke="#921F4D" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M-60 30c0-48 24-90 60-90s60 42 60 90"/>' +
+      '<path d="M-74 30h148"/>' +
+      '<path d="M-60 30v22a26 26 0 0 0 26 26h68a26 26 0 0 0 26-26V30"/>' +
+      '<circle cx="0" cy="-60" r="18" fill="#921F4D" stroke="none"/>' +
+    '</g>' +
+  '</svg>',
   /* gota / hidratación */
-  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 18c12 18 22 32 22 44a22 22 0 1 1-44 0c0-12 10-26 22-44z"/><path d="M40 64a10 10 0 0 0 10 10"/></g></svg>',
+  '<svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FDEFFA"/><stop offset="100%" stop-color="#FFFFFF"/></linearGradient></defs>' +
+    '<rect width="300" height="420" fill="url(#g3)"/>' +
+    '<circle cx="250" cy="350" r="80" fill="#F5CCDA" opacity="0.5"/>' +
+    '<g transform="translate(150,210)">' +
+      '<path d="M0 -120C56 -50 100 0 100 56a100 100 0 1 1-200 0C-100 0 -56 -50 0 -120z" fill="#D4547A"/>' +
+      '<path d="M-40 56a40 40 0 0 0 40 40" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.85"/>' +
+    '</g>' +
+  '</svg>',
   /* estrellas / brillo */
-  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 20l6 16 16 6-16 6-6 16-6-16-16-6 16-6z"/><path d="M76 64l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path d="M22 32l2.4 6.4L30 40l-5.6 1.6L22 48l-2.4-6.4L14 40l5.6-1.6z"/></g></svg>',
+  '<svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFF1D8"/><stop offset="100%" stop-color="#FFFFFF"/></linearGradient></defs>' +
+    '<rect width="300" height="420" fill="url(#g4)"/>' +
+    '<circle cx="40" cy="80" r="70" fill="#F5CCDA" opacity="0.5"/>' +
+    '<g fill="#D4547A">' +
+      '<path d="M150 110l22 56 56 22-56 22-22 56-22-56-56-22 56-22z"/>' +
+      '<path d="M236 260l11 28 28 11-28 11-11 28-11-28-28-11 28-11z" opacity="0.85"/>' +
+      '<path d="M70 250l8 20 20 8-20 8-8 20-8-20-20-8 20-8z" opacity="0.7"/>' +
+    '</g>' +
+  '</svg>',
   /* hoja / spa natural */
-  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 70C30 40 55 22 78 22c0 26-18 50-48 50-8 0-14-2-14-2"/><path d="M30 70c4-14 14-26 30-34"/></g></svg>'
+  '<svg viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFF3EE"/><stop offset="100%" stop-color="#FFFFFF"/></linearGradient></defs>' +
+    '<rect width="300" height="420" fill="url(#g5)"/>' +
+    '<circle cx="260" cy="350" r="90" fill="#F5CCDA" opacity="0.45"/>' +
+    '<g transform="translate(150,210)">' +
+      '<path d="M-80 90C-80 -10 0 -90 90 -90c0 100-60 180-170 180-30 0-50-6-50-6" fill="#D4547A"/>' +
+      '<path d="M-80 90c14-50 50-92 106-122" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8"/>' +
+    '</g>' +
+  '</svg>'
 ];
 
 function buildCardImage(index) {
