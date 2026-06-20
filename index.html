@@ -206,26 +206,39 @@ header.top::after {
     0 10px 30px rgba(212,84,122,0.38);
 }
 
-/* Capa de tinte muy sutil, color pastel sobre blanco, no tapa el texto */
-.service-card .card-tint {
+/* Capa de color de fondo suave, único por tarjeta, detrás de la imagen */
+.service-card .card-bg {
+  position: absolute; inset: 0; z-index: -1;
+}
+.card-bg-1 { background: linear-gradient(160deg, #FFEFF4 0%, #FFFFFF 70%); }
+.card-bg-2 { background: linear-gradient(160deg, #FFF1F0 0%, #FFFFFF 70%); }
+.card-bg-3 { background: linear-gradient(160deg, #FDEFFA 0%, #FFFFFF 70%); }
+.card-bg-4 { background: linear-gradient(160deg, #FFF0F6 0%, #FFFFFF 70%); }
+.card-bg-5 { background: linear-gradient(160deg, #FFF3EE 0%, #FFFFFF 70%); }
+.service-card .card-image {
   position: absolute; inset: 0; z-index: 0;
-  opacity: 0.5;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.card-tint-1 { background: linear-gradient(145deg, #FFE3ED 0%, #FFFFFF 100%); }
-.card-tint-2 { background: linear-gradient(145deg, #FFE8EE 0%, #FFFFFF 100%); }
-.card-tint-3 { background: linear-gradient(145deg, #FFEAF1 0%, #FFFFFF 100%); }
-.card-tint-4 { background: linear-gradient(145deg, #FFE0EA 0%, #FFFFFF 100%); }
-.card-tint-5 { background: linear-gradient(145deg, #FFE6EF 0%, #FFFFFF 100%); }
-
-/* Patrón SVG decorativo, muy tenue, en rosa */
-.service-card .card-pattern {
-  position: absolute; inset: 0; z-index: 1; opacity: 0.10; pointer-events: none;
+.service-card .card-image svg {
+  width: 62%; height: 62%; max-width: 220px;
+  opacity: 0.9;
 }
-.service-card .card-pattern svg { width: 100%; height: 100%; }
-.service-card .card-pattern svg * { fill: var(--r5) !important; }
 
-/* Sin overlay oscuro: el texto va en negro directamente sobre el glass blanco */
-.service-card .card-overlay { display: none; }
+/* Overlay degradado solo en la franja inferior, para que el texto en negro
+   tenga un fondo claro y legible sin tapar la imagen */
+.service-card .card-overlay {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  height: 42%;
+  background: linear-gradient(
+    to top,
+    rgba(255,255,255,0.78) 0%,
+    rgba(255,255,255,0.55) 55%,
+    transparent 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
 
 /* Línea dorada superior — firma de lujo */
 .service-card::before {
@@ -688,17 +701,25 @@ nav.bottom button:focus, nav.bottom button:focus-visible { outline: none; }
 'use strict';
 
 /* ────────────────────────────────────────────
-   PATRONES SVG decorativos (5 variantes)
+   ILUSTRACIONES — una sola imagen limpia por tarjeta
+   (íconos lineales en rosa, sin capas repetidas)
 ──────────────────────────────────────────── */
-var PATTERNS = [
-  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><ellipse cx="290" cy="-10" rx="150" ry="150" fill="white"/><ellipse cx="310" cy="175" rx="100" ry="100" fill="white"/><circle cx="30" cy="100" r="80" fill="white"/></svg>',
-  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><path d="M-20,75 Q90,-25 210,85 T390,45" stroke="white" fill="none" stroke-width="72"/><path d="M-20,155 Q90,65 210,165 T390,125" stroke="white" fill="none" stroke-width="46"/></svg>',
-  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect x="205" y="-45" width="190" height="270" rx="95" fill="white" transform="rotate(-22 285 90)"/><rect x="-65" y="15" width="170" height="230" rx="85" fill="white" transform="rotate(16 15 95)"/></svg>',
-  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><circle cx="325" cy="-5" r="115" fill="white"/><circle cx="-5" cy="185" r="85" fill="white"/><circle cx="162" cy="90" r="44" fill="white"/></svg>',
-  '<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><path d="M325,0 L325,180 L145,180 Z" fill="white"/><path d="M0,0 L175,0 L0,135 Z" fill="white"/><ellipse cx="205" cy="58" rx="68" ry="68" fill="white"/></svg>'
+var ILLUSTRATIONS = [
+  /* flor / facial */
+  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 50c0-12 8-20 8-20s8 8 8 20-8 20-8 20-8-8-8-20z"/><path d="M50 50c0-12-8-20-8-20s-8 8-8 20 8 20 8 20 8-8 8-20z"/><path d="M50 50c12 0 20 8 20 8s-8 8-20 8-20-8-20-8 8-8 20-8z"/><path d="M50 50c12 0 20-8 20-8s-8-8-20-8-20 8-20 8 8 8 20 8z"/><circle cx="50" cy="50" r="6"/></g></svg>',
+  /* manos / masaje */
+  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 60c0-16 8-30 20-30s20 14 20 30"/><path d="M22 60h56"/><path d="M30 60v8a8 8 0 0 0 8 8h24a8 8 0 0 0 8-8v-8"/><circle cx="50" cy="30" r="6"/></g></svg>',
+  /* gota / hidratación */
+  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 18c12 18 22 32 22 44a22 22 0 1 1-44 0c0-12 10-26 22-44z"/><path d="M40 64a10 10 0 0 0 10 10"/></g></svg>',
+  /* estrellas / brillo */
+  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 20l6 16 16 6-16 6-6 16-6-16-16-6 16-6z"/><path d="M76 64l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path d="M22 32l2.4 6.4L30 40l-5.6 1.6L22 48l-2.4-6.4L14 40l5.6-1.6z"/></g></svg>',
+  /* hoja / spa natural */
+  '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#D4547A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 70C30 40 55 22 78 22c0 26-18 50-48 50-8 0-14-2-14-2"/><path d="M30 70c4-14 14-26 30-34"/></g></svg>'
 ];
 
-var TINTS   = ['card-tint-1','card-tint-2','card-tint-3','card-tint-4','card-tint-5'];
+function buildCardImage(index) {
+  return ILLUSTRATIONS[index % ILLUSTRATIONS.length];
+}
 
 /* ── RENDER CARDS (carrusel horizontal) ── */
 function buildCard(s, index) {
@@ -706,8 +727,8 @@ function buildCard(s, index) {
   card.className = 'service-card';
 
   card.innerHTML =
-    '<div class="card-tint ' + TINTS[index % TINTS.length] + '"></div>' +
-    '<div class="card-pattern">' + PATTERNS[index % PATTERNS.length] + '</div>' +
+    '<div class="card-bg ' + ('card-bg-' + ((index % 5) + 1)) + '"></div>' +
+    '<div class="card-image">' + buildCardImage(index) + '</div>' +
     '<div class="card-overlay"></div>' +
     '<div class="card-body">' +
       '<h3>' + (s.emoji || '') + ' ' + s.nombre + '</h3>' +
