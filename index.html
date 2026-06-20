@@ -185,7 +185,7 @@ body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 22px);
+  padding-bottom: calc(var(--nav-h) + 28px);
 }
 .scroll-area::-webkit-scrollbar { display: none; }
 
@@ -710,7 +710,7 @@ nav.bottom {
   position: fixed;
   left: max(16px, env(safe-area-inset-left));
   right: max(16px, env(safe-area-inset-right));
-  bottom: calc(6px + env(safe-area-inset-bottom));
+  bottom: max(10px, calc(env(safe-area-inset-bottom) - 16px));
   z-index: 60;
   width: auto;
   max-width: 560px;
