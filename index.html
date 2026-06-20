@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LoAn Estética | Turnos online — Campana</title>
 <meta name="description" content="Reservá tu turno online en LoAn Estética, Campana. Tratamientos faciales, corporales y masajes.">
-<meta name="theme-color" content="#FFF8F5">
+<meta name="theme-color" content="#F5D5DF">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -65,7 +65,11 @@ button, a {
 }
 button:focus, button:focus-visible, a:focus { outline: none; }
 
-html, body {
+html {
+  height: 100%;
+  background: #F5D5DF; /* sólido, es lo que se ve detrás de la barra de gestos en iOS/Android */
+}
+body {
   height: 100%;
   background:
     radial-gradient(ellipse 80% 55% at 10% -5%,
@@ -81,8 +85,6 @@ html, body {
     var(--cream);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
-}
-body {
   font-family: var(--fb);
   color: var(--rose-deep);
   min-height: 100dvh;
