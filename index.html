@@ -65,12 +65,29 @@ button, a {
 }
 button:focus, button:focus-visible, a:focus { outline: none; }
 
+/* ──────────────────────────────────────
+   FIX FRANJA BLANCA / BOUNCE NATIVO:
+   html + body quedan fijos y SIN scroll propio.
+   Todo el desplazamiento ocurre adentro de
+   .scroll-area, que es la única zona con
+   overflow-y. Así el "rebote" elástico de
+   iOS/Android nunca destapa el viewport real
+   por debajo del contenido, que es lo que
+   generaba el destello blanco.
+────────────────────────────────────── */
 html {
   height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
   background: #F5D5DF; /* sólido, es lo que se ve detrás de la barra de gestos en iOS/Android */
 }
 body {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
   height: 100%;
+  overflow: hidden;
   background:
     radial-gradient(ellipse 80% 55% at 10% -5%,
       rgba(248,215,225,0.55) 0%, transparent 65%),
@@ -87,8 +104,6 @@ body {
   -webkit-font-smoothing: antialiased;
   font-family: var(--fb);
   color: var(--rose-deep);
-  min-height: 100dvh;
-  overflow: hidden;
 }
 
 /* ══════════════════════════════════════
@@ -166,6 +181,7 @@ body {
 ══════════════════════════════════════ */
 .scroll-area {
   flex: 1;
+  height: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
