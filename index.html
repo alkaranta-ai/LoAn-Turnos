@@ -180,30 +180,59 @@ header.top::after {
   scroll-snap-stop: always;
   position: relative;
 
-  /* Liquid Glass — más pronunciado: más blur, más saturación, más brillo de borde */
-  background: rgba(255, 255, 255, 0.38);
-  backdrop-filter: blur(60px) saturate(220%) brightness(1.12) contrast(1.04);
-  -webkit-backdrop-filter: blur(60px) saturate(220%) brightness(1.12) contrast(1.04);
-  border: 1px solid rgba(255,255,255,0.85);
+  /* Liquid Glass — bloque de vidrio real: blur muy alto + capas de luz
+     simulando refracción y espesor del cristal */
+  background:
+    radial-gradient(ellipse 65% 45% at 14% 8%, rgba(255,255,255,0.80) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 92% 96%, rgba(212,84,122,0.16) 0%, transparent 65%),
+    linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.10) 100%),
+    rgba(255, 255, 255, 0.30);
+  backdrop-filter: blur(70px) saturate(240%) brightness(1.15) contrast(1.06);
+  -webkit-backdrop-filter: blur(70px) saturate(240%) brightness(1.15) contrast(1.06);
+  border: 1.5px solid rgba(255,255,255,0.92);
   box-shadow:
-    inset 0 2px 1px rgba(255,255,255,0.95),
-    inset 0 -2px 12px rgba(255,255,255,0.55),
-    inset 0 0 0 1px rgba(255,255,255,0.30),
-    0 14px 38px rgba(180,80,120,0.20),
-    0 4px 12px rgba(180,80,120,0.14);
+    /* borde superior-izq muy brillante = luz entrando por el canto del vidrio */
+    inset 1.5px 1.5px 1px rgba(255,255,255,1),
+    /* borde inferior-der más oscuro = espesor / sombra propia del bloque */
+    inset -1.5px -1.5px 2px rgba(140,40,80,0.16),
+    /* halo interno suave, como luz atravesando el cristal */
+    inset 0 0 40px rgba(255,255,255,0.35),
+    /* leve tinte de color en el canto, como refracción cromática sutil */
+    inset 0 0 0 1px rgba(255,210,225,0.30),
+    0 18px 44px rgba(180,80,120,0.24),
+    0 6px 16px rgba(180,80,120,0.16);
   will-change: transform;
 }
 .service-card:active {
   transform: scale(0.96);
   /* Tinte rosa al tocar, efecto liquid glass más intenso */
-  background: var(--pink-glass-bg);
-  backdrop-filter: blur(60px) saturate(260%) brightness(1.10);
-  -webkit-backdrop-filter: blur(60px) saturate(260%) brightness(1.10);
+  background:
+    radial-gradient(ellipse 65% 45% at 14% 8%, rgba(255,255,255,0.85) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 90% 95%, rgba(212,84,122,0.30) 0%, transparent 65%),
+    var(--pink-glass-bg);
+  backdrop-filter: blur(70px) saturate(280%) brightness(1.12);
+  -webkit-backdrop-filter: blur(70px) saturate(280%) brightness(1.12);
   border-color: var(--pink-glass-border);
   box-shadow:
-    inset 0 2px 1px rgba(255,255,255,0.95),
-    inset 0 -2px 14px rgba(255,200,222,0.65),
-    0 10px 30px rgba(212,84,122,0.38);
+    inset 1.5px 1.5px 1px rgba(255,255,255,1),
+    inset -1.5px -1.5px 2px rgba(140,40,80,0.22),
+    inset 0 0 40px rgba(255,200,222,0.45),
+    0 12px 32px rgba(212,84,122,0.42);
+}
+
+/* Brillo especular diagonal — simula el destello que cruza un panel de vidrio */
+.service-card .glass-sheen {
+  position: absolute; z-index: 3; pointer-events: none;
+  top: -40%; left: -20%; width: 70%; height: 220%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255,255,255,0.55) 46%,
+    rgba(255,255,255,0.18) 52%,
+    transparent 65%
+  );
+  transform: rotate(8deg);
+  mix-blend-mode: screen;
 }
 
 /* Capa de color de fondo suave, único por tarjeta, detrás de la imagen */
@@ -247,14 +276,14 @@ header.top::after {
     rgba(240,192,112,0.85), transparent
   );
 }
-/* Reflejo glass en el borde superior */
+/* Reflejo glass tenue en el borde superior, complementa el sheen diagonal */
 .service-card::after {
   content: "";
-  position: absolute; top: 0; left: 0; right: 0; height: 50%; z-index: 3;
+  position: absolute; top: 0; left: 0; right: 0; height: 38%; z-index: 3;
   background: linear-gradient(
     to bottom,
-    rgba(255,255,255,0.55) 0%,
-    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.40) 0%,
+    rgba(255,255,255,0.08) 50%,
     transparent 100%
   );
   pointer-events: none; border-radius: var(--r) var(--r) 0 0;
@@ -783,6 +812,7 @@ function buildCard(s, index) {
     '<div class="card-bg ' + ('card-bg-' + ((index % 5) + 1)) + '"></div>' +
     '<div class="card-image">' + buildCardImage(index, index) + '</div>' +
     '<div class="card-overlay"></div>' +
+    '<div class="glass-sheen"></div>' +
     '<div class="card-body">' +
       '<h3>' + (s.emoji || '') + ' ' + s.nombre + '</h3>' +
       '<div class="card-meta">' +
