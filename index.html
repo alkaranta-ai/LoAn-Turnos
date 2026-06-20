@@ -349,6 +349,22 @@ header.top.with-back { justify-content: flex-start; gap: 10px; }
   width: 100%; height: 100%; display: block;
 }
 
+/* Imagen real del servicio */
+.card-img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+
+/* Capa de respaldo (SVG) si la imagen real no carga */
+.card-art-fallback {
+  position: absolute; inset: 0;
+  display: none;
+}
+.card-art-fallback svg {
+  width: 100%; height: 100%; display: block;
+}
+
 /* Capa de gradiente sobre la ilustración */
 .card-veil {
   position: absolute; inset: 0; z-index: 1;
@@ -991,7 +1007,9 @@ nav.bottom button:active {
 
 /* ────────────────────────────────────────────
    ILUSTRACIONES SVG — estilo botanical/spa,
-   formato 16:9, paleta rose nude + dorado
+   formato 16:9, paleta rose nude + dorado.
+   Se usan SOLO como respaldo si la imagen
+   real del servicio no carga.
 ──────────────────────────────────────────── */
 var ILLUSTRATIONS = [
   /* Petalo / facial */
@@ -1089,7 +1107,7 @@ function buildCardImage(index, uid) {
   return svg.replace(re, uniqueId);
 }
 
-/* Paletas de fondo por tarjeta */
+/* Paletas de fondo por tarjeta (se ven mientras la imagen real carga) */
 var BG_PALETTES = [
   'linear-gradient(160deg, #FFECF2 0%, #FFF8F5 70%)',
   'linear-gradient(160deg, #FFF0F5 0%, #FFF8F5 70%)',
@@ -1098,18 +1116,53 @@ var BG_PALETTES = [
   'linear-gradient(160deg, #FFF2F8 0%, #FFF8F5 70%)'
 ];
 
+/* ────────────────────────────────────────────
+   IMÁGENES REALES — buscan en la raíz del repo
+   un archivo con el mismo nombre que el id del
+   servicio (ej: id="limpieza" → limpieza.png).
+   Prueba varias extensiones comunes (.png
+   primero) y, si ninguna existe, cae al SVG
+   de respaldo.
+   Si el Google Sheet trae una columna "image"
+   con una ruta propia, se usa esa directamente.
+──────────────────────────────────────────── */
+var IMG_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
+
+function setImageWithCascade(imgEl, fallbackEl, basePath, attempt) {
+  if (attempt >= IMG_EXTENSIONS.length) {
+    imgEl.style.display = 'none';
+    fallbackEl.style.display = 'block';
+    return;
+  }
+  imgEl.onerror = function () {
+    setImageWithCascade(imgEl, fallbackEl, basePath, attempt + 1);
+  };
+  imgEl.src = basePath + '.' + IMG_EXTENSIONS[attempt];
+}
+
+function setSingleImage(imgEl, fallbackEl, src) {
+  imgEl.onerror = function () {
+    imgEl.style.display = 'none';
+    fallbackEl.style.display = 'block';
+  };
+  imgEl.src = src;
+}
+
 function buildCard(s, index) {
   var card = document.createElement('div');
   card.className = 'service-card';
   card.style.animationDelay = (index * 0.06) + 's';
 
-  var artHtml = buildCardImage(index, index);
+  var fallbackSvg = buildCardImage(index, index);
   var bgStyle = BG_PALETTES[index % BG_PALETTES.length];
   var numLabel = String(index + 1).padStart(2, '0');
 
   card.innerHTML =
     '<div class="card-bg-layer" style="background:' + bgStyle + '"></div>' +
-    '<div class="card-art">' + artHtml + '</div>' +
+    '<div class="card-art">' +
+      '<img class="card-img" alt="' + s.nombre + '" loading="lazy">' +
+      '<div class="card-art-fallback">' + fallbackSvg + '</div>' +
+    '</div>' +
     '<div class="card-veil"></div>' +
     '<div class="card-overlay"></div>' +
     '<div class="card-sheen"></div>' +
@@ -1121,6 +1174,20 @@ function buildCard(s, index) {
         '<span class="price-pill">' + (s.precio || '') + '</span>' +
       '</div>' +
     '</div>';
+
+  var imgEl = card.querySelector('.card-img');
+  var fallbackEl = card.querySelector('.card-art-fallback');
+
+  if (s.imagen) {
+    /* El Sheet trae una ruta/URL específica para esta imagen */
+    setSingleImage(imgEl, fallbackEl, s.imagen);
+  } else if (s.id) {
+    /* Busca {id}.png → .jpg → .jpeg → .webp en la raíz del repo */
+    setImageWithCascade(imgEl, fallbackEl, s.id, 0);
+  } else {
+    imgEl.style.display = 'none';
+    fallbackEl.style.display = 'block';
+  }
 
   card.addEventListener('click', function () {
     window._selectedService = s;
