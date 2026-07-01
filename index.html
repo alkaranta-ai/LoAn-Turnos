@@ -227,6 +227,8 @@ document.getElementById('btnVolverResenas').addEventListener('click',function(){
 document.getElementById('btnVolverHistorial').addEventListener('click',function(){irA('pageServicios');});
 document.getElementById('btnVolverContacto').addEventListener('click',function(){irA('pageServicios');});
 document.getElementById('promoBanner').addEventListener('click',function(){window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('¡Hola! Vi la promo del 20% de descuento para primera visita y me gustaría reservar un turno 🌸'));});
+var brandTapCount=0,brandTapTimer=null;
+document.querySelector('#pageServicios .brand-mark').addEventListener('click',function(){brandTapCount++;clearTimeout(brandTapTimer);brandTapTimer=setTimeout(function(){brandTapCount=0;},2500);if(brandTapCount>=5){brandTapCount=0;location.href='admin.html';}});
 var LS='loan_historial';function getH(){try{return JSON.parse(localStorage.getItem(LS))||[];}catch(e){return[];}}
 function saveH(it){var h=getH();it.id=Date.now();it.fecha=new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});h.unshift(it);localStorage.setItem(LS,JSON.stringify(h));enviarAPanel(it);}
 window.__guardarHistorial=saveH;
