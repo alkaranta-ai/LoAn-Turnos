@@ -59,6 +59,9 @@ async function cargarServiciosDesdeGoogle() {
     if (typeof window.__renderServicios === "function") {
       window.__renderServicios();
     }
+    if (typeof window.__mostrarErrorServicios === "function") {
+      window.__mostrarErrorServicios();
+    }
   }
 }
 function contactarWhatsApp(tipo) {
