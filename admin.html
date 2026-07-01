@@ -48,6 +48,11 @@ header .sub{font-size:.75rem;color:var(--rose-soft)}
 .card .persona{font-size:.75rem;color:var(--rose-dark)}
 .card .stars{color:var(--rose-soft);font-size:.85rem;letter-spacing:2px;margin-top:2px}
 .card .coment{font-size:.8rem;font-style:italic;color:var(--rose-dark);margin-top:4px;line-height:1.5}
+.card{position:relative}
+.estado-toggle{margin-top:10px;display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:50px;font-size:.7rem;font-weight:600;letter-spacing:.03em;cursor:pointer;border:.5px solid transparent;transition:transform .12s}
+.estado-toggle:active{transform:scale(.96)}
+.estado-toggle.pendiente{background:rgba(232,192,120,.28);color:#8a5a17;border-color:rgba(200,135,58,.35)}
+.estado-toggle.atendido{background:rgba(120,180,140,.24);color:#1f6b3f;border-color:rgba(90,160,110,.35)}
 .empty{text-align:center;padding:60px 20px;color:var(--rose-pale);font-size:.85rem}
 </style>
 </head>
@@ -72,6 +77,7 @@ header .sub{font-size:.75rem;color:var(--rose-soft)}
 
   <div class="tabs" id="tabs">
     <div class="tab active" data-tipo="todos">Todos</div>
+    <div class="tab" data-tipo="__pendientes">Pendientes</div>
     <div class="tab" data-tipo="disponibilidad">Turnos</div>
     <div class="tab" data-tipo="precio">Consultas</div>
     <div class="tab" data-tipo="resena">Reseñas</div>
@@ -143,6 +149,26 @@ async function cargarDatos(){
   return Array.isArray(data) ? data : [];
 }
 
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function toggleEstado(id, estadoActual){
+  const nuevo = estadoActual === 'Atendido' ? 'Pendiente' : 'Atendido';
+  const item = TODOS.find(x => String(x.ID) === String(id));
+  if(item) item.Estado = nuevo; // optimista: actualiza ya la pantalla
+  render();
+  try{
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ accion: 'actualizar_estado', id, estado: nuevo, pass: getPass() })
+    });
+  }catch(e){
+    // si falla, lo dejamos como quedó local; se corrige solo al Actualizar
+  }
+}
+window.toggleEstado = toggleEstado;
+
 function mostrarPanel(){
   document.getElementById('loginBox').style.display = 'none';
   document.getElementById('panel').style.display = 'block';
@@ -180,7 +206,11 @@ function render(){
   const servF = document.getElementById('filtroServicio').value;
 
   let filtrado = TODOS.filter(x => {
-    if(tipoActivo !== 'todos' && x.Tipo !== tipoActivo) return false;
+    if(tipoActivo === '__pendientes'){
+      if((x.Estado || 'Pendiente') !== 'Pendiente') return false;
+    } else if(tipoActivo !== 'todos' && x.Tipo !== tipoActivo){
+      return false;
+    }
     if(servF && x.Servicio !== servF) return false;
     if(q){
       const blob = [x.Servicio, x.Persona, x.Comentario].join(' ').toLowerCase();
@@ -192,13 +222,13 @@ function render(){
   // Stats
   const stats = document.getElementById('stats');
   const total = TODOS.length;
+  const pendientes = TODOS.filter(x => (x.Estado || 'Pendiente') === 'Pendiente').length;
   const turnos = TODOS.filter(x => x.Tipo === 'disponibilidad').length;
-  const consultas = TODOS.filter(x => x.Tipo === 'precio').length;
   const resenas = TODOS.filter(x => x.Tipo === 'resena').length;
   stats.innerHTML = `
     <div class="stat"><b>${total}</b><span>Total</span></div>
+    <div class="stat"><b>${pendientes}</b><span>Pendientes</span></div>
     <div class="stat"><b>${turnos}</b><span>Turnos</span></div>
-    <div class="stat"><b>${consultas}</b><span>Consultas</span></div>
     <div class="stat"><b>${resenas}</b><span>Reseñas</span></div>
   `;
 
@@ -209,14 +239,17 @@ function render(){
   }
   lista.innerHTML = filtrado.map(x => {
     const estrellas = x.Estrellas ? '★'.repeat(Number(x.Estrellas)) + '☆'.repeat(5-Number(x.Estrellas)) : '';
+    const estado = x.Estado || 'Pendiente';
+    const esAtendido = estado === 'Atendido';
     return `<div class="card">
       <div class="ic">${IC[x.Tipo] || '📋'}</div>
       <div class="body">
-        <div class="top"><span class="tipo">${TY[x.Tipo] || x.Tipo || ''}</span><span class="fecha">${x.Fecha || ''}</span></div>
-        <div class="serv">${x.Servicio || '—'}</div>
-        ${x.Persona ? `<div class="persona">Atendido por: ${x.Persona}</div>` : ''}
+        <div class="top"><span class="tipo">${TY[x.Tipo] || esc(x.Tipo) || ''}</span><span class="fecha">${esc(x.Fecha)}</span></div>
+        <div class="serv">${esc(x.Servicio) || '—'}</div>
+        ${x.Persona ? `<div class="persona">Atendido por: ${esc(x.Persona)}</div>` : ''}
         ${estrellas ? `<div class="stars">${estrellas}</div>` : ''}
-        ${x.Comentario ? `<div class="coment">"${x.Comentario}"</div>` : ''}
+        ${x.Comentario ? `<div class="coment">"${esc(x.Comentario)}"</div>` : ''}
+        <div class="estado-toggle ${esAtendido ? 'atendido' : 'pendiente'}" onclick="toggleEstado('${esc(x.ID)}', '${esc(estado)}')">${esAtendido ? '✓ Atendido' : '● Pendiente'}</div>
       </div>
     </div>`;
   }).join('');
